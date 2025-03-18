@@ -4,7 +4,7 @@ import './Floor_Plan_Overview.css';
 
 const Floor_Plan_Overview = () => {
   const [spaces, setSpaces] = useState([]); // All spaces
-  const [filteredSpaces, setFilteredSpaces] = useState([]); // Spaces after filtering
+  const [filteredSpaces, setFilteredSpaces] = useState([]); // Spaces after filtering by selected floor
   const [selectedFloor, setSelectedFloor] = useState(''); // Selected floor
   const [selectedSpace, setSelectedSpace] = useState(null); // Selected space for tenant allocation
   const [tenantData, setTenantData] = useState({
@@ -17,12 +17,12 @@ const Floor_Plan_Overview = () => {
     description: ''
   });
 
-  // Fetch all spaces
+  // Fetch all spaces from backend
   useEffect(() => {
     const fetchSpaces = async () => {
       try {
         const response = await axios.get('http://localhost:4000/api/spaces');
-        setSpaces(response.data);
+        setSpaces(response.data);  // Set all spaces
         setFilteredSpaces(response.data); // Initially show all spaces
       } catch (error) {
         console.error('Error fetching spaces:', error);
@@ -32,7 +32,7 @@ const Floor_Plan_Overview = () => {
     fetchSpaces();
   }, []);
 
-  // Handle floor selection
+  // Handle floor selection and filter spaces based on selected floor
   const handleFloorSelect = (event) => {
     const selected = event.target.value;
     setSelectedFloor(selected);
@@ -44,6 +44,35 @@ const Floor_Plan_Overview = () => {
       // Filter spaces based on selected floor
       const filtered = spaces.filter((space) => space.floorId === selected);
       setFilteredSpaces(filtered);
+    }
+  };
+
+  // Handle selecting a space
+  const handleSpaceSelect = (space) => {
+    setSelectedSpace(space);
+
+    if (space.isAvailable === false && space.tenant) {
+      // If the space is occupied, display tenant info
+      setTenantData({
+        Tenant_ID: space.tenant.Tenant_ID,
+        name: space.tenant.name,
+        nic: space.tenant.nic,
+        email: space.tenant.email,
+        phone: space.tenant.phone,
+        address: space.tenant.address,
+        description: space.tenant.description
+      });
+    } else {
+      // If the space is available, reset tenant data
+      setTenantData({
+        Tenant_ID: '',
+        name: '',
+        nic: '',
+        email: '',
+        phone: '',
+        address: '',
+        description: ''
+      });
     }
   };
 
@@ -72,35 +101,39 @@ const Floor_Plan_Overview = () => {
   };
 
   // Remove tenant from space
-  const handleRemoveTenant = async () => {
-    if (selectedSpace.isAvailable) {
-      alert('Cannot remove tenant. Space is not occupied.');
-      return;
-    }
-  
-    // Ensure tenant is available before trying to access its properties
-    if (!selectedSpace.tenant) {
-      alert('No tenant assigned to this space.');
-      return;
-    }
-  
-    try {
-      await axios.post('http://localhost:4000/api/tenants/removeTenantFromSpace', {
-        spaceId: selectedSpace.spaceId,
-        tenantId: selectedSpace.tenant.Tenant_ID
-      });
-      alert('Tenant removed successfully!');
-      setSelectedSpace(null);
-    } catch (error) {
-      console.error('Error removing tenant:', error);
-      alert('Error removing tenant');
-    }
-  };
+  // Remove tenant from space
+const handleRemoveTenant = async () => {
+  // Check if the space is available (tenant can only be removed from an occupied space)
+  if (selectedSpace.isAvailable) {
+    alert('Cannot remove tenant. Space is not occupied.');
+    return;
+  }
+
+  // Ensure tenant exists before trying to access Tenant_ID
+  if (!selectedSpace.tenant || !selectedSpace.tenant.Tenant_ID) {
+    alert('No tenant assigned to this space.');
+    return;
+  }
+
+  try {
+    // Send the request to the backend to remove the tenant from the space
+    await axios.post('http://localhost:4000/api/tenants/removeTenantFromSpace', {
+      spaceId: selectedSpace.spaceId,
+      tenantId: selectedSpace.tenant.Tenant_ID // Ensure we are sending the correct tenantId
+    });
+    alert('Tenant removed successfully!');
+    setSelectedSpace(null); // Reset selected space after removal
+  } catch (error) {
+    console.error('Error removing tenant:', error);
+    alert('Error removing tenant');
+  }
+};
+
 
   return (
     <div className="floor-plan-overview">
       <h1>Floor Plan Overview</h1>
-      
+
       {/* Floor selection dropdown */}
       <div className="floor-selection">
         <label htmlFor="floor">Select Floor:</label>
@@ -126,7 +159,7 @@ const Floor_Plan_Overview = () => {
             <li
               key={space._id}
               className={`space-item ${space.isAvailable ? 'available' : 'occupied'}`}
-              onClick={() => setSelectedSpace(space)}
+              onClick={() => handleSpaceSelect(space)}
             >
               <h3>{space.spaceId}</h3>
               <p>{space.description}</p>
@@ -208,7 +241,7 @@ const Floor_Plan_Overview = () => {
               <h3>Tenant Info</h3>
               <p>Name: {selectedSpace.tenant?.name}</p>
               <p>Email: {selectedSpace.tenant?.email}</p>
-              <button onClick={handleRemoveTenant} disabled={selectedSpace.isAvailable}>Remove Tenant</button>
+              <button onClick={handleRemoveTenant}>Remove Tenant</button>
             </>
           )}
         </div>
