@@ -132,3 +132,4 @@ export const getSpaceAnalysis = async (req, res) => {
   }
 };
 
+
