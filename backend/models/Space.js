@@ -1,16 +1,38 @@
 import mongoose from "mongoose";
 
 const spaceSchema = new mongoose.Schema({
-  floorId: { type: mongoose.Schema.Types.ObjectId, ref: "Floor", required: true },
-  name: { type: String, required: true },
-  position: { x: Number, y: Number, width: Number, height: Number },
-  tenantId: { type: String, default: null },
-  tenantName: { type: String, default: null },
-  nic: { type: String, default: null },
-  email: { type: String, default: null },
-  contact: { type: String, default: null },
-  leaseDuration: { type: String, default: null },
+  floorId: {
+    type: String,
+    required: true
+  },
+  spaceId: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  area: {
+    type: Number,
+    required: true,
+  },
+  spaceType: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  isAvailable: {
+    type: Boolean,
+    default: true
+  },
+  tenant: {
+    type: mongoose.Schema.Types.ObjectId, // Reference to the tenant
+    ref: 'Tenant_Detail', // Referring to the Tenant model
+    default: null
+  }
+
 });
 
-const Space = mongoose.model("Space", spaceSchema);
+const Space = mongoose.models.Space || mongoose.model("Space", spaceSchema);
 export default Space;

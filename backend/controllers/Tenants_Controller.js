@@ -1,12 +1,121 @@
-import Tenants_Details from '../models/Tenants_Details.js';
+import Space from '../models/Space.js';
+import Tenant from '../models/Tenants_Details.js';
 
+// Add Tenant to Space
+export const addTenantToSpace = async (req, res) => {
+  try {
+    const { spaceId, tenantData } = req.body;
+
+    // Find the space by spaceId
+    const space = await Space.findOne({ spaceId });
+
+    if (!space || !space.isAvailable) {
+      return res.status(404).json({ message: 'Space is not available or does not exist.' });
+    }
+
+    // Create a new tenant using the tenantData
+    const tenant = new Tenant({
+      Tenant_ID: tenantData.Tenant_ID,
+      name: tenantData.name,
+      nic: tenantData.nic,
+      email: tenantData.email,
+      phone: tenantData.phone,
+      address: tenantData.address,
+      description: tenantData.description,
+      other: tenantData.other || null // Ensure `other` field is handled
+    });
+
+    // Save the tenant to the database
+    await tenant.save();  // Ensure this line successfully saves the tenant
+
+    // Update the space to be unavailable
+    space.isAvailable = false;
+    await space.save();
+
+    res.status(200).json({
+      message: 'Tenant added to space successfully',
+      tenant: tenant,  // Return the saved tenant object
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: 'Error adding tenant to space', error });
+  }
+};
+
+
+// Remove Tenant from Space (without deleting tenant record)
+export const removeTenantFromSpace = async (req, res) => {
+  try {
+    const { spaceId, tenantId } = req.body;
+
+    // Find the space by spaceId
+    const space = await Space.findOne({ spaceId });
+
+    if (!space || space.isAvailable) {
+      return res.status(404).json({ message: 'Space is already available or does not exist.' });
+    }
+
+    // Find tenant by tenantId
+    const tenant = await Tenant.findOne({ Tenant_ID: tenantId });
+
+    if (!tenant) {
+      return res.status(404).json({ message: 'Tenant not found.' });
+    }
+
+    // Disassociate the tenant from the space (if there is a reference to the tenant in the space)
+    // Example: You could use tenantId or a tenant reference in your space model
+    space.isAvailable = true; // Space becomes available again
+    space.tenant = null; // Remove the tenant allocation from the space (if you have a tenant field in Space model)
+
+    // Save the updated space
+    await space.save();
+
+    res.status(200).json({ message: 'Tenant removed from space successfully (tenant info remains intact)' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error removing tenant from space', error });
+  }
+};
+
+// Update Tenant Information
+export const updateTenantInfo = async (req, res) => {
+  try {
+    const { tenantId, updatedData } = req.body;
+
+    console.log("Tenant ID:", tenantId); // Add this line to check the tenantId
+
+    // Find tenant by tenantId
+    const tenant = await Tenant.findOne({ Tenant_ID: tenantId });
+
+    if (!tenant) {
+      console.log("Tenant not found"); // Add this line for debugging
+      return res.status(404).json({ message: 'Tenant not found.' });
+    }
+
+    // Update tenant details
+    Object.keys(updatedData).forEach(key => {
+      tenant[key] = updatedData[key]; // Update fields dynamically
+    });
+
+    // Save updated tenant information
+    await tenant.save();
+
+    res.status(200).json({ message: 'Tenant information updated successfully', tenant });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating tenant information', error });
+  }
+};
+
+
+/*
+
+import Tenants_Details from '../models/Tenants_Details.js';
 // Add a new tenant
 export const addTenant = async (req, res) => {
     try {
-        const { Tenant_ID, name, nic, email, phone, address } = req.body;
+        const { Tenant_ID, name, nic, email, phone, address,description } = req.body;
 
         // Validate required fields
-        if (!Tenant_ID || !name || !nic || !email || !phone || !address) {
+        if (!Tenant_ID || !name || !nic || !email || !phone || !address || !description ) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
@@ -16,7 +125,7 @@ export const addTenant = async (req, res) => {
             return res.status(400).json({ message: 'Tenant ID already exists' });
         }
 
-        const tenant = new Tenants_Details({ Tenant_ID, name, nic, email, phone, address });
+        const tenant = new Tenants_Details({ Tenant_ID, name, nic, email, phone, address, description });
         await tenant.save();
 
         res.status(201).json({ message: 'Tenant added successfully', tenant });
@@ -51,11 +160,11 @@ export const getTenantById = async (req, res) => {
 // Update tenant by ID
 export const updateTenantById = async (req, res) => {
     try {
-        const { Tenant_ID, name, nic, email, phone, address } = req.body;
+        const { Tenant_ID, name, nic, email, phone, address, description } = req.body;
 
         const updatedTenant = await Tenants_Details.findByIdAndUpdate(
             req.params.id,
-            { Tenant_ID, name, nic, email, phone, address },
+            { Tenant_ID, name, nic, email, phone, address, description },
             { new: true }
         );
 
@@ -81,3 +190,4 @@ export const deleteTenantById = async (req, res) => {
         res.status(500).json({ message: 'Error deleting tenant', error: error.message });
     }
 };
+*/

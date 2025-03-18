@@ -4,7 +4,7 @@ import './Tenant_History.css'
 const Tenant_History = () => {
     return (
         <div>
-        
+        <h1>hi</h1>
         </div>
     )
 }

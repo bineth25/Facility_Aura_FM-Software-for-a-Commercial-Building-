@@ -1,128 +1,171 @@
-/* Dashboard Content */
-.dashboard-content {
-    padding: 20px;
-    background-color: #EAF7F5;
-  }
-  
-  /* Title */
-  .title {
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    background-color: #00796B;
-    padding: 15px;
-    text-align: center;
-    border-radius: 8px;
-  }
-  
-  /* Floor Selector */
-  .floor-selector {
-    margin: 15px 0;
-    font-size: 18px;
-    text-align: center;
-  }
-  
-  .floor-selector select {
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #00796B;
-    background-color: white;
-    cursor: pointer;
-  }
-  
-  /* Main Container */
-  .main-container {
-    display: flex;
-    gap: 25px;
-    margin-top: 20px;
-    justify-content: center;
-  }
-  
-  /* Floor Plan Section */
-  .floor-plan-box {
-    border: 2px solid #00796B;
-    padding: 15px;
-    background-color: #CFF9F3;
-    border-radius: 10px;
-  }
-  
-  .floor-map {
-    position: relative;
-    width: 700px;
-    height: 350px;
-    background: #B2DFDB;
-    border: 2px solid #00796B;
-    border-radius: 10px;
-  }
-  
-  /* Spaces */
-  .space {
-    position: absolute;
-    border: 2px solid #D32F2F;
-    text-align: center;
-    display: flex;
+/* Basic body styling */
+body {
+  background-color: #e0f7fa; /* Light background color */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Layout container for the entire overview page */
+.floor-plan-overview {
+  display: flex;
+  margin: 20px;
+  padding: 20px;
+  width: 100%;
+}
+
+/* Left Sidebar for Space List */
+.space-list {
+  width: 30%;
+  background-color: #ffffff;
+  padding: 20px;
+  border-right: 2px solid #00796b;
+}
+
+.space-list h2 {
+  font-size: 1.5rem;
+  color: #00796b;
+  margin-bottom: 10px;
+}
+
+.space-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.space-item {
+  background-color: #ffffff;
+  border: 2px solid #ffa726; /* Orange border */
+  border-radius: 8px;
+  width: 100%;
+  height: 100px;
+  margin: 10px 0;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.space-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.space-item h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffa726; /* Orange */
+}
+
+.space-item p {
+  font-size: 0.9rem;
+  color: #00796b;
+}
+
+/* Color differentiation for Available and Occupied */
+.space-item.available {
+  border-color: green;
+}
+
+.space-item.occupied {
+  border-color: red;
+}
+
+/* Right side tenant allocation (Tenant Details) */
+.tenant-details {
+  width: 50%;
+  padding: 20px;
+  margin-left: 30px;
+  background-color: #ffffff;
+  border: 2px solid #ffa726; /* Orange border */
+  border-radius: 8px;
+}
+
+.tenant-details h2 {
+  font-size: 1.5rem;
+  color: #00796b;
+  margin-bottom: 20px;
+}
+
+/* Tenant form fields */
+.tenant-details form {
+  display: flex;
+  flex-direction: column;
+}
+
+.tenant-details label {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.tenant-details input {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #00796b;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #ffa726;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #fb8c00;
+}
+
+/* Space details area */
+.space-details {
+  width: 30%;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 2px solid #ffa726; /* Orange border */
+  border-radius: 8px;
+}
+
+.space-details h2 {
+  font-size: 1.5rem;
+  color: #00796b;
+  margin-bottom: 20px;
+}
+
+.space-details p {
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+/* Space information labels */
+.space-details .info-label {
+  color: #00796b;
+  font-weight: bold;
+}
+
+.space-details .info-value {
+  color: #ffa726;
+}
+
+/* Header styling */
+h1 {
+  font-size: 2rem;
+  color: #00796b;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Adjustments for responsive design */
+@media (max-width: 1200px) {
+  .floor-plan-overview {
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out, background-color 0.3s;
   }
-  
-  .space:hover {
-    background-color: #FFCDD2;
-    transform: scale(1.1);
+
+  .space-list, .tenant-details, .space-details {
+    width: 80%;
+    margin-bottom: 20px;
   }
-  
-  /* Tenant Info Box */
-  .tenant-info-box {
-    background-color: #E0F2F1;
-    border: 2px solid #00796B;
-    padding: 15px;
-    border-radius: 10px;
-    width: 350px;
-  }
-  
-  .tenant-title {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-  .tenant-image-box {
-    width: 80px;
-    height: 80px;
-    border: 2px solid #00796B;
-    border-radius: 10px;
-    margin: 10px auto;
-  }
-  
-  /* Space Details Box */
-  .space-details-box {
-    border: 2px solid #D32F2F;
-    padding: 20px;
-    background-color: #E0F2F1;
-    border-radius: 10px;
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .space-box {
-    width: 80px;
-    height: 80px;
-    border: 2px solid #D32F2F;
-    border-radius: 10px;
-    margin: 10px auto;
-  }
-  
-  /* Messages */
-  .click-space-message {
-    text-align: center;
-    font-size: 14px;
-    color: gray;
-  }
-  
+}
+

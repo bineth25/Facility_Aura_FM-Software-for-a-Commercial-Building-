@@ -25,7 +25,15 @@ const tenantSchema = new mongoose.Schema({
     address: {
         type: String,
         required: true
-    }
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    other: {
+        type: String,
+        default: null
+    },
 });
 
 const Tenant = mongoose.models.Tenant || mongoose.model('Tenant_Detail', tenantSchema);
