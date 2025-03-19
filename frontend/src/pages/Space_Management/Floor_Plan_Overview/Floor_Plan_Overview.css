@@ -8,7 +8,7 @@ body {
 
 /* Layout container for the entire overview page */
 .floor-plan-overview {
-  display: flex;
+  display:block;
   justify-content: space-between;
   margin: 20px;
   padding: 20px;
@@ -158,21 +158,35 @@ h1 {
 
 /* Floor selection dropdown */
 .floor-selection {
-  margin: 20px;
+  margin: 20px auto;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .floor-selection label {
   margin-right: 10px;
+  font-weight: bold;
+  color: #00796b;
 }
 
 .floor-selection select {
-  padding: 10px;
+  width: 80%; /* Adjust width as per your preference */
+  padding: 8px 12px;
   font-size: 1rem;
   border: 1px solid #00796b;
-  border-radius: 5px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333;
+  cursor: pointer;
+  outline: none;
 }
+
+.floor-selection select:focus {
+  border-color: #ffa726;
+  box-shadow: 0 0 5px rgba(255,167,38,0.5);
+}
+
 
 /* Adjustments for responsive design */
 @media (max-width: 1200px) {
