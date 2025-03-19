@@ -14,12 +14,28 @@ body {
   padding: 20px;
 }
 
+.main {
+  display: flex;
+  gap: 25px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.floor-plan-box {
+  border: 2px solid #00796B;
+  padding: 15px;
+  background-color: #CFF9F3;
+  border-radius: 10px;
+}
+
 /* Left Sidebar for Space List */
 .space-list {
-  width: 45%; /* Adjust width for better layout */
-  background-color: #ffffff;
-  padding: 20px;
-  border-right: 2px solid #00796b;
+  position: relative;
+    width: 700px;
+    height: 350px;
+    background: #B2DFDB;
+    border: 2px solid #00796B;
+    border-radius: 10px;
 }
 
 .space-list h2 {
@@ -42,7 +58,7 @@ body {
   text-align: center;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
+  display: inline-block;
   justify-content: space-between;
   align-items: center;
 }
@@ -74,11 +90,11 @@ body {
 
 /* Right side tenant allocation (Tenant Details) */
 .tenant-details {
-  width: 45%; /* Adjust width for better layout */
-  padding: 20px;
-  background-color: #ffffff;
-  border: 2px solid #ffa726; /* Orange border */
-  border-radius: 8px;
+  background-color: #E0F2F1;
+    border: 2px solid #00796B;
+    padding: 15px;
+    border-radius: 10px;
+    width: 350px;
 }
 
 .tenant-details h2 {

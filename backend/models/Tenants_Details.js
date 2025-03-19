@@ -4,7 +4,8 @@ const tenantSchema = new mongoose.Schema({
 
     Tenant_ID: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     name: {
         type: String,
