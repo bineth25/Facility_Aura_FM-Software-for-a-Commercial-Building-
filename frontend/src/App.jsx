@@ -24,6 +24,8 @@ import View_HVAC_Energy_Consumption_details from './pages/Electricity_Consumptio
 import View_Lighting_Energy_Consumption_details from './pages/Electricity_Consumption_Management/View_Lighting_Energy_Consumption_details/View_Lighting_Energy_Consumption_details' 
 import View_Solar_Energy_Consumption_Details from './pages/Electricity_Consumption_Management/View_Solar_Energy_Consumption_Details/View_Solar_Energy_Consumption_Details'
 
+import Dashboard from "./pages/Maintenance _Issues_Assigning/Dashboard/Dashboard"
+import Tasks from "./pages/Maintenance _Issues_Assigning/Tasks/Tasks"
 import Approval_tasks from './pages/Maintenance _Issues_Assigning/Approval_tasks/Approval_tasks'
 import In_Progress from './pages/Maintenance _Issues_Assigning/In_Progress/In_Progress'
 import Notifications from './pages/Maintenance _Issues_Assigning/Notifications/Notifications'
@@ -60,6 +62,8 @@ const App = () => {
               <Route path="/View_Lighting_Energy_Consumption_details" element={<View_Lighting_Energy_Consumption_details />} />
               <Route path="/View_Solar_Energy_Consumption_Details" element={<View_Solar_Energy_Consumption_Details />} />
 
+              <Route path="/Dashboard" element={<Dashboard/>}/>
+              <Route path="/Tasks" element={<Tasks/>}/>
               <Route path="/Approval_tasks" element={<Approval_tasks/>} />
               <Route path="/In_Progress" element={<In_Progress />} />
               <Route path="/Notifications" element={<Notifications />} />

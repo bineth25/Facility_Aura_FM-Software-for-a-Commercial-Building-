@@ -25,6 +25,8 @@ const Sidebar = () => {
       </div>
       {openMenu === "taskDashboard" && (
         <div className="submenu">
+        <NavLink to="/Dashboard" className="submenu-item">Dashboard</NavLink>
+        <NavLink to="/Tasks" className="submenu-item">Tasks</NavLink>
         <NavLink to="/In_Progress" className="submenu-item">🔧 In_Progress</NavLink>
         <NavLink to="/Approval_tasks" className="submenu-item">📈 Approval tasks</NavLink>
         <NavLink to="/Notifications" className="submenu-item">🔔 Notifications</NavLink>
