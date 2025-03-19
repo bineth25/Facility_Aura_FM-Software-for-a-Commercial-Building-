@@ -50,7 +50,7 @@ const Floor_Plan_Overview = () => {
   // Handle selecting a space
   const handleSpaceSelect = (space) => {
     setSelectedSpace(space);
-
+  
     if (space.isAvailable === false && space.tenant) {
       // If the space is occupied, display tenant info
       setTenantData({
@@ -75,7 +75,6 @@ const Floor_Plan_Overview = () => {
       });
     }
   };
-
   // Add tenant to space
   const handleAddTenant = async () => {
     try {
@@ -102,32 +101,38 @@ const Floor_Plan_Overview = () => {
 
   // Remove tenant from space
   // Remove tenant from space
-const handleRemoveTenant = async () => {
-  // Check if the space is available (tenant can only be removed from an occupied space)
-  if (selectedSpace.isAvailable) {
-    alert('Cannot remove tenant. Space is not occupied.');
-    return;
-  }
-
-  // Ensure tenant exists before trying to access Tenant_ID
-  if (!selectedSpace.tenant || !selectedSpace.tenant.Tenant_ID) {
-    alert('No tenant assigned to this space.');
-    return;
-  }
-
-  try {
-    // Send the request to the backend to remove the tenant from the space
-    await axios.post('http://localhost:4000/api/tenants/removeTenantFromSpace', {
-      spaceId: selectedSpace.spaceId,
-      tenantId: selectedSpace.tenant.Tenant_ID // Ensure we are sending the correct tenantId
-    });
-    alert('Tenant removed successfully!');
-    setSelectedSpace(null); // Reset selected space after removal
-  } catch (error) {
-    console.error('Error removing tenant:', error);
-    alert('Error removing tenant');
-  }
-};
+  const handleRemoveTenant = async () => {
+    // Check if the space is available (tenant can only be removed from an occupied space)
+    if (selectedSpace.isAvailable) {
+      alert('Cannot remove tenant. Space is not occupied.');
+      return;
+    }
+  
+    // Ensure tenant exists before trying to access Tenant_ID
+    if (!selectedSpace.tenant || !selectedSpace.tenant.Tenant_ID) {
+      alert('No tenant assigned to this space.');
+      console.log('Selected Space Tenant:', selectedSpace.tenant); // Log for debugging
+      return;
+    }
+  
+    try {
+      // Log the tenant ID and space ID for debugging
+      console.log('Removing tenant with ID:', selectedSpace.tenant.Tenant_ID);
+      console.log('Space ID:', selectedSpace.spaceId);
+  
+      // Send the request to the backend to remove the tenant from the space
+      await axios.post('http://localhost:4000/api/tenants/removeTenantFromSpace', {
+        spaceId: selectedSpace.spaceId,
+        tenantId: selectedSpace.tenant.Tenant_ID // Ensure we are sending the correct tenantId
+      });
+  
+      alert('Tenant removed successfully!');
+      setSelectedSpace(null); // Reset selected space after removal
+    } catch (error) {
+      console.error('Error removing tenant:', error);
+      alert('Error removing tenant');
+    }
+  };
 
 
   return (

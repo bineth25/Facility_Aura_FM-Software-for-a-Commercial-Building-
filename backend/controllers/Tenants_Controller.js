@@ -44,6 +44,7 @@ export const addTenantToSpace = async (req, res) => {
 
 
 // Remove Tenant from Space (without deleting tenant record)
+// Remove Tenant from Space (without deleting tenant record)
 export const removeTenantFromSpace = async (req, res) => {
   try {
     const { spaceId, tenantId } = req.body;
@@ -55,23 +56,23 @@ export const removeTenantFromSpace = async (req, res) => {
       return res.status(404).json({ message: 'Space is already available or does not exist.' });
     }
 
-    // Find tenant by tenantId
+    // Ensure the tenant exists in the space
     const tenant = await Tenant.findOne({ Tenant_ID: tenantId });
 
     if (!tenant) {
       return res.status(404).json({ message: 'Tenant not found.' });
     }
 
-    // Disassociate the tenant from the space (if there is a reference to the tenant in the space)
-    // Example: You could use tenantId or a tenant reference in your space model
-    space.isAvailable = true; // Space becomes available again
-    space.tenant = null; // Remove the tenant allocation from the space (if you have a tenant field in Space model)
+    // Disassociate the tenant from the space
+    space.isAvailable = true;  // Space becomes available again
+    space.tenant = null; // Remove the tenant allocation from the space
 
     // Save the updated space
     await space.save();
 
     res.status(200).json({ message: 'Tenant removed from space successfully (tenant info remains intact)' });
   } catch (error) {
+    console.error('Error removing tenant from space:', error);
     res.status(500).json({ message: 'Error removing tenant from space', error });
   }
 };
