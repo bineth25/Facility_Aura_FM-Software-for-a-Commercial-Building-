@@ -228,7 +228,7 @@ textarea {
 .tasks-list {
     margin-top: 20px;
     padding: 20px;
-    background: #f9f9f9;
+    background: rgba(255, 255, 255, 0.626);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -245,7 +245,7 @@ textarea {
 }
 
 .task-card {
-    background: white;
+    background: rgba(0, 0, 0, 0);
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 15px;
