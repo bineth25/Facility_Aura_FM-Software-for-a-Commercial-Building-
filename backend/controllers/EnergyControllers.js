@@ -152,7 +152,8 @@ export const deleteEnergyReadingById = async (req, res) => {
         }
 
         // Delete the energy reading
-        await energyReading.remove();
+        await Energy.deleteOne({ _id: id });  // Using deleteOne() instead of remove()
+
 
         res.status(200).json({ message: 'Energy reading deleted successfully' });
     } catch (error) {

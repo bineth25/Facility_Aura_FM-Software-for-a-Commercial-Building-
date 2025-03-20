@@ -23,7 +23,7 @@ router.put('/update', updateCategoryLimit);  // Update route
 router.delete('/delete', deleteCategoryLimit);  // Delete route
 
 // Route to add an energy reading
-router.post('/add', addEnergyReading);
+//router.post('/add', addEnergyReading);
 
 // Route to get all exceeded energy readings
 router.get('/exceeded', getExceededReadings);  // Fetch the exceeded readings
