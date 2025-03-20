@@ -16,17 +16,15 @@
 }
 
 .tenant-item {
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px;
   border: 1px solid #e0e0e0;
   margin-bottom: 15px;
   border-radius: 8px;
-  background-color: #dac4c4;
+  background-color: #ffffff;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
-  
 }
 
 .tenant-item:hover {
@@ -76,30 +74,47 @@
   transform: scale(1.05);
 }
 
-.tenant-update-form {
-  margin-top: 30px;
-  padding: 25px;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.tenant-update-form h2 {
+.modal-content {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 500px; /* Increased width */
+  max-width: 90%;
+  height: auto; /* Adjust height automatically based on content */
+  max-height: 90vh; /* Limit height to 90% of the viewport height */
+  overflow-y: auto; /* Add scroll if content exceeds height */
+}
+
+.modal-content h2 {
   margin-top: 0;
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
 }
 
-.tenant-update-form label {
+.modal-content label {
   display: block;
   margin-bottom: 15px;
   font-size: 14px;
   color: #555;
 }
 
-.tenant-update-form input {
+.modal-content input {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -109,12 +124,12 @@
   transition: border-color 0.3s ease;
 }
 
-.tenant-update-form input:focus {
+.modal-content input:focus {
   border-color: #4CAF50;
   outline: none;
 }
 
-.tenant-update-form button {
+.modal-content button {
   margin-right: 10px;
   padding: 10px 20px;
   border: none;
@@ -125,22 +140,22 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.tenant-update-form button[type="submit"] {
+.modal-content button[type="submit"] {
   background-color: #4CAF50;
   color: white;
 }
 
-.tenant-update-form button[type="submit"]:hover {
+.modal-content button[type="submit"]:hover {
   background-color: #45a049;
   transform: scale(1.05);
 }
 
-.tenant-update-form button[type="button"] {
+.modal-content button[type="button"] {
   background-color: #f44336;
   color: white;
 }
 
-.tenant-update-form button[type="button"]:hover {
+.modal-content button[type="button"]:hover {
   background-color: #e53935;
   transform: scale(1.05);
 }

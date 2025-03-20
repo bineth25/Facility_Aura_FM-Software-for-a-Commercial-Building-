@@ -15,6 +15,7 @@ const Tenant = () => {
     description: '',
     other: ''
   });
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
   // Fetch all tenants from the backend
   useEffect(() => {
@@ -43,6 +44,7 @@ const Tenant = () => {
       description: tenant.description,
       other: tenant.other || ''
     });
+    setIsModalOpen(true); // Open the modal
   };
 
   // Handle updating tenant information
@@ -54,6 +56,7 @@ const Tenant = () => {
         tenantData: tenantData
       });
       alert('Tenant information updated successfully!');
+      setIsModalOpen(false); // Close the modal
       setSelectedTenant(null);
       setTenantData({
         Tenant_ID: '',
@@ -88,6 +91,22 @@ const Tenant = () => {
     }
   };
 
+  // Close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedTenant(null);
+    setTenantData({
+      Tenant_ID: '',
+      name: '',
+      nic: '',
+      email: '',
+      phone: '',
+      address: '',
+      description: '',
+      other: ''
+    });
+  };
+
   return (
     <div className="tenant-container">
       <h1>Tenant History</h1>
@@ -117,78 +136,80 @@ const Tenant = () => {
         </ul>
       </div>
 
-      {/* Tenant Update Form */}
-      {selectedTenant && (
-        <div className="tenant-update-form">
-          <h2>Update Tenant Information</h2>
-          <form onSubmit={handleUpdateTenant}>
-            <label>
-              Tenant ID:
-              <input
-                type="text"
-                value={tenantData.Tenant_ID}
-                readOnly
-              />
-            </label>
-            <label>
-              Name:
-              <input
-                type="text"
-                value={tenantData.name}
-                onChange={(e) => setTenantData({ ...tenantData, name: e.target.value })}
-              />
-            </label>
-            <label>
-              NIC:
-              <input
-                type="text"
-                value={tenantData.nic}
-                onChange={(e) => setTenantData({ ...tenantData, nic: e.target.value })}
-              />
-            </label>
-            <label>
-              Email:
-              <input
-                type="email"
-                value={tenantData.email}
-                onChange={(e) => setTenantData({ ...tenantData, email: e.target.value })}
-              />
-            </label>
-            <label>
-              Phone:
-              <input
-                type="text"
-                value={tenantData.phone}
-                onChange={(e) => setTenantData({ ...tenantData, phone: e.target.value })}
-              />
-            </label>
-            <label>
-              Address:
-              <input
-                type="text"
-                value={tenantData.address}
-                onChange={(e) => setTenantData({ ...tenantData, address: e.target.value })}
-              />
-            </label>
-            <label>
-              Description:
-              <input
-                type="text"
-                value={tenantData.description}
-                onChange={(e) => setTenantData({ ...tenantData, description: e.target.value })}
-              />
-            </label>
-            <label>
-              Other:
-              <input
-                type="text"
-                value={tenantData.other}
-                onChange={(e) => setTenantData({ ...tenantData, other: e.target.value })}
-              />
-            </label>
-            <button type="submit">Update Tenant</button>
-            <button type="button" onClick={() => setSelectedTenant(null)}>Cancel</button>
-          </form>
+      {/* Modal for Update Tenant Form */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>Update Tenant Information</h2>
+            <form onSubmit={handleUpdateTenant}>
+              <label>
+                Tenant ID:
+                <input
+                  type="text"
+                  value={tenantData.Tenant_ID}
+                  readOnly
+                />
+              </label>
+              <label>
+                Name:
+                <input
+                  type="text"
+                  value={tenantData.name}
+                  onChange={(e) => setTenantData({ ...tenantData, name: e.target.value })}
+                />
+              </label>
+              <label>
+                NIC:
+                <input
+                  type="text"
+                  value={tenantData.nic}
+                  onChange={(e) => setTenantData({ ...tenantData, nic: e.target.value })}
+                />
+              </label>
+              <label>
+                Email:
+                <input
+                  type="email"
+                  value={tenantData.email}
+                  onChange={(e) => setTenantData({ ...tenantData, email: e.target.value })}
+                />
+              </label>
+              <label>
+                Phone:
+                <input
+                  type="text"
+                  value={tenantData.phone}
+                  onChange={(e) => setTenantData({ ...tenantData, phone: e.target.value })}
+                />
+              </label>
+              <label>
+                Address:
+                <input
+                  type="text"
+                  value={tenantData.address}
+                  onChange={(e) => setTenantData({ ...tenantData, address: e.target.value })}
+                />
+              </label>
+              <label>
+                Description:
+                <input
+                  type="text"
+                  value={tenantData.description}
+                  onChange={(e) => setTenantData({ ...tenantData, description: e.target.value })}
+                />
+              </label>
+              <label>
+                Other:
+                <input
+                  type="text"
+                  value={tenantData.other}
+                  onChange={(e) => setTenantData({ ...tenantData, other: e.target.value })}
+                />
+              </label>
+              <button type="submit">Update Tenant</button>
+              <button type="button" onClick={closeModal}>Cancel</button>
+            </form>
+          </div>
         </div>
       )}
     </div>
