@@ -21,21 +21,14 @@ body {
   justify-content: center;
 }
 
-.floor-plan-box {
-  border: 2px solid #00796B;
-  padding: 15px;
-  background-color: #CFF9F3;
-  border-radius: 10px;
-}
-
 /* Left Sidebar for Space List */
 .space-list {
   position: relative;
     width: 700px;
-    height: 350px;
-    background: #B2DFDB;
+    background: #dfb2b2;
     border: 2px solid #00796B;
     border-radius: 10px;
+    padding: 15px;
 }
 
 .space-list h2 {

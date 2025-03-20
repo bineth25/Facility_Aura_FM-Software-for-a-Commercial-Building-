@@ -1,5 +1,5 @@
 import express from 'express';
-import { addTenantToSpace, removeTenantFromSpace, updateTenantInfo } from '../controllers/Tenants_Controller.js';
+import { addTenantToSpace, removeTenantFromSpace, updateTenantInfo,getAllTenants } from '../controllers/Tenants_Controller.js';
 
 const router = express.Router();
 
@@ -7,6 +7,9 @@ const router = express.Router();
 router.post('/addTenantToSpace', addTenantToSpace);
 router.post('/removeTenantFromSpace', removeTenantFromSpace);
 router.put('/updateTenantInfo', updateTenantInfo);
+router.get('/getAllTenants', getAllTenants);
+
+
 
 export default router;
 

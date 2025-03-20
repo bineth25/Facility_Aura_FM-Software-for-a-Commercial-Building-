@@ -150,7 +150,6 @@ const Floor_Plan_Overview = () => {
       <div className='main'>
         <div className="floor-plan-box">
           <div className="space-list">
-            <h2>Available Spaces</h2>
             <ul>
               {filteredSpaces.map((space) => (
                 <li

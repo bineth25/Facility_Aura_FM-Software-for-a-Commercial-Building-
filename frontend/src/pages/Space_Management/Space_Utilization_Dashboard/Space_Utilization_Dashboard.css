@@ -1,33 +1,157 @@
-/* Dashboard Layout */
-.dashboard-container {
-  text-align: center;
-  background-color: #eaf5f4;
-  padding: 20px;
-}
+/* Add these styles to your existing CSS file */
 
-/* Title */
-.dashboard-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #00796b;
-  margin-bottom: 20px;
-}
-
-/* Pie Chart Grid Layout */
-.pie-chart-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content:center;
-  gap: 30px;
-  margin: auto;
-}
-
-/* Individual Pie Chart Box */
+/* Chart box with active state */
 .pie-chart-box {
   background: white;
-  padding: 15px;
+  padding: 20px;
   border-radius: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 300px;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.dashboard-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00796b;
+  margin-bottom: 40px;
+}
+
+.pie-chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin: auto;
+}
+
+.pie-chart-box.active-chart {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Chart wrapper with percentage overlay */
+.chart-wrapper {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+/* Center percentage display */
+.utilization-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.utilization-percentage span {
+  font-size: 24px;
+  font-weight: bold;
+  color: #00796b;
+  display: block;
+}
+
+.utilization-percentage p {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+}
+
+/* Metrics display */
+.chart-metrics {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: #757575;
+  margin-top: 5px;
+}
+
+/* Available/Occupied indicator dots */
+.metric-label::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.metric:nth-child(1) .metric-label::before {
+  background-color: rgba(66, 165, 245, 0.8);
+}
+
+.metric:nth-child(2) .metric-label::before {
+  background-color: rgba(239, 83, 80, 0.8);
+}
+
+/* Chart hover effects */
+.pie-chart-box:hover .chart-wrapper canvas {
+  filter: brightness(1.05);
+}
+
+/* Animation for active chart */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.02);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.active-chart .chart-wrapper {
+  animation: pulse 2s infinite;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .pie-chart-box {
+    width: 280px;
+  }
+
+  .utilization-percentage span {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pie-chart-box {
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .utilization-percentage span {
+    font-size: 18px;
+  }
+
+  .metric-value {
+    font-size: 16px;
+  }
 }

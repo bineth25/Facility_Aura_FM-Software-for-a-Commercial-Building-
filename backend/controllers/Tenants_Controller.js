@@ -43,31 +43,33 @@ export const addTenantToSpace = async (req, res) => {
 };
 
 
-
 // Remove Tenant from Space (without deleting tenant record)
 export const removeTenantFromSpace = async (req, res) => {
-  const { spaceId, tenantId } = req.body;
-
-  if (!spaceId || !tenantId) {
-    return res.status(400).json({ message: 'Space ID and Tenant ID are required.' });
-  }
-
   try {
+    const { spaceId, tenantId } = req.body;
+    console.log(spaceId);
+    // Find the space by spaceId
     const space = await Space.findOne({ spaceId });
+
     if (!space || space.isAvailable) {
       return res.status(404).json({ message: 'Space is already available or does not exist.' });
     }
 
+    // Ensure the tenant exists in the space
     const tenant = await Tenant.findOne({ Tenant_ID: tenantId });
+
     if (!tenant) {
       return res.status(404).json({ message: 'Tenant not found.' });
     }
 
-    space.isAvailable = true;
-    space.tenant = null;
+    // Disassociate the tenant from the space
+    space.isAvailable = true;  // Space becomes available again
+    space.tenant = null; // Remove the tenant allocation from the space
+
+    // Save the updated space
     await space.save();
 
-    res.status(200).json({ message: 'Tenant removed from space successfully.' });
+    res.status(200).json({ message: 'Tenant removed from space successfully (tenant info remains intact)' });
   } catch (error) {
     console.error('Error removing tenant from space:', error);
     res.status(500).json({ message: 'Error removing tenant from space', error });
@@ -101,6 +103,16 @@ export const updateTenantInfo = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Error updating tenant information', error });
   }
+};
+
+//Get all tenants
+export const getAllTenants = async (req, res) => {
+    try {
+        const tenants = await Tenant.find();
+        res.json(tenants);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 

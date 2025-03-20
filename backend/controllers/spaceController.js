@@ -77,6 +77,7 @@ export const deleteSpace = async (req, res) => {
   }
 };
 
+
 // Find space by ID
 export const findSpaceById = async (req, res) => {
   const { id } = req.params;
