@@ -1,3 +1,6 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './View_HVAC_Energy_Consumption_details.css';
 
 const ViewHVACEnergyConsumptionDetails = () => {
   const [energyReadings, setEnergyReadings] = useState([]);

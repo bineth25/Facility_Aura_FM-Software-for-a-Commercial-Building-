@@ -1,3 +1,6 @@
+import Energy from '../models/EnergyModel.js';
+import CategoryLimit from '../models/CategoryLimit.js';
+import ExceededEnergyReading from '../models/ExceededEnergyReading.js';  // Import the ExceededEnergyReading model
 
 // Add a new energy reading
 export const addEnergyReading = async (req, res) => {
