@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './View_Solar_Energy_Consumption_Details.css';
 
 const ViewSolarEnergyConsumptionDetails = () => {
   const [energyReadings, setEnergyReadings] = useState([]);
