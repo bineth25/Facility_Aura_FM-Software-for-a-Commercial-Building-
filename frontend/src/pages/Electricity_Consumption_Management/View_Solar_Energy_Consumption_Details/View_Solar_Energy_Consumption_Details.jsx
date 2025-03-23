@@ -91,6 +91,8 @@ const ViewSolarEnergyConsumptionDetails = () => {
     } catch (err) {
       setError('Error deleting energy reading');
     }
+
+    alert('Reading has been deleted successfully!');
   };
 
   const handleUpdate = async () => {
@@ -112,6 +114,8 @@ const ViewSolarEnergyConsumptionDetails = () => {
     } catch (err) {
       setError('Error updating energy reading');
     }
+
+    alert('Reading has been updated successfully!');
   };
 
   useEffect(() => {

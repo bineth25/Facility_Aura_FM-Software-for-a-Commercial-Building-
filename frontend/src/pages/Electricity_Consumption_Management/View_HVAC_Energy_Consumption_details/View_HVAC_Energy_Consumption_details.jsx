@@ -91,6 +91,8 @@ const ViewHVACEnergyConsumptionDetails = () => {
     } catch (err) {
       setError('Error deleting energy reading');
     }
+
+    alert('Reading has been deleted successfully!');
   };
 
   const handleUpdate = async () => {
@@ -112,6 +114,8 @@ const ViewHVACEnergyConsumptionDetails = () => {
     } catch (err) {
       setError('Error updating energy reading');
     }
+
+    alert('Reading has been updated successfully!');
   };
 
   useEffect(() => {
@@ -227,52 +231,65 @@ const ViewHVACEnergyConsumptionDetails = () => {
       </table>
 
       {/* Modal for Updating Energy Reading */}
-      {editingReading && (
-        <div className="modal-backdrop">
-          <div className="modal">
-            <h2>Edit Energy Reading</h2>
-            <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
-              <label>Year:</label>
-              <input 
-                type="number" 
-                value={formData.year} 
-                onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-              />
+{editingReading && (
+  <div className="modal-backdrop">
+    <div className="modal">
+      <h2>Edit Energy Reading</h2>
+      <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
+        <label>Year:</label>
+        <select 
+          value={formData.year} 
+          onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+        >
+          {Array.from({ length: 27 }, (_, index) => 2024 + index).map((year) => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
 
-              <label>Month:</label>
-              <input 
-                type="text" 
-                value={formData.month} 
-                onChange={(e) => setFormData({ ...formData, month: e.target.value })}
-              />
+        <label>Month:</label>
+        <select 
+          value={formData.month} 
+          onChange={(e) => setFormData({ ...formData, month: e.target.value })}
+        >
+          {['January', 'February', 'March', 'April', 'May', 'June', 'July',
+            'August', 'September', 'October', 'November', 'December'].map((month) => (
+            <option key={month} value={month}>{month}</option>
+          ))}
+        </select>
 
-              <label>Floor:</label>
-              <input 
-                type="number" 
-                value={formData.floor} 
-                onChange={(e) => setFormData({ ...formData, floor: e.target.value })}
-              />
+        <label>Floor:</label>
+        <select 
+          value={formData.floor} 
+          onChange={(e) => setFormData({ ...formData, floor: e.target.value })}
+        >
+          {Array.from({ length: 7 }, (_, index) => index + 1).map((floor) => (
+            <option key={floor} value={floor}>{floor}</option>
+          ))}
+        </select>
 
-              <label>Category:</label>
-              <input 
-                type="text" 
-                value={formData.category} 
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              />
+        <label>Category:</label>
+        <select 
+          value={formData.category} 
+          onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+        >
+          <option value="HVAC">HVAC</option>
+          <option value="Lighting">Lighting</option>
+          <option value="Equipment">Equipment</option>
+        </select>
 
-              <label>Reading:</label>
-              <input 
-                type="number" 
-                value={formData.reading} 
-                onChange={(e) => setFormData({ ...formData, reading: e.target.value })}
-              />
+        <label>Reading (kWh):</label>
+        <input 
+          type="number" 
+          value={formData.reading} 
+          onChange={(e) => setFormData({ ...formData, reading: e.target.value })}
+        />
 
-              <button type="submit">Update</button>
-              <button onClick={() => setEditingReading(null)}>Cancel</button>
-            </form>
-          </div>
-        </div>
-      )}
+        <button type="submit">Update</button>
+        <button onClick={() => setEditingReading(null)}>Cancel</button>
+      </form>
+    </div>
+  </div>
+)}
     </div>
   );
 };

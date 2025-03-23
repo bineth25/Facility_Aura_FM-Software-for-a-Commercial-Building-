@@ -1,140 +1,114 @@
-/* Add_New_Energy_Reading.css */
-
 /* Main container with light blue background */
 .add-energy-reading-container {
-  max-width: 900px;
+  max-width: 700px;
   margin: 50px auto;
   padding: 30px;
-  background-color: #e6f7ff; /* Light Blue Background */
+  background-color: #e6f7ff;
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.add-energy-reading-container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-}
-
-/* Heading with dark blue color */
-h2 {
-  text-align: center;
-  color: #003366; /* Dark Blue */
-  font-size: 28px;
-  margin-bottom: 25px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-/* Form layout with spaces and light blue accents */
+/* Form layout adjustments */
 .energy-form {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 20px;
 }
 
-/* Form group styling */
+/* Form group adjustments */
 .form-group {
-  flex: 1 1 45%;
-  margin-bottom: 20px;
+  flex: 1 1 100%;
+  margin-bottom: 15px;
 }
 
+/* Responsive grid for inputs */
+@media (min-width: 600px) {
+  .form-group {
+    flex: 0 0 calc(50% - 10px); /* Prevent growing/shrinking, account for gap */
+    margin-bottom: 0; /* Remove bottom margin to tighten rows */
+  }
+
+  .form-group:nth-child(1),
+  .form-group:nth-child(2) {
+    flex: 0 0 calc(50% - 10px); /* First row: Year and Month */
+  }
+
+  .form-group:nth-child(3),
+  .form-group:nth-child(4),
+  .form-group:nth-child(5) {
+    flex: 0 0 calc(33.333% - 13.33px); /* Second row: Floor, Category, Reading */
+  }
+}
+
+/* Input styling */
 .form-group label {
-  font-weight: 600;
-  margin-bottom: 8px;
   display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
   color: #555;
-  font-size: 16px;
 }
 
-/* Input fields and select dropdown with light blue focus */
-.form-group input, .form-group select {
+.form-group input,
+.form-group select {
   width: 100%;
   padding: 12px;
-  border: 1px solid #cce7ff; /* Light blue border */
+  border: 1px solid #cce7ff;
   border-radius: 8px;
   font-size: 16px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-group input:focus, .form-group select:focus {
-  border-color: #3399ff; /* Focus border color */
-  box-shadow: 0 0 8px rgba(51, 153, 255, 0.2); /* Focus shadow */
-  outline: none;
-}
-
+/* Reading input specific width */
 .form-group input[name="reading"] {
-  width: 60%; /* Narrower width for reading input field */
+  width: 100%;
 }
 
-/* Error and success messages */
-.error-message {
-  color: #ff4d4d;
-  font-size: 14px;
-  text-align: center;
-  margin-top: 10px;
-  font-weight: 500;
-}
-
-.success-message {
-  color: #28a745;
-  font-size: 14px;
-  text-align: center;
-  margin-top: 10px;
-  font-weight: 500;
-}
-
-/* Submit button with light blue theme */
+/* Button styling */
 .submit-btn {
-  margin-top: 45px;
-  margin-bottom: 10px;
-  padding-left: 30px;
-  padding: 4px 20px; /* Reduced top/bottom padding to 4px to reduce height */
-  background-color: #3399ff; /* Light Blue */
-  color: navy;
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: #3399ff;
+  color: white;
   border: none;
   border-radius: 8px;
-  font-size: 14px; /* Optional: smaller font size */
+  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  box-sizing: border-box; /* Ensure padding is included in the total size */
 }
 
-.submit-btn:hover {
-  background-color: #007bff; /* Darker blue on hover */
-  transform: translateY(-2px);
-}
-
-.submit-btn:active {
-  transform: translateY(0);
-}
-
-/* Category limits container with light blue styling */
+/* Category limits styling */
 .category-limits-container {
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-  text-align: left;
-  width: 50%; /* Narrower width for the category limits section */
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f2f9ff;
+  border-radius: 8px;
 }
 
 .category-limit {
-  flex: 1 1 100%;
   display: flex;
   justify-content: space-between;
-  background-color: #f2f9ff; /* Light blue background for each limit */
   padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  margin: 10px 0;
+  background-color: white;
+  border-radius: 6px;
 }
 
-.category-limit span {
-  font-size: 14px;
-  font-weight: bold;
-  color: #003366; /* Dark Blue text */
+/* Message styling */
+.error-message,
+.success-message {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.error-message {
+  background-color: #ffe6e6;
+  color: #ff4d4d;
+}
+
+.success-message {
+  background-color: #e6ffe6;
+  color: #28a745;
 }

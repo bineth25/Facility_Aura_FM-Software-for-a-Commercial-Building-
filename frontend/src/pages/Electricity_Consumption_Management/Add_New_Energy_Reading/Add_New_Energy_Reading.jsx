@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Add_New_Energy_Reading.css';
+import './Add_New_Energy_Reading.css'; // Ensure the correct CSS file is imported
 
 const AddNewEnergyReading = () => {
   const [formData, setFormData] = useState({
@@ -40,48 +40,63 @@ const AddNewEnergyReading = () => {
 
     // Validate fields
     if (!formData.year || !formData.month || !formData.floor || !formData.category || !formData.reading) {
-      setError('All fields are required.');
-      return;
+        setError('All fields are required.');
+        return;
     }
 
     // Check if the year is the current year
     const currentYear = new Date().getFullYear();
     if (parseInt(formData.year) !== currentYear) {
-      setError(`Please enter the current year (${currentYear}) for energy details.`);
-      return;
+        setError(`Please enter the current year (${currentYear}) for energy details.`);
+        return;
     }
+
+
+     // NEW ALERT CHECK ADDED HERE
+  const selectedCategoryLimit = categoryLimits.find(
+    (limit) => limit.category === formData.category
+  );
+  if (selectedCategoryLimit) {
+    const readingValue = parseFloat(formData.reading);
+    if (readingValue > selectedCategoryLimit.maxConsumptionLimit) {
+      alert(
+        `Warning: The entered reading for ${formData.category} exceeds the maximum allowed limit of ${selectedCategoryLimit.maxConsumptionLimit}.`
+      );
+    }
+  }
 
     try {
-      const response = await fetch('http://localhost:4000/api/energyReadings/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccessMessage(data.message);
-        setError('');
-        // Reset the form after successful submission
-        setFormData({
-          year: '',
-          month: '',
-          floor: '',
-          category: '',
-          reading: ''
+        const response = await fetch('http://localhost:4000/api/energyReadings/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
         });
-      } else {
-        setError(data.message);
-        setSuccessMessage('');
-      }
+
+        const data = await response.json();
+
+        if (response.ok) {
+            setSuccessMessage(data.message);
+            setError('');
+            // Reset the form after successful submission
+            setFormData({
+                year: '',
+                month: '',
+                floor: '',
+                category: '',
+                reading: ''
+            });
+        } else {
+            setError(data.message);  // This will handle the "Duplicate entry found" error from the backend
+            setSuccessMessage('');
+        }
     } catch (err) {
-      setError('Error connecting to the server.');
-      setSuccessMessage('');
+        setError('Error connecting to the server.');
+        setSuccessMessage('');
     }
-  };
+};
+
 
   return (
     <div className="add-energy-reading-container">
@@ -146,7 +161,7 @@ const AddNewEnergyReading = () => {
             <option value="HVAC">HVAC</option>
             <option value="Lighting">Lighting</option>
             <option value="Renewable">Renewable</option>
-            <option value="Other">Other</option>
+            
           </select>
         </div>
 
