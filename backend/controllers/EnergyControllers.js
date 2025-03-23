@@ -12,13 +12,17 @@ export const addEnergyReading = async (req, res) => {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
-        // Validate that the provided month is valid
-        const validMonths = [
-            'January', 'February', 'March', 'April', 'May', 'June', 
-            'July', 'August', 'September', 'October', 'November', 'December'
-        ];
-        if (!validMonths.includes(month)) {
-            return res.status(400).json({ message: 'Invalid month provided' });
+        // Check if this exact entry already exists
+        const existingEntry = await Energy.findOne({
+            year, 
+            month, 
+            floor, 
+            category, 
+            /*reading*/
+        });
+
+        if (existingEntry) {
+            return res.status(400).json({ message: 'Duplicate entry found. This data already exists.' });
         }
 
         // Fetch the max consumption limit for the given category
@@ -60,6 +64,7 @@ export const addEnergyReading = async (req, res) => {
         res.status(500).json({ message: 'Error adding energy reading', error: error.message });
     }
 };
+
 
 // Get all energy readings or filter by query parameters (year, month, floor, category)
 export const getEnergyReadings = async (req, res) => {
