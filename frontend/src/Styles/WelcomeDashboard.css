@@ -1,0 +1,263 @@
+.welcome-container {
+  text-align: center;
+  background: linear-gradient(45deg, #60bfdb, #ff6b6b, #4a90e2, #f1c40f); 
+  background-size: 400% 400%; 
+  padding: 5% 0 4% 0; 
+  border-radius: 12px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+  animation: gradientAnimation 10s ease infinite; 
+  position: relative;
+  overflow: hidden; 
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.welcome-heading {
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  animation: fadeInSlideUp 1.5s ease-out forwards;
+  opacity: 0;
+  background: rgba(96, 191, 219, 0.2); /* Used #60bfdb with opacity for background */
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+@keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-heading::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #60bfdb; 
+  margin: 10px auto;
+  border-radius: 2px;
+  animation: underlineExpand 1s ease-out forwards;
+  animation-delay: 1s;
+}
+
+@keyframes underlineExpand {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 60px;
+  }
+}
+
+.welcome-heading:hover {
+  text-shadow: 0 0 10px rgba(96, 191, 219, 0.8), 
+               0 0 20px rgba(96, 191, 219, 0.6);
+  transition: text-shadow 0.3s ease;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+.welcome-heading {
+  animation: bounceIn 1s ease-out forwards;
+}
+
+
+
+
+  .welcome-container {
+    text-align: center;
+    background: linear-gradient(45deg, #60bfdb, #ff6b6b, #4a90e2, #f1c40f);
+    background-size: 400% 400%; 
+    padding: 5% 0 4% 0; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+    animation: gradientAnimation 10s ease infinite; 
+    position: relative;
+    overflow: hidden; 
+  }
+  
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .welcome-heading {
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: fadeInSlideUp 1.5s ease-out forwards;
+    opacity: 0;
+    background: rgba(96, 191, 219, 0.2);
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: inline-block;
+  }
+  
+  @keyframes fadeInSlideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .welcome-heading::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #60bfdb;
+    margin: 10px auto;
+    border-radius: 2px;
+    animation: underlineExpand 1s ease-out forwards;
+    animation-delay: 1s;
+  }
+  
+  @keyframes underlineExpand {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 60px;
+    }
+  }
+  
+  .welcome-heading:hover {
+    text-shadow: 0 0 10px rgba(96, 191, 219, 0.8),
+                 0 0 20px rgba(96, 191, 219, 0.6);
+    transition: text-shadow 0.3s ease;
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .welcome-heading {
+    animation: bounceIn 1s ease-out forwards;
+  }
+.welcome-fm-container {
+    text-align: center;
+    background: linear-gradient(45deg, #60bfdb, #4682b4, #2f4f4f, #1e90ff);
+    background-size: 400% 400%;
+    padding: 5% 0 4% 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: gradientAnimation 10s ease infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.welcome-fm-heading {
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: fadeInSlideUp 1.5s ease-out forwards;
+    opacity: 0;
+    background: rgba(96, 191, 219, 0.2);
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+@keyframes fadeInSlideUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.welcome-fm-heading::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #1e90ff;
+    margin: 10px auto;
+    border-radius: 2px;
+    animation: underlineExpand 1s ease-out forwards;
+    animation-delay: 1s;
+}
+
+@keyframes underlineExpand {
+    0% { width: 0; }
+    100% { width: 60px; }
+}
+
+.welcome-fm-heading:hover {
+    text-shadow: 0 0 10px rgba(30, 144, 255, 0.8),
+                 0 0 20px rgba(30, 144, 255, 0.6);
+    transition: text-shadow 0.3s ease;
+}
+
+@keyframes bounceIn {
+    0% { opacity: 0; transform: scale(0.5); }
+    60% { opacity: 1; transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.welcome-fm-heading {
+    animation: bounceIn 1s ease-out forwards;
+}
