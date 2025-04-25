@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js'; // DB connection function
 import Tenants_Routes from './routes/Tenants_Routes.js';
+import spaceRoutes from './routes/spaceRoutes.js';
 import EnergyRoutes from './routes/EnergyRoutes.js';
 import CategoryLimitRoutes from './routes/CategoryLimitRoutes.js';
 import UserManagementRoutes from './controllers/UserController.js';
@@ -74,6 +75,7 @@ async function startServer() {
   await seedChandulaAdmin(); // chandula@example.com admin
 
   // API routes
+  app.use("/api/spaces", spaceRoutes);
   app.use('/api/tenants', Tenants_Routes);
   app.use('/api/energyReadings', EnergyRoutes);
   app.use('/api/categoryLimits', CategoryLimitRoutes);
