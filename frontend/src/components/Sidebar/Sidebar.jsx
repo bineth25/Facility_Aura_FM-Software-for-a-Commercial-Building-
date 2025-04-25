@@ -57,7 +57,6 @@ const Sidebar = () => {
         <div className="submenu">
           <NavLink to="/space-utilization" className="submenu-item">📊 Space Utilization Dashboard</NavLink>
           <NavLink to="/floor-plan-overview" className="submenu-item">📏 Floor Plan Overview</NavLink>
-          <NavLink to="/space-allocation" className="submenu-item">🛋️ Space Allocation</NavLink>
           <NavLink to="/notification" className="submenu-item">🔔 Notification</NavLink>
           <NavLink to="/tenant-history" className="submenu-item">👥 Tenant History</NavLink>
         </div>

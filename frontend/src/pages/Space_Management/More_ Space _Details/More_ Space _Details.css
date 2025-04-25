@@ -1,0 +1,252 @@
+.containers {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+   
+  }
+  
+  .containers h1 {
+    color: #00796b;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .add-btn {
+    background: #3498db;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 15px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+  }
+  
+  .space-table, .analysis-table {
+    width: 95%;
+    border-collapse: collapse;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .space-table th, .space-table td, .analysis-table th, .analysis-table td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align:left;
+  }
+  
+  .space-table th {
+    background-color: #2bc491;
+    color: white;
+    font-weight: 600;
+  }
+
+  .analysis-table th {
+    background-color: #2980b9;
+    color: white;
+    font-weight: 600;
+
+  }
+
+  .space-table tr, .analysis-table tr {
+    background-color: #ffffff;
+  }
+  
+  .space-table tr:hover, .analysis-table tr:hover {
+    background-color: #d1ebf8;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-btn, .delete-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 0 5px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .edit-btn {
+    background: #27ae60;
+    color: white;
+  }
+  
+  .edit-btn:hover {
+    background: #219653;
+    transform: translateY(-2px);
+  }
+  
+  .delete-btn {
+    background: #e74c3c;
+    color: white;
+  }
+  
+  .delete-btn:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+  }
+  
+  .modals {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-contents {
+    background: white;
+    padding: 20px;
+    width: 550px; 
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto; 
+  }
+  
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .modal-contents h2 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .modal-contents form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+  }
+  
+  .modal-contents input, .modal-contents textarea, .modal-contents select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .modal-contents input:focus, .modal-contents textarea:focus, .modal-contents select:focus {
+    border-color: #3498db;
+    outline: none;
+  }
+  
+  .modal-contents textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .modal-contents label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .modal-contents button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .modal-contents .save-btn {
+    background: #2dbb68;
+    color: white;
+  }
+  
+  .modal-contents .save-btn:hover {
+    background: #197740;
+    transform: translateY(-2px);
+  }
+  
+  .modal-contents .close-bt {
+    background: #95a5a6;
+    color: white;
+  }
+  
+  .modal-contents .close-bt:hover {
+    background: #7f8c8d;
+    transform: translateY(-2px);
+  }
+  
+  .error {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
+  
+  .filter-section {
+    margin: 15px;
+  }
+  
+  .filter-section label {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  
+  .filter-section select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+  }
+  
+  .report-btn {
+    background: #2dbb68;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .report-btn:hover {
+    background: #1c9450;
+    transform: translateY(-2px);
+  }
