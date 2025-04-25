@@ -1,0 +1,41 @@
+.btnLink{
+    font-weight: bold;
+    color: rgb(224, 210, 210); 
+    font-size: 17px;
+}
+
+.btnLink:hover{
+    color:rgb(255, 255, 255);
+}
+
+.navLink1{
+    font-weight: bold;
+    color: black; 
+    font-size: 17px;
+    border-right: 1px solid black;
+}
+.navLink1:hover{
+    color:rgb(255, 249, 249);
+}
+
+  
+ 
+  .custom-login-btn {
+    color: #ffffff !important;
+    background-color: #007bff !important; 
+    border-color: #007bff !important; 
+  }
+  
+  .custom-login-btn:hover {
+    color: #ffffff !important;
+    background-color: #0056b3 !important; 
+    border-color: #0056b3 !important;
+  }
+  
+  .custom-login-btn:focus,
+  .custom-login-btn:active {
+    color: #ffffff !important;
+    background-color: #0056b3 !important;
+    border-color: #0056b3 !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5) !important;
+  }

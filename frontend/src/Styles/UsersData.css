@@ -1,0 +1,130 @@
+
+.users-data-container {
+    padding: 20px;
+    background: linear-gradient(135deg, #f0f4f8 0%, #e6f0fa 100%);
+    min-height: 100vh;
+}
+
+
+.custom-table {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 51, 102, 0.1);
+    overflow: hidden;
+}
+
+.custom-table .ant-table-thead > tr > th {
+    background: #2c3e50;
+    color: #fff;
+    font-weight: 600;
+    border-bottom: 2px solid #4a90e2;
+}
+
+.custom-table .ant-table-tbody > tr:hover > td {
+    background: #f0f7ff;
+    transition: background 0.3s ease;
+}
+
+.custom-table .ant-table-tbody > tr > td {
+    border-bottom: 1px solid #e6e9ec;
+}
+
+.table-column {
+    color: #333;
+}
+
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-btn {
+    background: #4a90e2 !important;
+    border-color: #4a90e2 !important;
+    color: #fff !important;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.edit-btn:hover {
+    background: #5aa1ff !important;
+    border-color: #5aa1ff !important;
+}
+
+.delete-btn {
+    background: #ff6b6b !important;
+    border-color: #ff6b6b !important;
+    color: #fff !important;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: #ff8787 !important;
+    border-color: #ff8787 !important;
+}
+
+.add-user-btn {
+    background: #2ecc71;
+    border-color: #2ecc71;
+    color: #fff;
+    border-radius: 6px;
+    padding: 8px 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    height: 40px; 
+    width: 120px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+.add-user-btn:hover {
+    background: #34d67c;
+    border-color: #34d67c;
+    color: #fff;
+}
+
+.modal-title {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.custom-form .ant-form-item-label > label {
+    color: #4a90e2;
+    font-weight: 500;
+}
+
+.custom-input, .custom-select {
+    border-radius: 4px;
+    border: 1px solid #b3cde0;
+    transition: all 0.3s ease;
+}
+
+.custom-input:focus, .custom-select:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+}
+
+.modal-ok-btn {
+    background: #4a90e2;
+    border-color: #4a90e2;
+    border-radius: 4px;
+}
+
+.modal-ok-btn:hover {
+    background: #5aa1ff;
+    border-color: #5aa1ff;
+}
+
+.modal-cancel-btn {
+    border-radius: 4px;
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.modal-cancel-btn:hover {
+    color: #ff8787;
+    border-color: #ff8787;
+}
