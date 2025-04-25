@@ -1,0 +1,9 @@
+.pwd-cell {
+    border: none;
+    background: transparent;
+    width: 8ch;
+  }
+  .pwd-toggle-btn {
+    margin-left: 0.5rem;
+  }
+  

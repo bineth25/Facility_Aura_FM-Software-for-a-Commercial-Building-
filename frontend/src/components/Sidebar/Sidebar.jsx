@@ -12,8 +12,8 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <img src="https://via.placeholder.com/50" alt="Logo" className="logo" />
-        <h3>OfficeAura</h3>
+      <img src="/favicon.ico" alt="Logo" className="logo" />
+        <h3>FacilityAura</h3>
       </div>
 
       <h4 className="menu-title">MENU</h4>

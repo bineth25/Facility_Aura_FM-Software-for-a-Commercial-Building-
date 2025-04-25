@@ -1,0 +1,113 @@
+
+
+
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 20px;
+  }
+
+  .profile-card {
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #fff;
+  }
+
+  .profile-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+  }
+
+  .profile-form {
+    width: 100%;
+  }
+  
+
+  .custom-input {
+    height: 48px; 
+    font-size: 16px; 
+    border-radius: 6px;
+    border: 1px solid #d9d9d9;
+    padding: 0 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .custom-input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  }
+
+  .custom-select {
+    height: 48px; 
+    font-size: 16px;
+  }
+  
+  .custom-select .ant-select-selector {
+    height: 48px !important; 
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    border: 1px solid #d9d9d9;
+    transition: all 0.3s ease;
+  }
+  
+  .custom-select .ant-select-selector:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  }
+  
+
+  .form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .update-btn {
+    width: 48%;
+    height: 40px;
+    background: #4a90e2;
+    border-color: #4a90e2;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .update-btn:hover {
+    background: #5aa1ff;
+    border-color: #5aa1ff;
+  }
+  
+
+  .delete-btn {
+    width: 48%;
+    height: 40px;
+    background: #ff4d4f;
+    border-color: #ff4d4f;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .delete-btn:hover {
+    background: #ff7875;
+    border-color: #ff7875;
+  }
+  
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 18px;
+    color: #2c3e50;
+  }
