@@ -197,8 +197,8 @@ const Tenant = () => {
                 <p><strong>Phone:</strong> {tenant.phone}</p>
                 <p><strong>Address:</strong> {tenant.address}</p>
                 <p><strong>Other Details:</strong> {tenant.description}</p>
-                <p><strong>Lease Start Date:</strong> {tenant.leaseStartDate}</p>
-                <p><strong>Lease End Date:</strong> {tenant.leaseEndDate}</p>
+                <p><strong>Lease Start Date:</strong> {new Date(tenant.leaseStartDate).toLocaleDateString()}</p>
+                <p><strong>Lease End Date:</strong> {new Date(tenant.leaseEndDate).toLocaleDateString()}</p>
                 
               </div>
               <div className="tenant-actions">
