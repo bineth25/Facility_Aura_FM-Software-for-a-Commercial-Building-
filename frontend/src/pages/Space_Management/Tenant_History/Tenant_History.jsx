@@ -191,6 +191,7 @@ const Tenant = () => {
               <div>
                 <h3>{tenant.name}</h3>
                 <p><strong>Tenant ID:</strong> {tenant.Tenant_ID}</p>
+                <p><strong>Space ID:</strong> {tenant.spaceId}</p>
                 <p><strong>NIC:</strong> {tenant.nic}</p>
                 <p><strong>Email:</strong> {tenant.email}</p>
                 <p><strong>Phone:</strong> {tenant.phone}</p>
@@ -198,6 +199,7 @@ const Tenant = () => {
                 <p><strong>Other Details:</strong> {tenant.description}</p>
                 <p><strong>Lease Start Date:</strong> {tenant.leaseStartDate}</p>
                 <p><strong>Lease End Date:</strong> {tenant.leaseEndDate}</p>
+                
               </div>
               <div className="tenant-actions">
                 <button onClick={() => handleTenantSelect(tenant)}>Edit</button>
