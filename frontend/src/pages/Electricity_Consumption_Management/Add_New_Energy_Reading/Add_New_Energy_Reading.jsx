@@ -52,20 +52,27 @@ const AddNewEnergyReading = () => {
         return;
     }
 
-
-     // NEW ALERT CHECK ADDED HERE
-  const selectedCategoryLimit = categoryLimits.find(
-    (limit) => limit.category === formData.category
-  );
-  if (selectedCategoryLimit) {
-    const readingValue = parseFloat(formData.reading);
-    if (readingValue > selectedCategoryLimit.maxConsumptionLimit) {
-      // alert(
-      //   `Warning: The entered reading for ${formData.category} exceeds the maximum allowed limit of ${selectedCategoryLimit.maxConsumptionLimit}.`
-      // );
-      toast.error(`Warning: The entered reading for ${formData.category} exceeds the maximum allowed limit of ${selectedCategoryLimit.maxConsumptionLimit}.`);
+    // Check if the month is the current month
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const currentMonth = months[new Date().getMonth()];
+    if (formData.month !== currentMonth) {
+        setError(`Please enter the current month (${currentMonth}) for energy details.`);
+        return;
     }
-  }
+
+    // NEW ALERT CHECK ADDED HERE
+    const selectedCategoryLimit = categoryLimits.find(
+      (limit) => limit.category === formData.category
+    );
+    if (selectedCategoryLimit) {
+      const readingValue = parseFloat(formData.reading);
+      if (readingValue > selectedCategoryLimit.maxConsumptionLimit) {
+        // alert(
+        //   `Warning: The entered reading for ${formData.category} exceeds the maximum allowed limit of ${selectedCategoryLimit.maxConsumptionLimit}.`
+        // );
+        toast.error(`Warning: The entered reading for ${formData.category} exceeds the maximum allowed limit of ${selectedCategoryLimit.maxConsumptionLimit}.`);
+      }
+    }
 
     try {
         const response = await fetch('http://localhost:4000/api/energyReadings/add', {
@@ -101,12 +108,12 @@ const AddNewEnergyReading = () => {
 
 
   return (
-    <div className="add-energy-reading-container">
-      <h1>Energy Management Dashboard</h1>
+    <div className="energy-reading-wrapper">
+      <h1 className="energy-main-title">Energy Management Dashboard</h1>
 
-      <h3 style={{ color: 'blue' }}>Add New Energy Reading</h3>
-      <form onSubmit={handleSubmit} className="energy-form">
-        <div className="form-group">
+      <h3 className="energy-subtitle">Add New Energy Reading</h3>
+      <form onSubmit={handleSubmit} className="energy-entry-form">
+        <div className="energy-form-field">
           <label htmlFor="year">Year:</label>
           <select
             name="year"
@@ -121,7 +128,7 @@ const AddNewEnergyReading = () => {
           </select>
         </div>
 
-        <div className="form-group">
+        <div className="energy-form-field">
           <label htmlFor="month">Month:</label>
           <select
             name="month"
@@ -136,7 +143,7 @@ const AddNewEnergyReading = () => {
           </select>
         </div>
 
-        <div className="form-group">
+        <div className="energy-form-field">
           <label htmlFor="floor">Floor:</label>
           <select
             name="floor"
@@ -151,7 +158,7 @@ const AddNewEnergyReading = () => {
           </select>
         </div>
 
-        <div className="form-group">
+        <div className="energy-form-field">
           <label htmlFor="category">Category:</label>
           <select
             name="category"
@@ -167,7 +174,7 @@ const AddNewEnergyReading = () => {
           </select>
         </div>
 
-        <div className="form-group">
+        <div className="energy-form-field">
           <label htmlFor="reading">Reading:</label>
           <input
             type="number"
@@ -179,17 +186,17 @@ const AddNewEnergyReading = () => {
           />
         </div>
 
-        {error && <div className="error-message">{error}</div>}
-        {successMessage && <div className="success-message">{successMessage}</div>}
+        {error && <div className="energy-error-message">{error}</div>}
+        {successMessage && <div className="energy-success-message">{successMessage}</div>}
 
-        <button type="submit" className="submit-btn">Submit</button>
+        <button type="submit" className="energy-submit-button">Submit</button>
       </form>
 
       {/* Display Energy Category Limits */}
-      <div className="category-limits-container">
-        <h3 style={{ color: 'navyblue' }}>Current Energy Category Limits</h3>
+      <div className="energy-limits-section">
+        <h3 className="energy-limits-title">Current Energy Category Limits</h3>
         {categoryLimits.map((limit) => (
-          <div key={limit.category} className="category-limit">
+          <div key={limit.category} className="energy-limit-item">
             <span>{limit.category}</span>
             <span>Max Limit: {limit.maxConsumptionLimit}</span>
           </div>
