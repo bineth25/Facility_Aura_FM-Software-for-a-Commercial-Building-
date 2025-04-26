@@ -24,12 +24,14 @@ export const addTenantToSpace = async (req, res) => {
       address: tenantData.address,
       description: tenantData.description,
       leaseStartDate: tenantData.leaseStartDate,
-      leaseEndDate: tenantData.leaseEndDate
+      leaseEndDate: tenantData.leaseEndDate,
+      spaceId: spaceId 
     });
 
     await tenant.save();  
 
     space.isAvailable = false;
+    space.tenant = tenant._id; 
     await space.save();
 
     res.status(200).json({
@@ -65,7 +67,6 @@ export const removeTenantFromSpace = async (req, res) => {
     space.tenant = null;
     await space.save();
 
-   
     await tenant.remove();
 
     res.status(200).json({ message: 'Tenant removed from space successfully' });

@@ -275,5 +275,14 @@ body {
     margin-top: 15px;
   }
 
-
+  .read-only-input {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+  }
   
+  .info-text {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+  }

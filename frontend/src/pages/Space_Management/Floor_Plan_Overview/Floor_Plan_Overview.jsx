@@ -51,12 +51,30 @@ const Floor_Plan_Overview = () => {
     setFilteredSpaces(filtered);
   };
 
+  // Add this function to generate tenant ID
+const generateTenantId = () => {
+  const randomNum = Math.floor(100 + Math.random() * 900); // Generates number between 100-999
+  return `T${randomNum}`;
+};
+
   // Handle selecting a space
   const handleSpaceSelect = (space) => {
     setSelectedSpace(space);
     setShowTenantModal(false);
     setErrors({});
-    setTenantIdExists(false); 
+    setTenantIdExists(false);
+    // Reset tenant data with new generated ID when space is selected
+    setTenantData({
+      Tenant_ID: generateTenantId(),
+      name: '',
+      nic: '',
+      email: '',
+      phone: '',
+      address: '',
+      description: '',
+      leaseStartDate: '',
+      leaseEndDate: ''
+    });
   };
 
   const checkTenantIdExists = async (tenantId) => {
@@ -152,27 +170,25 @@ const Floor_Plan_Overview = () => {
       alert('Please fix the errors before submitting.');
       return;
     }
-
-    // Check if Tenant ID already exists
-    const exists = await checkTenantIdExists(tenantData.Tenant_ID);
-    setTenantIdExists(exists); // Update the state
-
-    if (exists) {
-      alert('Tenant ID already exists. Please use a different Tenant ID.');
-      return;
-    }
-
+  
     try {
+      // Create tenant data object including spaceId
+      const tenantWithSpaceData = {
+        ...tenantData,
+        spaceId: selectedSpace.spaceId // Add space ID to tenant data
+      };
+  
       await axios.post('http://localhost:4000/api/tenants/addTenantToSpace', {
         spaceId: selectedSpace.spaceId,
-        tenantData: tenantData,
+        tenantData: tenantWithSpaceData,
         tenantId: tenantData.Tenant_ID,
       });
+      
       alert('Tenant added successfully!');
       setShowTenantModal(false);
       setSelectedSpace(null);
       setTenantData({
-        Tenant_ID: '',
+        Tenant_ID: generateTenantId(), // Generate new ID for next tenant
         name: '',
         nic: '',
         email: '',
@@ -182,7 +198,7 @@ const Floor_Plan_Overview = () => {
         leaseStartDate: '',
         leaseEndDate: ''
       });
-
+  
       await fetchSpaces();
     } catch (error) {
       console.error('Error adding tenant:', error);
@@ -281,11 +297,10 @@ const Floor_Plan_Overview = () => {
                 type="text"
                 name="Tenant_ID"
                 value={tenantData.Tenant_ID}
-                onChange={handleInputChange}
-                placeholder="T001" 
+                readOnly 
+                className="read-only-input" 
               />
-              {errors.Tenant_ID && <span className="error-message">{errors.Tenant_ID}</span>}
-              {tenantIdExists && <span className="error-message">Tenant ID already exists. Please use a different Tenant ID.</span>}
+              <p className="info-text">(Auto-generated Tenant ID)</p>
 
               <label>Name:</label>
               <input
