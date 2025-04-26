@@ -1,13 +1,17 @@
 import express from 'express';
-import {addTenant, getAllTenants, getTenantById, updateTenantById, deleteTenantById} from '../controllers/Tenants_Controller.js';
-const tenantRouter = express.Router();
+import { addTenantToSpace, updateTenantInfo, removeTenantFromSpace, getAllTenants, deleteTenant, checkTenantId } from '../controllers/Tenants_Controller.js';
 
-// Define routes and link them to the controller functions
-tenantRouter.post('/add', addTenant);
-tenantRouter.get('/', getAllTenants);
-tenantRouter.get('/:id', getTenantById);
-tenantRouter.put('/update/:id', updateTenantById);
-tenantRouter.delete('/delete/:id', deleteTenantById);
+const router = express.Router();
 
-export default tenantRouter;
+// Define routes for tenant management
+router.post('/addTenantToSpace', addTenantToSpace);
+router.post('/updateTenantInfo', updateTenantInfo);
+router.post('/removeTenantFromSpace', removeTenantFromSpace);
+router.get('/', getAllTenants); // Fetch all tenants
+router.delete('/:tenantId', deleteTenant); // Delete a tenant
+router.get('/checkTenantId/:tenantId', checkTenantId);
+
+export default router;
+
+
 

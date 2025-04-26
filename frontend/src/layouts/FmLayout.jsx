@@ -9,9 +9,9 @@ import { getCurrentUser } from '../services/auth'
 // — FM page imports —
 import Floor_Plan_Overview from '../pages/Space_Management/Floor_Plan_Overview/Floor_Plan_Overview'
 import Notification from '../pages/Space_Management/Notification/Notification'
-import Space_Allocation from '../pages/Space_Management/Space_Allocation/Space_Allocation'
 import Tenant_History from '../pages/Space_Management/Tenant_History/Tenant_History'
 import Space_Utilization_Dashboard from '../pages/Space_Management/Space_Utilization_Dashboard/Space_Utilization_Dashboard'
+import More_Space_Details from '../pages/Space_Management/More_ Space _Details/More_ Space _Details'
 
 import Emergency_Equipment_Inventory from '../pages/Inventory_Management/Emergency_Equipment_Inventory/Emergency_Equipment_Inventory'
 import Inventory_issuing_Request from '../pages/Inventory_Management/Inventory_issuing_Request/Inventory_issuing_Request'
@@ -50,9 +50,9 @@ export default function FmLayout() {
           <Routes>
             <Route path="/space-utilization" element={<Space_Utilization_Dashboard />} />
             <Route path="/floor-plan-overview" element={<Floor_Plan_Overview />} />
-            <Route path="/space-allocation" element={<Space_Allocation />} />
             <Route path="/notification" element={<Notification />} />
             <Route path="/tenant-history" element={<Tenant_History />} />
+            <Route path="/More_Space_Details" element={<More_Space_Details />} />
 
             <Route path="/Emergency_Equipment_Inventory" element={<Emergency_Equipment_Inventory />} />
             <Route path="/Inventory_issuing_Request" element={<Inventory_issuing_Request />} />
