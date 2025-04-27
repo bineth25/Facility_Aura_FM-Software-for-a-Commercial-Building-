@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import './Tenant_History.css';
 
 const Tenant = () => {
@@ -28,13 +29,11 @@ const Tenant = () => {
         console.error('Error fetching tenants:', error);
       }
     };
-
     fetchTenants();
   }, []);
 
   const validateField = (name, value) => {
     const newErrors = { ...errors };
-
     switch (name) {
       case 'Tenant_ID':
         if (!/^[A-Za-z0-9]+$/.test(value)) {
@@ -74,7 +73,7 @@ const Tenant = () => {
       case 'phone':
         const trimmedValue = value.trim();
         if (!/^\d{10}$/.test(trimmedValue)) {
-          newErrors.phone = 'Phone number must be exactly 10 digits and contain only numbers';
+          newErrors.phone = 'Phone number must be exactly 10 digits';
         } else {
           delete newErrors.phone;
         }
@@ -91,23 +90,12 @@ const Tenant = () => {
       default:
         break;
     }
-
     setErrors(newErrors);
   };
 
   const handleTenantSelect = (tenant) => {
     setSelectedTenant(tenant);
-    setTenantData({
-      Tenant_ID: tenant.Tenant_ID,
-      name: tenant.name,
-      nic: tenant.nic,
-      email: tenant.email,
-      phone: tenant.phone,
-      address: tenant.address,
-      description: tenant.description,
-      leaseStartDate: tenant.leaseStartDate,
-      leaseEndDate: tenant.leaseEndDate
-    });
+    setTenantData({ ...tenant });
     setIsModalOpen(true);
   };
 
@@ -119,7 +107,7 @@ const Tenant = () => {
           tenantId: tenantData.Tenant_ID,
           tenantData: tenantData
         });
-        alert('Tenant information updated successfully!');
+        Swal.fire('Success', 'Tenant information updated successfully!', 'success');
         setIsModalOpen(false);
         setSelectedTenant(null);
         setTenantData({
@@ -137,23 +125,35 @@ const Tenant = () => {
         setTenants(response.data);
       } catch (error) {
         console.error('Error updating tenant information:', error);
-        alert('Error updating tenant information');
+        Swal.fire('Error', 'Error updating tenant information.', 'error');
       }
     } else {
-      alert('Please fix the errors before submitting.');
+      Swal.fire('Validation Error', 'Please fix the errors before submitting.', 'warning');
     }
   };
 
   const handleDeleteTenant = async (tenantId) => {
-    try {
-      await axios.delete(`http://localhost:4000/api/tenants/${tenantId}`);
-      confirm('Tenant deleted successfully!');
-      const response = await axios.get('http://localhost:4000/api/tenants');
-      setTenants(response.data);
-    } catch (error) {
-      console.error('Error deleting tenant:', error);
-      alert('Error deleting tenant');
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`http://localhost:4000/api/tenants/${tenantId}`);
+          Swal.fire('Deleted!', 'Tenant has been deleted.', 'success');
+          const response = await axios.get('http://localhost:4000/api/tenants');
+          setTenants(response.data);
+        } catch (error) {
+          console.error('Error deleting tenant:', error);
+          Swal.fire('Error', 'Error deleting tenant', 'error');
+        }
+      }
+    });
   };
 
   const closeModal = () => {
@@ -182,9 +182,7 @@ const Tenant = () => {
   return (
     <div className="tenant-containers">
       <h1>All Tenant Details</h1>
-
       <div className="tenant-list">
-        
         <ul>
           {tenants.map((tenant) => (
             <li key={tenant._id} className="tenant-item">
@@ -199,7 +197,6 @@ const Tenant = () => {
                 <p><strong>Other Details:</strong> {tenant.description}</p>
                 <p><strong>Lease Start Date:</strong> {new Date(tenant.leaseStartDate).toLocaleDateString()}</p>
                 <p><strong>Lease End Date:</strong> {new Date(tenant.leaseEndDate).toLocaleDateString()}</p>
-                
               </div>
               <div className="tenant-actions">
                 <button onClick={() => handleTenantSelect(tenant)}>Edit</button>
@@ -215,96 +212,22 @@ const Tenant = () => {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>Update Tenant Information</h2>
             <form onSubmit={handleUpdateTenant}>
-              <label>
-                Tenant ID:
-                <input
-                  type="text"
-                  name="Tenant_ID"
-                  value={tenantData.Tenant_ID}
-                  readOnly
-                />
-              </label>
-              <label>
-                Name:
-                <input
-                  type="text"
-                  name="name"
-                  value={tenantData.name}
-                  onChange={handleInputChange}
-                />
-                {errors.name && <span className="error">{errors.name}</span>}
-              </label>
-              <label>
-                NIC:
-                <input
-                  type="text"
-                  name="nic"
-                  value={tenantData.nic}
-                  onChange={handleInputChange}
-                />
-                {errors.nic && <span className="error">{errors.nic}</span>}
-              </label>
-              <label>
-                Email:
-                <input
-                  type="email"
-                  name="email"
-                  value={tenantData.email}
-                  onChange={handleInputChange}
-                />
-                {errors.email && <span className="error">{errors.email}</span>}
-              </label>
-              <label>
-                Phone:
-                <input
-                  type="text"
-                  name="phone"
-                  value={tenantData.phone}
-                  onChange={handleInputChange}
-                />
-                {errors.phone && <span className="error">{errors.phone}</span>}
-              </label>
-              <label>
-                Address:
-                <input
-                  type="text"
-                  name="address"
-                  value={tenantData.address}
-                  onChange={handleInputChange}
-                />
-              </label>
-              <label>
-                Description:
-                <input
-                  type="text"
-                  name="description"
-                  value={tenantData.description}
-                  onChange={handleInputChange}
-                />
-              </label>
-              <label>
-                Lease Start Date:
-                <input
-                  type="date"
-                  name="leaseStartDate"
-                  value={tenantData.leaseStartDate}
-                  onChange={handleInputChange}
-                  min={new Date().toISOString().split('T')[0]}
-                />
-                {errors.leaseStartDate && <span className="error">{errors.leaseStartDate}</span>}
-              </label>
-              <label>
-                Lease End Date:
-                <input
-                  type="date"
-                  name="leaseEndDate"
-                  value={tenantData.leaseEndDate}
-                  onChange={handleInputChange}
-                  min={tenantData.leaseStartDate || new Date().toISOString().split('T')[0]}
-                />
-                {errors.leaseEndDate && <span className="error">{errors.leaseEndDate}</span>}
-              </label>
-              <button type="submit">Update Tenant Details</button>
+              {['Tenant_ID', 'name', 'nic', 'email', 'phone', 'address', 'description', 'leaseStartDate', 'leaseEndDate'].map((field) => (
+                <label key={field}>
+                  {field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:
+                  <input
+                    type={field.includes('Date') ? 'date' : 'text'}
+                    name={field}
+                    value={tenantData[field]}
+                    onChange={handleInputChange}
+                    readOnly={field === 'Tenant_ID' || field === 'leaseStartDate'}  // ➡️ Lease Start Date also readonly now
+                    min={field.includes('Date') ? (field === 'leaseEndDate' ? tenantData.leaseStartDate || new Date().toISOString().split('T')[0] : undefined) : undefined}
+                  />
+                  {errors[field] && <span className="error">{errors[field]}</span>}
+                </label>
+              ))}
+
+              <button type="submit">Update</button>
               <button type="button" onClick={closeModal}>Cancel</button>
             </form>
           </div>
