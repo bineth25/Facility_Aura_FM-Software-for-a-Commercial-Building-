@@ -3,13 +3,8 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-
 import QRCode from 'react-qr-code';
 import axios from 'axios';
-
-
-
-
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -19,24 +14,19 @@ const Energy_Consumption_Analysis = () => {
     const [category, setCategory] = useState('');
     const [energyData, setEnergyData] = useState([]);
     const [loading, setLoading] = useState(false);
-
-    const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
-
-
-    const [qrData, setQrData] = useState(''); // New state to hold QR code data
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [qrData, setQrData] = useState('');
 
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'];
 
     useEffect(() => {
         // Reset the energy data when filters change
-        setEnergyData([]); 
+        setEnergyData([]);
         
         // Fetch the new data if all filters are set
         if (year && month && category) fetchEnergyData();
-    }, [year, month, category]); // This ensures the chart updates when filters change
-        
+    }, [year, month, category]);
 
     const fetchEnergyData = async () => {
         if (!year || !month || !category) return;
@@ -45,7 +35,7 @@ const Energy_Consumption_Analysis = () => {
             const response = await axios.get('http://localhost:4000/api/energyReadings', {
                 params: { year, month, category }
             });
-            console.log('API Response:', response.data); // Log the API response for debugging
+            console.log('API Response:', response.data);
             setEnergyData(response.data);
         } catch (error) {
             console.error('Error fetching energy data:', error);
@@ -57,10 +47,10 @@ const Energy_Consumption_Analysis = () => {
     // Process data to include all floors with proper ordering
     const floors = Array.from({ length: 7 }, (_, i) => i + 1); // Assuming 7 floors
     const processedData = floors.map(floor => {
-        const floorData = energyData.find(d => d.floor === floor); // Find the data for the current floor
+        const floorData = energyData.find(d => d.floor === floor);
         return {
-            reading: floorData?.reading || 0, // If no data, use 0
-            isExceeded: floorData?.isExceeded || false // Default to false if no data
+            reading: floorData?.reading || 0,
+            isExceeded: floorData?.isExceeded || false
         };
     });
 
@@ -70,13 +60,13 @@ const Energy_Consumption_Analysis = () => {
             label: 'Energy Consumption',
             data: processedData.map(d => d.reading),
             backgroundColor: processedData.map(d => 
-                d.isExceeded ? 'rgba(255, 99, 132, 0.8)' : 'rgba(54, 162, 235, 0.8)'
+                d.isExceeded ? 'rgba(239, 83, 80, 0.85)' : 'rgba(38, 166, 154, 0.85)'
             ),
             borderColor: 'rgba(0, 0, 0, 0.1)',
             borderWidth: 1,
-            borderRadius: 4,
+            borderRadius: 6,
             hoverBackgroundColor: processedData.map(d => 
-                d.isExceeded ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)'
+                d.isExceeded ? 'rgba(239, 83, 80, 1)' : 'rgba(38, 166, 154, 1)'
             ),
         }]
     };
@@ -87,7 +77,8 @@ const Energy_Consumption_Analysis = () => {
             title: {
                 display: true,
                 text: `Energy Consumption Analysis - ${category} (${month} ${year})`,
-                font: { size: 18 }
+                font: { size: 18, weight: 'bold' },
+                padding: { top: 10, bottom: 20 }
             },
             legend: {
                 display: false
@@ -95,6 +86,8 @@ const Energy_Consumption_Analysis = () => {
             tooltip: {
                 backgroundColor: 'rgba(0,0,0,0.8)',
                 bodyFont: { size: 14 },
+                padding: 12,
+                cornerRadius: 6,
                 callbacks: {
                     label: (context) => {
                         const floor = context.label.replace('Floor ', '');
@@ -112,7 +105,8 @@ const Energy_Consumption_Analysis = () => {
                 title: {
                     display: true,
                     text: 'Floor Number',
-                    font: { weight: 'bold' }
+                    font: { weight: 'bold', size: 14 },
+                    padding: { top: 10 }
                 }
             },
             y: {
@@ -120,7 +114,8 @@ const Energy_Consumption_Analysis = () => {
                 title: {
                     display: true,
                     text: 'Energy Consumption (kWh)',
-                    font: { weight: 'bold' }
+                    font: { weight: 'bold', size: 14 },
+                    padding: { bottom: 10 }
                 },
                 beginAtZero: true
             }
@@ -131,43 +126,54 @@ const Energy_Consumption_Analysis = () => {
         }
     };
 
-    /*useEffect(() => {
-        if (year && month && category) fetchEnergyData();
-    }, [year, month, category]); // This ensures the chart updates when filters change*/
-
     const fetchAvgConsumptionData = async () => {
-        if (!year ||  !category) return;
+        if (!year || !category) return;
         setLoading(true);
         try {
             const response = await axios.get('http://localhost:4000/api/energyReadings/avg', {
                 params: { year, category }
             });
+    
+            // Sort the response data by floor number ascending
+            const sortedData = response.data.sort((a, b) => a.floor - b.floor);
+    
+            // Compressed data for the URL parameter
+            const reportData = {
+                c: category, // category
+                y: year,     // year
+                f: sortedData.map(f => ({
+                    n: f.floor,                    // floor number
+                    r: parseFloat(f.averageReading.toFixed(2)), // reading
+                    e: f.exceeded ? 1 : 0           // exceeded flag
+                }))
+            };
             
-            // Format data to generate summary for QR
-            const summary = response.data.map(floorData => {
-                const exceeded = String(floorData.exceeded).toLowerCase() === 'true';
-                const exceededText = exceeded ? ' (Exceeded Limit)' : '';
-                return `Floor ${floorData.floor}: ${category} ${floorData.averageReading} kWh${exceededText}`;
-            }).join('\n');
-            
-            
-            
-            setQrData(summary); // Set the summary to be encoded in the QR code
+            const viewerUrl = `https://jayasankahirimuthugodage.github.io/energy-report-viewer/?data=${encodeURIComponent(JSON.stringify(reportData))}`;
+    
+            // Create a simple text summary version
+            const textVersion = sortedData.map(floor => 
+                `Floor ${floor.floor}: ${floor.averageReading.toFixed(2)} kWh${floor.exceeded ? ' (Exceeded)' : ''}`
+            ).join('\n');
+    
+            // Combine both into the QR code data
+            const qrContent = `🔵 View as Web: ${viewerUrl}\n🟢 View as Text:\n${textVersion}`;
+    
+            // Set the combined data into QR
+            setQrData(qrContent);
+    
         } catch (error) {
-            console.error('Error fetching average consumption data:', error);
+            console.error('Error fetching avg consumption data:', error);
         } finally {
             setLoading(false);
         }
     };
-
-    const handleQRCodeClick = () => {
-        setIsModalOpen(true); // Open the modal
-    };
+    
+    
+    
     
     const closeModal = () => {
-        setIsModalOpen(false); // Close the modal
+        setIsModalOpen(false);
     };
-
 
     const generatePDF = async () => {
         if (!year || !category) return;
@@ -185,14 +191,17 @@ const Energy_Consumption_Analysis = () => {
             doc.text(`Year: ${year}`, 14, 30);
             doc.text(`Category: ${category}`, 14, 38);
     
-            const tableRows = response.data.map((floorData, index) => [
+            // 🔥 Sort the response data by floor number before creating table rows
+            const sortedData = response.data.sort((a, b) => a.floor - b.floor);
+    
+            const tableRows = sortedData.map((floorData, index) => [
                 index + 1,
                 `Floor ${floorData.floor}`,
                 `${floorData.averageReading.toFixed(2)} kWh`,
                 floorData.exceeded ? 'Yes' : 'No'
             ]);
     
-            autoTable(doc,{
+            autoTable(doc, {
                 head: [['#', 'Floor', 'Avg. Consumption', 'Exceeded Limit']],
                 body: tableRows,
                 startY: 45,
@@ -204,127 +213,201 @@ const Energy_Consumption_Analysis = () => {
         }
     };
     
-    
-    
 
     return (
-        <div className="p-6 max-w-6xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6 text-gray-800">
-                Energy Consumption Analysis
-            </h1>
+        <div className="eca_container">
+            <header className="eca_header">
+                <h1 className="eca_title">Energy Consumption Analysis</h1>
+            </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <select 
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
-                    className="p-2 border rounded-lg bg-white"
-                >
-                    <option value="">Select Year</option>
-                    {Array.from({ length: 27 }, (_, i) => 2024 + i).map(year => (
-                        <option key={year} value={year}>{year}</option>
-                    ))}
-                </select>
+            <div className="eca_content">
+                <div className="eca_sidebar">
+                    <div className="eca_card">
+                        <h2 className="eca_card_title">Analysis Filters</h2>
+                        <div className="eca_filter_group">
+                            <div className="eca_filter_item">
+                                <label className="eca_filter_label" htmlFor="year-select">Year</label>
+                                <select 
+                                    id="year-select"
+                                    value={year}
+                                    onChange={(e) => setYear(e.target.value)}
+                                    className="eca_select"
+                                >
+                                    <option value="">Select Year</option>
+                                    {Array.from({ length: 27 }, (_, i) => 2024 + i).map(year => (
+                                        <option key={year} value={year}>{year}</option>
+                                    ))}
+                                </select>
+                            </div>
 
-                <select 
-                    value={month}
-                    onChange={(e) => setMonth(e.target.value)}
-                    className="p-2 border rounded-lg bg-white"
-                >
-                    <option value="">Select Month</option>
-                    {monthNames.map(month => (
-                        <option key={month} value={month}>{month}</option>
-                    ))}
-                </select>
+                            <div className="eca_filter_item">
+                                <label className="eca_filter_label" htmlFor="month-select">Month</label>
+                                <select 
+                                    id="month-select"
+                                    value={month}
+                                    onChange={(e) => setMonth(e.target.value)}
+                                    className="eca_select"
+                                >
+                                    <option value="">Select Month</option>
+                                    {monthNames.map(month => (
+                                        <option key={month} value={month}>{month}</option>
+                                    ))}
+                                </select>
+                            </div>
 
-                <select 
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="p-2 border rounded-lg bg-white"
-                >
-                    <option value="">Select Category</option>
-                    {['HVAC', 'Lighting', 'Renewable'].map(cat => (
-                        <option key={cat} value={cat}>{cat}</option>
-                    ))}
-                </select>
-            </div>
-
-            <h4 style={{ color: "navy" }}>Select the year, month and energy category to view the energy consumption foor-wise</h4>
-            <br/>
-            <h4 style={{ color: "navy" }}>If you want to view the floor-wise average energy consumption for a selected energy category, and year choose <br/>
-            only the year and energy category</h4>
-
-
-            <button
-                onClick={generatePDF}
-                style={{
-                float: 'right',
-                marginTop: '16px',
-                marginRight: '10px',
-                padding: '8px',
-                backgroundColor: '#f4a742',
-                color: 'white',
-                borderRadius: '8px',
-                border: 'none'
-                }}
-            >
-            Generate PDF Report
-            </button>
-
-            
-            <button 
-                onClick={(e) => {
-                 e.preventDefault();
-                fetchAvgConsumptionData();
-                setIsModalOpen(true);
-                }}
-                    style={{
-                    float: 'right',
-                    marginTop: '16px',
-                    padding: '8px',
-                    backgroundColor: 'blue',
-                    color: 'white',
-                    borderRadius: '8px',
-                    border: 'none'
-                 }}
-            >
-                Scan the QR for report
-            </button>
-
-           
-         {/* Modal with QR Code */}
-    {isModalOpen && (
-        <div className="modal">
-            <div className="modal-content">
-            <span className="close" onClick={closeModal}>&times;</span>
-            {qrData && (
-                <div style={{ background: 'white', padding: '16px', borderRadius: '12px' }}>
-                <QRCode value={qrData} size={200} />
-                </div>
-            )}
-            </div>
-        </div>
-    )}
-
-
-            {loading ? (
-                <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Loading energy data...</p>
-                </div>
-            ) : energyData.length > 0 ? (
-                <div className="bg-white p-6 rounded-xl shadow-lg">
-                    <Bar 
-                        key={`${year}-${month}-${category}`} // Force re-render when filters change
-                        data={chartData} 
-                        options={chartOptions} 
-                    />
-                </div>
-            ) : (
-                year && month && category && (
-                    <div className="text-center py-8 text-gray-500">
-                        No data available for selected filters
+                            <div className="eca_filter_item">
+                                <label className="eca_filter_label" htmlFor="category-select">Category</label>
+                                <select 
+                                    id="category-select"
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value)}
+                                    className="eca_select"
+                                >
+                                    <option value="">Select Category</option>
+                                    {['HVAC', 'Lighting', 'Renewable'].map(cat => (
+                                        <option key={cat} value={cat}>{cat}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                )
+
+                    <div className="eca_card">
+                        <h2 className="eca_card_title">Instructions</h2>
+                        <div className="eca_instruction_content">
+                            <p className="eca_instruction_item">
+                                <span className="eca_instruction_icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </span>
+                                Select year, month and category to view floor-wise consumption
+                            </p>
+                            <p className="eca_instruction_item">
+                                <span className="eca_instruction_icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </span>
+                                For average consumption, select only year and category
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="eca_card">
+                        <h2 className="eca_card_title">Export Options</h2>
+                        <div className="eca_action_buttons">
+                            <button
+                                onClick={generatePDF}
+                                className="eca_button eca_pdf_button"
+                                disabled={!year || !category}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="eca_button_icon">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                Generate PDF Report
+                            </button>
+                            
+                            <button 
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    fetchAvgConsumptionData();
+                                    setIsModalOpen(true);
+                                }}
+                                className="eca_button eca_qr_button"
+                                disabled={!year || !category}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="eca_button_icon">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <rect x="7" y="7" width="3" height="3"></rect>
+                                    <rect x="14" y="7" width="3" height="3"></rect>
+                                    <rect x="7" y="14" width="3" height="3"></rect>
+                                    <rect x="14" y="14" width="3" height="3"></rect>
+                                </svg>
+                                Scan QR for Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="eca_main">
+                    {loading ? (
+                        <div className="eca_card eca_loading">
+                            <div className="eca_spinner"></div>
+                            <p className="eca_loading_text">Loading energy data...</p>
+                        </div>
+                    ) : energyData.length > 0 ? (
+                        <div className="eca_card eca_chart_container">
+                            <Bar 
+                                key={`${year}-${month}-${category}`}
+                                data={chartData} 
+                                options={chartOptions} 
+                            />
+                            <div className="eca_legend">
+  <div className="eca_legend_item">
+    <span className="eca_legend_color eca_normal"></span>
+    <span className="eca_legend_text">Normal Consumption (Below Limit)</span>
+  </div>
+  <div className="eca_legend_item">
+    <span className="eca_legend_color eca_exceeded"></span>
+    <span className="eca_legend_text">Exceeded Consumption Limit</span>
+  </div>
+</div>
+
+                        </div>
+                    ) : (
+                        year && month && category && (
+                            <div className="eca_card eca_no_data">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                                <p>No data available for selected filters</p>
+                            </div>
+                        )
+                    )}
+                </div>
+            </div>
+            
+            {/* Modal with QR Code */}
+            {isModalOpen && (
+                <div className="eca_modal_overlay">
+                    <div className="eca_modal_container">
+                        <div className="eca_modal_header">
+                            <h3 className="eca_modal_title">Energy Report QR Code</h3>
+                            <button className="eca_modal_close" onClick={closeModal} aria-label="Close modal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <div className="eca_modal_body">
+                            {qrData ? (
+                                <div className="eca_qr_container">
+                                    <div className="eca_qr_wrapper">
+                                        <QRCode value={qrData} size={200} />
+                                    </div>
+                                    <p className="eca_qr_caption">Scan to view the detailed report</p>
+                                </div>
+                            ) : (
+                                <div className="eca_modal_loading">
+                                    <div className="eca_spinner"></div>
+                                    <p>Generating QR code...</p>
+                                </div>
+                            )}
+                        </div>
+                        <div className="eca_modal_footer">
+                            <button className="eca_button eca_modal_button" onClick={closeModal}>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
