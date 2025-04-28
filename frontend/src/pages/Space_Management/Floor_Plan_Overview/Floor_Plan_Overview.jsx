@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import './Floor_Plan_Overview.css';
 
 const Floor_Plan_Overview = () => {
@@ -80,12 +81,14 @@ const generateTenantId = () => {
   const checkTenantIdExists = async (tenantId) => {
     try {
       const response = await axios.get(`http://localhost:4000/api/tenants/checkTenantId/${tenantId}`);
-      return response.data.exists; 
+      return response.data.exists;
     } catch (error) {
       console.error('Error checking Tenant ID:', error);
+      Swal.fire('Error', 'Error checking Tenant ID.', 'error');
       return false;
     }
   };
+  
 
   // Validate tenant form fields in real-time
   const validateField = (name, value) => {
@@ -167,15 +170,14 @@ const generateTenantId = () => {
   const handleAddTenant = async (e) => {
     e.preventDefault();
     if (Object.keys(errors).length > 0) {
-      alert('Please fix the errors before submitting.');
+      Swal.fire('Validation Error', 'Please fix the errors before submitting.', 'warning');
       return;
     }
   
     try {
-      // Create tenant data object including spaceId
       const tenantWithSpaceData = {
         ...tenantData,
-        spaceId: selectedSpace.spaceId // Add space ID to tenant data
+        spaceId: selectedSpace.spaceId
       };
   
       await axios.post('http://localhost:4000/api/tenants/addTenantToSpace', {
@@ -183,12 +185,12 @@ const generateTenantId = () => {
         tenantData: tenantWithSpaceData,
         tenantId: tenantData.Tenant_ID,
       });
-      
-      alert('Tenant added successfully!');
+  
+      Swal.fire('Success', 'Tenant added successfully!', 'success');
       setShowTenantModal(false);
       setSelectedSpace(null);
       setTenantData({
-        Tenant_ID: generateTenantId(), // Generate new ID for next tenant
+        Tenant_ID: generateTenantId(),
         name: '',
         nic: '',
         email: '',
@@ -202,25 +204,27 @@ const generateTenantId = () => {
       await fetchSpaces();
     } catch (error) {
       console.error('Error adding tenant:', error);
-      alert('Error adding tenant');
+      Swal.fire('Error', 'Error adding tenant.', 'error');
     }
   };
+  
 
   // Toggle space availability
   const handleToggleAvailability = async () => {
     if (!selectedSpace) return;
-
+  
     try {
       await axios.put(`http://localhost:4000/api/spaces/availability/${selectedSpace.spaceId}`, {
         isAvailable: true,
       });
-      alert('Space availability updated successfully!');
+      Swal.fire('Success', 'Space availability updated successfully!', 'success');
       await fetchSpaces();
     } catch (error) {
       console.error('Error updating space availability:', error);
-      alert('Error updating space availability');
+      Swal.fire('Error', 'Error updating space availability.', 'error');
     }
   };
+  
 
   return (
     <div className="floor-plan-overview">
