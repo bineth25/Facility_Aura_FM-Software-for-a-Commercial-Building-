@@ -56,9 +56,10 @@ const Sidebar = () => {
       {openMenu === "spaceManagementDashboard" && (
         <div className="submenu">
           <NavLink to="/space-utilization" className="submenu-item">📊 Space Utilization Dashboard</NavLink>
-          <NavLink to="/floor-plan-overview" className="submenu-item">📏 Floor Plan Overview</NavLink>
-          <NavLink to="/notification" className="submenu-item">🔔 Notification</NavLink>
-          <NavLink to="/tenant-history" className="submenu-item">👥 Tenant History</NavLink>
+          <NavLink to="/floor-plan-overview" className="submenu-item">🏢 Floor Plan Overview</NavLink>
+          <NavLink to="/tenant-history" className="submenu-item">👥 Tenant Details</NavLink>
+          <NavLink to="/notification" className="submenu-item">🔔 Lease Expiry Notifications</NavLink>
+         
         </div>
       )}
 

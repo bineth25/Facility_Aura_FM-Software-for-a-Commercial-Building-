@@ -1,12 +1,11 @@
 .sidebar {
-  width: 250px;
+  width: 300px;
   height: 100%;
-  background-color:  #f3f3f3; 
+  background: linear-gradient(to bottom, #e0f7fa, #FFFFFF);
   padding: 10px;
   color: rgb(22, 19, 19);
   flex-shrink: 0;
   overflow-y: auto;
-
   
 }
 
@@ -14,30 +13,31 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 }
 
 .logo {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
 }
 
 h3 {
-  font-size: 20px;
-  margin: 0;
+  font-size: 22px;
+  margin-left: 10px;
+  font-weight: bold;
 }
 
 .menu-title {
   font-size: 18px;
   font-weight: bold;
   color: #1b1e20;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .menu-item {
   padding: 12px 15px;
   font-size: 16px;
-  background: #445b66; /* Improved contrast */
+  background: #1ba39c;
   border-radius: 5px;
   margin-bottom: 5px;
   cursor: pointer;
