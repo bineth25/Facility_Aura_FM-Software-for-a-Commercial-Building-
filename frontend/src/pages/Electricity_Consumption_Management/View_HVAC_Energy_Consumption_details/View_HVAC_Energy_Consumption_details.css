@@ -1,65 +1,66 @@
-.energy-consumption-container {
+.hvac_energy-consumption-container {
   padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-h1 {
+.hvac_energy-title {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.filters {
+.hvac_energy-filters {
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
 }
 
-.filters label {
+.hvac_energy-filters label {
   font-weight: bold;
 }
 
-.filters select {
+.hvac_energy-filters select {
   padding: 5px;
   margin-left: 5px;
 }
 
-.energy-table {
+.hvac_energy-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
-.energy-table th,
-.energy-table td {
+.hvac_energy-table th,
+.hvac_energy-table td {
   padding: 10px;
   text-align: center;
   border: 1px solid #ddd;
 }
 
-.energy-table th {
-  background-color: #f4f4f4;
+/* ✨ NEW: Header Styling */
+.hvac_energy-header-row {
+  background: linear-gradient(to right, #4CAF50, #81C784);
+  color: white;
+  font-size: 1rem;
 }
 
-.exceeded {
+.hvac_energy-exceeded {
   color: red;
   font-weight: bold;
 }
 
-.normal {
+.hvac_energy-normal {
   color: green;
   font-weight: normal;
 }
 
-.no-data-message {
-  color: #ff6f61;  
+.hvac_energy-no-data-message {
+  color: #ff6f61;
   font-size: 1.2em;
   margin: 20px 0;
   text-align: center;
 }
 
-
-
-.modal-backdrop {
+.hvac_energy-modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -73,7 +74,7 @@ h1 {
   font-family: Arial, sans-serif;
 }
 
-.modal {
+.hvac_energy-modal {
   background: white;
   padding: 25px 30px;
   border-radius: 6px;
@@ -83,41 +84,41 @@ h1 {
   flex-direction: column;
 }
 
-.modal h2 {
+.hvac_energy-modal h2 {
   text-align: center;
   margin-top: 0;
   margin-bottom: 20px;
 }
 
-.modal form {
+.hvac_energy-modal form {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: 10px;
   align-items: center;
 }
 
-.modal label {
+.hvac_energy-modal label {
   text-align: right;
   padding-right: 10px;
   font-weight: bold;
 }
 
-.modal input, 
-.modal select {
+.hvac_energy-modal input,
+.hvac_energy-modal select {
   width: 100%;
   padding: 6px 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.modal .button-container {
+.hvac_energy-button-container {
   display: flex;
   justify-content: flex-end;
   grid-column: 1 / span 2;
   margin-top: 20px;
 }
 
-button {
+.hvac_energy-button {
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -129,8 +130,36 @@ button {
   margin-left: 10px;
 }
 
-button.cancel {
+.hvac_energy-button.cancel {
   background-color: #f5f5f5;
   color: #333;
   border: 1px solid #ddd;
+}
+
+/* ✨ Added Edit and Delete Button Styles for HVAC Energy */
+
+/* Edit button style (HVAC Energy) */
+.hvac_energy-edit-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  background-color: #2196F3; /* Blue color for Edit */
+  color: white;
+  margin-left: 10px;
+}
+
+/* Delete button style (HVAC Energy) */
+.hvac_energy-delete-button {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  background-color: #f44336; /* Red color for Delete */
+  color: white;
+  margin-left: 10px;
 }
