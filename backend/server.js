@@ -1,18 +1,25 @@
-// backend/server.js
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import connectDB from './config/db.js'; // DB connection function
+import connectDB from './config/db.js';
+import bcrypt from 'bcrypt';
+
+import { errorLogger, errorResponder } from './middleware/errorMiddleware.js';
+import { checkRequiredEnvVars } from './config/envConfig.js';
+import { initializeEmailService } from './config/emailSender.js';
+
 import Tenants_Routes from './routes/Tenants_Routes.js';
 import spaceRoutes from './routes/spaceRoutes.js';
 import EnergyRoutes from './routes/EnergyRoutes.js';
 import CategoryLimitRoutes from './routes/CategoryLimitRoutes.js';
 import UserManagementRoutes from './controllers/UserController.js';
-
-import bcrypt from 'bcrypt';
 import User from './models/UserModel.js';
 
-dotenv.config(); // Load environment variables
+
+dotenv.config(); 
+
+// Check environment variables immediately
+checkRequiredEnvVars();
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -70,28 +77,35 @@ async function seedChandulaAdmin() {
 
 // 🚀 Start Server
 async function startServer() {
-  await connectDB();
-  await seedAdmin();         // .env admin
-  await seedChandulaAdmin(); // chandula@example.com admin
+  try {
+    await connectDB();
+    console.log('✅ Connected to MongoDB successfully');
+    
+    await seedAdmin();         // .env admin
+    await seedChandulaAdmin(); // chandula@example.com admin
 
-  // API routes
-  app.use("/api/spaces", spaceRoutes);
-  app.use('/api/tenants', Tenants_Routes);
-  app.use('/api/energyReadings', EnergyRoutes);
-  app.use('/api/categoryLimits', CategoryLimitRoutes);
-  app.use('/api/users', UserManagementRoutes);
+    // Initialize email service
+    initializeEmailService();
 
-  // Default route
-  app.get('/', (req, res) => {
-    res.status(200).send('Hello World');
-  });
+    // API routes
+    app.use("/api/spaces", spaceRoutes);
+    app.use('/api/tenants', Tenants_Routes);
+    app.use('/api/energyReadings', EnergyRoutes);
+    app.use('/api/categoryLimits', CategoryLimitRoutes);
+    app.use('/api/users', UserManagementRoutes);
 
-  // Start server
-  app.listen(port, () => {
-    console.log(`🚀 Server running on port: ${port}`);
-  });
+    // Error handling middleware (must be after routes)
+    app.use(errorLogger);
+    app.use(errorResponder);
+
+    // Start server
+    app.listen(port, () => {
+      console.log(`🚀 Server running on port: ${port}`);
+    });
+  } catch (error) {
+    console.error('\x1b[31m%s\x1b[0m', '❌ Failed to start server:', error);
+    process.exit(1);
+  }
 }
 
-startServer().catch(err => {
-  console.error('Failed to start server:', err);
-});
+startServer();
