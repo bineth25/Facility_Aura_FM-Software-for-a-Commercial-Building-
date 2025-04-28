@@ -1,12 +1,3 @@
-/* Home_Page.css */
-
-body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-}
-
 .home-container {
     display: flex;
     flex-direction: column;
@@ -14,19 +5,9 @@ body {
 }
 
 .home-header {
-    background-color: #027368;
-    color: white;
+    background-color: #ffffff;
     text-align: center;
-    padding: 30px 20px;
-}
-
-.home-header h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-}
-
-.home-header p {
-    font-size: 1.2rem;
+    padding: 0px;
 }
 
 .home-main {
@@ -48,9 +29,14 @@ body {
 }
 
 .home-footer {
-    background-color: #333;
+    background-color: #656565;
     color: white;
     text-align: center;
     padding: 15px 0;
     font-size: 0.9rem;
 }
+
+.home-logo {
+    width: 350px;
+    height: 350px;
+}   

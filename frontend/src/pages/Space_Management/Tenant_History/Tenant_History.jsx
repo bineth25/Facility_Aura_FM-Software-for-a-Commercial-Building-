@@ -188,15 +188,15 @@ const Tenant = () => {
             <li key={tenant._id} className="tenant-item">
               <div>
                 <h3>{tenant.name}</h3>
-                <p><strong>Tenant ID:</strong> {tenant.Tenant_ID}</p>
-                <p><strong>Space ID:</strong> {tenant.spaceId}</p>
-                <p><strong>NIC:</strong> {tenant.nic}</p>
-                <p><strong>Email:</strong> {tenant.email}</p>
-                <p><strong>Phone:</strong> {tenant.phone}</p>
-                <p><strong>Address:</strong> {tenant.address}</p>
-                <p><strong>Other Details:</strong> {tenant.description}</p>
-                <p><strong>Lease Start Date:</strong> {new Date(tenant.leaseStartDate).toLocaleDateString()}</p>
-                <p><strong>Lease End Date:</strong> {new Date(tenant.leaseEndDate).toLocaleDateString()}</p>
+                <p><strong>Tenant ID:</strong> &nbsp;&nbsp;{tenant.Tenant_ID}</p>
+                <p><strong>Space ID:</strong> &nbsp;&nbsp;{tenant.spaceId}</p>
+                <p><strong>NIC:</strong> &nbsp;&nbsp;{tenant.nic}</p>
+                <p><strong>Email:</strong> &nbsp;&nbsp;{tenant.email}</p>
+                <p><strong>Phone:</strong> &nbsp;&nbsp;{tenant.phone}</p>
+                <p><strong>Address:</strong> &nbsp;&nbsp;{tenant.address}</p>
+                <p><strong>Other Details:</strong> &nbsp;&nbsp;{tenant.description}</p>
+                <p><strong>Lease Start Date:</strong>&nbsp;&nbsp;{new Date(tenant.leaseStartDate).toLocaleDateString()}</p>
+                <p><strong>Lease End Date:</strong> &nbsp;&nbsp;{new Date(tenant.leaseEndDate).toLocaleDateString()}</p>
               </div>
               <div className="tenant-actions">
                 <button onClick={() => handleTenantSelect(tenant)}>Edit</button>

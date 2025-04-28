@@ -33,7 +33,7 @@
     padding: 20px;
     border: 1px solid #b2dfdb;
     border-radius: 12px;
-    width: 280px;
+    width: 320px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s ease-in-out;
   }
@@ -55,8 +55,8 @@
   
 
   .settings-bar {
-    margin-bottom: 20px;
-    text-align: center;
+    margin-bottom: 25px;
+    text-align: left;
   }
   
   .settings-bar label {

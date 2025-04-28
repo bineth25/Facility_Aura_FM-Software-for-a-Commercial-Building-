@@ -123,11 +123,11 @@ const TenantNotifications = () => {
           {expiringTenants.map((tenant) => (
             <div key={tenant._id} className="notification-card">
               <h3>{tenant.name}</h3>
-              <p><strong>Tenant ID:</strong> {tenant.Tenant_ID}</p>
-              <p><strong>Space ID:</strong> {tenant.spaceId}</p>
-              <p><strong>Lease End Date:</strong> {new Date(tenant.leaseEndDate).toLocaleDateString()}</p>
-              <p><strong>Email:</strong> {tenant.email}</p>
-              <p><strong>Phone:</strong> {tenant.phone}</p>
+              <p><strong>Tenant ID:</strong> &nbsp;&nbsp;{tenant.Tenant_ID}</p>
+              <p><strong>Space ID:</strong> &nbsp;&nbsp;{tenant.spaceId}</p>
+              <p><strong>Lease End Date:</strong> &nbsp;&nbsp;{new Date(tenant.leaseEndDate).toLocaleDateString()}</p>
+              <p><strong>Email:</strong> &nbsp;&nbsp;{tenant.email}</p>
+              <p><strong>Phone:</strong> &nbsp;&nbsp;{tenant.phone}</p>
 
               {/* Notify Button with loading state */}
               <button
