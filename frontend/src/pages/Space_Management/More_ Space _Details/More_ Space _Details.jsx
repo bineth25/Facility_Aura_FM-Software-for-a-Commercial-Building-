@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import './More_ Space _Details.css';
 
 const API_URL = "http://localhost:4000/api/spaces"; 
@@ -47,6 +48,7 @@ const SpaceManagement = () => {
       setFilteredSpaces(response.data); 
     } catch (error) {
       console.error("Error fetching spaces:", error);
+      Swal.fire('Error', 'Failed to fetch spaces!', 'error');
     }
   };
 
@@ -56,6 +58,7 @@ const SpaceManagement = () => {
       setAnalysis(response.data);
     } catch (error) {
       console.error("Error fetching space analysis:", error);
+      Swal.fire('Error', 'Failed to fetch space analysis!', 'error');
     }
   };
 
@@ -95,14 +98,17 @@ const SpaceManagement = () => {
     try {
       if (editingSpaceId) {
         await axios.put(`${API_URL}/${editingSpaceId}`, formData);
+        Swal.fire('Success', 'Space updated successfully!', 'success');
       } else {
         await axios.post(API_URL, formData);
+        Swal.fire('Success', 'Space added successfully!', 'success');
       }
       fetchSpaces();
       fetchSpaceAnalysis();
       handleClose();
     } catch (error) {
       console.error("Error submitting space:", error);
+      Swal.fire('Error', 'Failed to submit space!', 'error');
     }
   };
 
@@ -115,13 +121,26 @@ const SpaceManagement = () => {
 
   // Delete space
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this space?")) {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You want to delete this space?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Delete it!',
+      cancelButtonText: 'Cancel'
+    });
+
+    if (result.isConfirmed) {
       try {
         await axios.delete(`${API_URL}/${id}`);
+        Swal.fire('Deleted!', 'Space deleted successfully.', 'success');
         fetchSpaces();
         fetchSpaceAnalysis();
       } catch (error) {
         console.error("Error deleting space:", error);
+        Swal.fire('Error', 'Failed to delete space!', 'error');
       }
     }
   };
@@ -148,26 +167,32 @@ const SpaceManagement = () => {
 
   // Generate report for space analysis
   const generateReport = () => {
-    const csvContent =
-      "Floor ID,Total Spaces,Available,Occupied,Available %,Occupied %\n" +
-      analysis
-        .map(
-          (floor) =>
-            `${floor.floorId},${floor.totalSpaces},${floor.availableSpaces},${floor.occupiedSpaces},${floor.availablePercentage.toFixed(
-              2
-            )}%,${floor.occupiedPercentage.toFixed(2)}%`
-        )
-        .join("\n");
+    try {
+      const csvContent =
+        "Floor ID,Total Spaces,Available,Occupied,Available %,Occupied %\n" +
+        analysis
+          .map(
+            (floor) =>
+              `${floor.floorId},${floor.totalSpaces},${floor.availableSpaces},${floor.occupiedSpaces},${floor.availablePercentage.toFixed(2)}%,${floor.occupiedPercentage.toFixed(2)}%`
+          )
+          .join("\n");
 
-    const blob = new Blob([csvContent], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "space_analysis_report.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "space_analysis_report.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      Swal.fire('Report Generated', 'Space analysis report downloaded.', 'success');
+    } catch (error) {
+      console.error("Error generating report:", error);
+      Swal.fire('Error', 'Failed to generate report.', 'error');
+    }
   };
+
 
   // Get unique floor IDs for the filter dropdown
   const uniqueFloorIds = [...new Set(spaces.map((space) => space.floorId))];
