@@ -110,10 +110,10 @@ const generateTenantId = () => {
         }
         break;
       case 'nic':
-        if (!/^[A-Za-z0-9]+$/.test(value)) {
-          newErrors.nic = 'NIC must be alphanumeric';
-        } else if (value.length > 12) {
-          newErrors.nic = 'NIC cannot exceed 12 characters';
+        if (!/^[Vv0-9]+$/.test(value)) {
+          newErrors.nic = 'NIC must be add "V" or "v" followed by numbers';
+        } else if (value.length > 12 || value.length < 10) {
+          newErrors.nic = 'NIC cannot exceed 12 characters or be less than 10 characters';
         } else {
           delete newErrors.nic;
         }
@@ -133,7 +133,7 @@ const generateTenantId = () => {
       case 'phone':
         const trimmedValue = value.trim();
         if (!/^\d{10}$/.test(trimmedValue)) {
-          newErrors.phone = 'Phone number must be exactly 10 digits and contain only numbers';
+          newErrors.phone = 'Phone number must be exactly 10 digits and contain only numbers and no spaces';
         } else {
           delete newErrors.phone;
         }
@@ -246,7 +246,7 @@ const generateTenantId = () => {
       </div>
 
       {/* Space list based on selected floor */}
-      <div className='main'>
+      <div className='mains'>
         <div className="space-list">
           <ul>
             {filteredSpaces.map((space) => (
@@ -382,8 +382,11 @@ const generateTenantId = () => {
                 onChange={handleInputChange}
               />
 
-              <button type="submit">Assign Tenant</button>
-              <button type="button" onClick={() => setShowTenantModal(false)}>Cancel</button>
+              <div className='buttons-row'>
+                <button type="submit">Assign Tenant</button>
+                <button type="button" onClick={() => setShowTenantModal(false)}>Cancel</button>
+              </div>
+              
             </form>
           </div>
         </div>

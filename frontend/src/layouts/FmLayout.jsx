@@ -31,6 +31,8 @@ import In_Progress from '../pages/Maintenance _Issues_Assigning/In_Progress/In_P
 import Notifications from '../pages/Maintenance _Issues_Assigning/Notifications/Notifications'
 import Review_compled_tasks from '../pages/Maintenance _Issues_Assigning/Review_compled_tasks/Review_compled_tasks'
 
+import Home_Page from '../pages/Home_Page/Home_Page'  
+
 export default function FmLayout() {
   const user = getCurrentUser()
 
@@ -72,8 +74,10 @@ export default function FmLayout() {
             <Route path="/Notifications" element={<Notifications />} />
             <Route path="/Review_compled_tasks" element={<Review_compled_tasks />} />
 
+            <Route path="/home" element={<Home_Page />} />
+
             {/* catch-all */}
-            <Route path="*" element={<Navigate to="/space-utilization" replace />} />
+            <Route path="*" element={<Navigate to="/home" replace />} />
           </Routes>
         </div>
       </div>

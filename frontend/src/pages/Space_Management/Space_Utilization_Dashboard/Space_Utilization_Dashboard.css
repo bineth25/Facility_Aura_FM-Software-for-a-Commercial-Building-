@@ -110,7 +110,7 @@
   top: 690px;
   bottom: 10px;
   right: 40px;
-  background: #77bceb;
+  background: #7fc1ee;
   color: white;
   border: none;
   border-radius: 8px;
@@ -119,11 +119,13 @@
   font-weight: 500;
   transition: background 0.3s ease, transform 0.2s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 160px;
+  height: 40px;
 
 }
 
 .view-more-button:hover {
-  background: #2980b9;
+  background: rgba(66, 165, 245, 1);
   transform: translateY(-2px);
 }
 

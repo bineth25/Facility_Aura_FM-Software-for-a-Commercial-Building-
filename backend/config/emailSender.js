@@ -9,7 +9,7 @@ let emailInitialized = false;
 export const initializeEmailService = () => {
   // Skip if already initialized
   if (emailInitialized) return;
-  
+
   try {
     // Check required email credentials
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
@@ -17,7 +17,7 @@ export const initializeEmailService = () => {
       emailServiceAvailable = false;
       return;
     }
-    
+
     // Create transporter
     transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -26,7 +26,7 @@ export const initializeEmailService = () => {
         pass: process.env.EMAIL_PASS
       }
     });
-    
+
     // Test connection
     transporter.verify((error) => {
       if (error) {
@@ -50,7 +50,7 @@ export const sendLeaseExpiryEmail = async (toEmail, tenantName, leaseEndDate) =>
   if (!emailServiceAvailable) {
     throw new Error('Email service not available. Please check server configuration.');
   }
-  
+
   try {
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -58,10 +58,14 @@ export const sendLeaseExpiryEmail = async (toEmail, tenantName, leaseEndDate) =>
       subject: `Lease Expiry Reminder - ${tenantName}`,
       html: `
         <p>Dear ${tenantName},</p>
-        <p>This is a friendly reminder that your lease is set to expire on <b>${new Date(leaseEndDate).toLocaleDateString()}</b>.</p>
-        <p>Please contact us if you have any questions or to renew your lease.</p>
-        <p>Thank you!</p>
-        <p><i>Facility Management Team</i></p>
+        <p>We would like to remind you that your current lease agreement is scheduled to expire on <b>${new Date(leaseEndDate).toLocaleDateString()}</b>.</p>
+        <p>To ensure a smooth continuation of your tenancy, we kindly request you to contact us at your earliest convenience regarding lease renewal options or any questions you may have.</p>
+        <p>If you intend to renew, discuss changes, or require assistance with the next steps, our team is ready to assist you.</p>
+        <p>We truly value your tenancy and look forward to continuing our relationship.</p>
+        <p>Thank you for choosing our facility!</p>
+        <p>Best regards,<br/>
+        <i>Facility Management Team</i></p>
+
       `
     };
 

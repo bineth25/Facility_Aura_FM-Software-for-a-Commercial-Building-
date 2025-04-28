@@ -1,0 +1,42 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.home-header {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 0px;
+}
+
+.home-main {
+    flex: 1;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.welcome-section h2 {
+    font-size: 2.2rem;
+    color: #027368;
+    margin-bottom: 20px;
+}
+
+.welcome-section p {
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto 30px;
+}
+
+.home-footer {
+    background-color: #656565;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.9rem;
+}
+
+.home-logo {
+    width: 350px;
+    height: 350px;
+}   

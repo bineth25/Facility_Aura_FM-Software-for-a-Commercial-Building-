@@ -1,7 +1,7 @@
 /* ---------- Main Container ---------- */
 .tenant-containers {
   padding: 30px;
-  background: linear-gradient(to bottom, #e8f9f7, #d5f2eb);
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
   border-radius: 15px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -26,6 +26,7 @@
   justify-content: center;
   padding: 0;
   margin: 0;
+
 }
 
 /* ---------- Tenant Card ---------- */
@@ -34,7 +35,7 @@
   padding: 25px 20px;
   border-radius: 15px;
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 350px;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
