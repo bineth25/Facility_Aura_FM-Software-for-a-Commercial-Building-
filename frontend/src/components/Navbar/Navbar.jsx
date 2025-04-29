@@ -1,34 +1,58 @@
 // frontend/src/components/Navbar/Navbar.jsx
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { logout, getCurrentUser } from '../../services/auth'
-import './Navbar.css'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { logout, getCurrentUser } from '../../services/auth';
+import './Navbar.css';
 
 const Navbar = () => {
-  const navigate = useNavigate()
-  const user = getCurrentUser()
+  const navigate = useNavigate();
+  const user = getCurrentUser();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleSignOut = () => {
-    logout()
-    navigate('/login', { replace: true })
-  }
+    logout();
+    navigate('/login', { replace: true });
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const closeDropdown = () => {
+    setDropdownOpen(false);
+  };
 
   return (
     <nav className="navbar">
-      <div className="navbar-left">
-        <h2>Facilities Management</h2>
-      </div>
-      <div className="navbar-right">
-        <span className="user-name">
-          {user ? `${user.firstName} ${user.lastName}` : 'Guest'}
-        </span>
-        <button className="signout-button" onClick={handleSignOut}>
-          Sign Out
-        </button>
+      <div className="navbar-container">
+        <div className="navbar-brand">
+          <h2>Facility Aura</h2>
+        </div>
         
+        {/* Navigation menu removed */}
+
+        <div className="navbar-profile">
+          <div className="profile-container" onClick={toggleDropdown}>
+            <div className="profile-image">
+              {user?.firstName?.charAt(0) || 'G'}
+            </div>
+            <span className="profile-name">
+              {user ? `${user.firstName} ${user.lastName}` : 'Guest'}
+            </span>
+            <span className="dropdown-arrow">▼</span>
+          </div>
+          
+          {dropdownOpen && (
+            <div className="profile-dropdown">
+              <div className="dropdown-item signout" onClick={handleSignOut}>
+                Sign Out
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
