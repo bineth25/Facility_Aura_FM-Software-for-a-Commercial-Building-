@@ -10,7 +10,7 @@ const validMonths = [
 
 const energySchema = new Schema({
     year: {
-        type: Number, // DataType
+        type: Number, 
         required: [true, 'Year is required'], 
         min: [2000, 'Year must be at least 2000'], 
         max: [new Date().getFullYear(), 'Year cannot be in the future'], 

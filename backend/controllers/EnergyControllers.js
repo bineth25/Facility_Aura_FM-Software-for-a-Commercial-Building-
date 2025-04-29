@@ -34,7 +34,7 @@ export const addEnergyReading = async (req, res) => {
         
         const isExceeded = reading > categoryLimit.maxConsumptionLimit;
 
-        // Create a new energy reading
+       
         const energyReading = new Energy({
             year, 
             month, 

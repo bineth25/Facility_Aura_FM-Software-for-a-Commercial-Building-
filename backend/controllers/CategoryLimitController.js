@@ -5,15 +5,15 @@ export const setCategoryLimit = async (req, res) => {
     try {
         const { category, maxConsumptionLimit } = req.body;
 
-        // Check whether the category and limit are filled
+      
         if (!category || !maxConsumptionLimit) {
             return res.status(400).json({ message: 'Category and max consumption limit are required' });
         }
 
-        // Check if the category limit already exists
+        
         const existingCategoryLimit = await CategoryLimit.findOne({ category });
         if (existingCategoryLimit) {
-            // If category exists, update its max consumption limit
+            
             existingCategoryLimit.maxConsumptionLimit = maxConsumptionLimit;
             await existingCategoryLimit.save();
             return res.status(200).json({
@@ -22,7 +22,7 @@ export const setCategoryLimit = async (req, res) => {
             });
         }
 
-        // If the category limit doesn't exist, create a new catgory limit
+       
         const newCategoryLimit = new CategoryLimit({
             category,
             maxConsumptionLimit
