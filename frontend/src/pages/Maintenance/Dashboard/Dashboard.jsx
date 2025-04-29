@@ -36,24 +36,46 @@ function Dashboard() {
         // Hard-coded API base URL - change this to match your backend server
         const API_BASE_URL = 'http://localhost:4000';
         
-        // Fetch approved tasks with full URL
-        const approvedResponse = await axios.get(`${API_BASE_URL}/api/approved-tasks/technician/${technicianId}`);
+        try {
+          // Fetch approved tasks with full URL
+          const approvedResponse = await axios.get(`${API_BASE_URL}/api/approved-tasks/technician/${technicianId}`);
+          console.log('Approved tasks response:', approvedResponse.data);
+          setApprovedTasks(Array.isArray(approvedResponse.data) ? approvedResponse.data : []);
+        } catch (approvedError) {
+          console.error('Error fetching approved tasks:', approvedError);
+          setApprovedTasks([]);
+        }
         
-        // Fetch rejected tasks with full URL
-        const rejectedResponse = await axios.get(`${API_BASE_URL}/api/rejected-tasks/technician/${technicianId}`);
+        try {
+          // Fetch rejected tasks with full URL
+          const rejectedResponse = await axios.get(`${API_BASE_URL}/api/rejected-tasks/technician/${technicianId}`);
+          console.log('Rejected tasks response:', rejectedResponse.data);
+          setRejectedTasks(Array.isArray(rejectedResponse.data) ? rejectedResponse.data : []);
+        } catch (rejectedError) {
+          console.error('Error fetching rejected tasks:', rejectedError);
+          setRejectedTasks([]);
+        }
         
-        // Fetch assigned tasks (current active tasks) with full URL
-        const assignedResponse = await axios.get(`${API_BASE_URL}/api/tasks/getall`);
+        try {
+          // Fetch assigned tasks (current active tasks) with full URL
+          const assignedResponse = await axios.get(`${API_BASE_URL}/api/tasks/getall`);
+          
+          // Filter tasks by technician ID
+          const filteredTasks = Array.isArray(assignedResponse.data) 
+            ? assignedResponse.data.filter(task => {
+                // Case-insensitive comparison
+                const taskTechId = task.Technician_ID?.toUpperCase();
+                const currentTechId = technicianId?.toUpperCase();
+                return taskTechId === currentTechId;
+              })
+            : [];
+          
+          setAssignedTasks(filteredTasks);
+        } catch (assignedError) {
+          console.error('Error fetching assigned tasks:', assignedError);
+          setAssignedTasks([]);
+        }
         
-        // Filter tasks by technician ID
-        const filteredTasks = Array.isArray(assignedResponse.data) 
-          ? assignedResponse.data.filter(task => task.Technician_ID === technicianId)
-          : [];
-        
-        // Ensure we're setting arrays for all state variables
-        setApprovedTasks(Array.isArray(approvedResponse.data) ? approvedResponse.data : []);
-        setRejectedTasks(Array.isArray(rejectedResponse.data) ? rejectedResponse.data : []);
-        setAssignedTasks(filteredTasks);
         setLoading(false);
       } catch (err) {
         console.error('Error fetching task data:', err);

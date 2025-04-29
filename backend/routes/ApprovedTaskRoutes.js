@@ -11,10 +11,12 @@ const router = express.Router();
 // Get all approved tasks
 router.get('/', getAllApprovedTasks);
 
+// Get all approved tasks by Technician_ID
+router.get('/technician/:technicianId', getApprovedTasksByTechnician);
+
 // Get a single approved task by MongoDB _id
 router.get('/:id', getApprovedTaskById);
 
-// Get all approved tasks by Technician_ID
-router.get('/technician/:technicianId', getApprovedTasksByTechnician);
+
 
 export default router;
