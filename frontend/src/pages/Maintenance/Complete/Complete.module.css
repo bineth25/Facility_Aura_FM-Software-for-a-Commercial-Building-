@@ -1,0 +1,227 @@
+.completedTasksContainer {
+  margin-top: 80px;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 20px;
+  background-color: #ffffff00;
+}
+
+.completedTasksHeading {
+  color: #28a745;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.completedTasksLoading,
+.completedTasksEmpty {
+  font-style: italic;
+  color: #666;
+}
+
+.completedTasksCardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.completedTaskCard {
+  background-color: #2fff2f93; 
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.completedTaskCard:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+}
+
+.completedTaskTitle {
+  margin: 0 0 10px;
+  font-size: 1.2em;
+}
+
+.completedTaskDescription,
+.completedTaskDate {
+  margin: 5px 0;
+}
+
+.completedTaskEditButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.completedTaskEditButton {
+  padding: 5px 10px;
+  width: 80px; 
+  height: 40px; 
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.completedTaskEditButton:hover {
+  background-color: #0056b3;
+}
+
+.completedTaskFormOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.completedTaskFormContainer {
+  background-color: rgb(210, 210, 210);
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  cursor: default;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.completedTaskFormHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.completedTaskFormTitle {
+  color: green; 
+  margin: 0;
+  text-align: center; 
+  flex-grow: 1;
+}
+
+.completedTaskCloseButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: color 0.2s ease;
+  padding: 5px;
+}
+
+.completedTaskCloseButton:hover {
+  color: #dc3545; 
+}
+
+.completedTaskFormLabel {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.completedTaskFormInput, 
+.completedTaskFormTextarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.2s ease;
+}
+
+.completedTaskFormInput:focus,
+.completedTaskFormTextarea:focus {
+  border-color: #28a745;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25);
+}
+
+.completedTaskFormTextarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.completedTaskFormGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.completedTaskFormColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.completedTaskFormButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.completedTaskUpdateButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #28a745;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.completedTaskUpdateButton:hover {
+  background-color: #218838;
+}
+
+.completedTaskDeleteButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #dc3545;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.completedTaskDeleteButton:hover {
+  background-color: #c82333;
+}
+
+.completedTaskSuccessMessage {
+  position: fixed;
+  top: 20px;
+  right: 20px; 
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}

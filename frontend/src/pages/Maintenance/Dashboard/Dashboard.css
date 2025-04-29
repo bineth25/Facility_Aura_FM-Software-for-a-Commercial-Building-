@@ -1,0 +1,366 @@
+:root {
+  --primary-color: #1eb6bc; /* Updated to match teal/turquoise in header */
+  --secondary-color: #0796a6;
+  --success-color: #4CAF50; /* Green for approved tasks */
+  --danger-color: #F44336; /* Red for rejected tasks */
+  --blue-color: #0d6efd; /* Blue for notification bar */
+  --warning-color: #ff9800; /* Orange for medium priority */
+  --high-priority: #f44336; /* Red for high priority */
+  --urgent-priority: #d32f2f; /* Dark red for urgent priority */
+  --light-color: #e8f5f6; /* Light background color */
+  --dark-color: #212529;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+.tech_dashboard_container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 60px auto 0; /* Add top margin to account for notification bar */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--light-color); /* Updated to match light mint color in image */
+  min-height: calc(100vh - 110px); /* Account for notification bar height + padding */
+  position: relative;
+  z-index: 1; /* Ensure content stays below notification bar */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.tech_dashboard_title {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--dark-color);
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.tech_dashboard_title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+  border-radius: 2px;
+}
+
+.tech_dashboard_content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.tech_loading_indicator {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.1rem;
+  color: var(--dark-color);
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tech_loading_indicator::before {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.tech_error_message {
+  background-color: #fff0f3;
+  border-left: 4px solid var(--danger-color);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  margin: 1rem 0;
+  box-shadow: var(--box-shadow);
+  color: var(--dark-color);
+}
+
+.tech_error_message p {
+  margin: 0.5rem 0;
+}
+
+.tech_task_summary {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tech_task_card {
+  flex: 1;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  text-align: center;
+  transition: var(--transition);
+  background-color: white;
+}
+
+.tech_task_card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tech_task_card.tech_approved {
+  border-top: 4px solid var(--success-color);
+}
+
+.tech_task_card.tech_rejected {
+  border-top: 4px solid var(--danger-color);
+}
+
+.tech_task_card.tech_assigned {
+  border-top: 4px solid var(--blue-color);
+}
+
+.tech_task_card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--dark-color);
+  font-weight: 500;
+}
+
+.tech_task_count {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: var(--dark-color);
+}
+
+/* New chart container for side-by-side charts */
+.tech_charts_container {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.tech_chart_card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  flex: 1;
+}
+
+.tech_chart_card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tech_chart_title {
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--dark-color);
+  font-weight: 500;
+  position: relative;
+}
+
+.tech_chart_title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+.tech_chart_visual_container {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.tech_no_data_message {
+  text-align: center;
+  padding: 2.5rem;
+  color: #6c757d;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius);
+}
+
+.tech_no_data_message p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.tech_tasks_lists {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.tech_tasks_section {
+  flex: 1;
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+}
+
+.tech_tasks_section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tech_tasks_section h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+  color: var(--dark-color);
+  font-weight: 500;
+}
+
+.tech_tasks_list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tech_task_item {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  border-left: 4px solid var(--success-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
+}
+
+.tech_task_item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tech_task_item.tech_rejected_item {
+  border-left: 4px solid var(--danger-color);
+}
+
+.tech_task_item h3 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--dark-color);
+}
+
+.tech_task_item p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.tech_no_tasks {
+  padding: 1.5rem;
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius);
+}
+
+.tech_report_button_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.tech_generate_report_button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(30, 182, 188, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.tech_generate_report_button:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(30, 182, 188, 0.4);
+}
+
+.tech_generate_report_button:active {
+  transform: translateY(0);
+}
+
+.tech_button_icon {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 992px) {
+  .tech_charts_container {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .tech_task_summary,
+  .tech_charts_container,
+  .tech_tasks_lists {
+    flex-direction: column;
+  }
+  
+  .tech_task_card,
+  .tech_chart_card,
+  .tech_tasks_section {
+    margin-bottom: 1rem;
+  }
+
+  .tech_dashboard_title {
+    font-size: 1.8rem;
+  }
+}
+
+/* Animation for cards */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tech_task_summary,
+.tech_charts_container,
+.tech_tasks_lists,
+.tech_report_button_container {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.tech_charts_container {
+  animation-delay: 0.2s;
+}
+
+.tech_tasks_lists {
+  animation-delay: 0.4s;
+}
+
+.tech_report_button_container {
+  animation-delay: 0.6s;
+}

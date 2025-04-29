@@ -1,0 +1,339 @@
+.tasks-container {
+    margin-left: 0px;
+    padding-top: 60px;
+    width: calc(100% - 0px);
+    box-sizing: border-box;
+    min-height: 100vh;
+    background-color: #e0f7f7;  /* Light mint/teal background */
+}
+
+.tasks-content {
+    padding: 20px;
+    margin-left: 20px;
+}
+
+.technician-selector {
+    margin-bottom: 20px;
+}
+
+.technician-selector label {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.technician-selector select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.task-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.task-card .task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.task-card h3 {
+    font-size: 18px;
+    color: #333;
+    margin: 0;
+}
+
+.task-card .status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.task-card .status.pending {
+    background-color: #ffd700;  /* Bright yellow to match screenshot */
+    color: #000;
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 4px 12px;
+}
+
+.task-card .status.done {
+    background-color: #4caf50;
+    color: #fff;
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 4px 12px;
+}
+
+.task-card p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.task-card .task-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.task-card .task-meta span {
+    display: flex;
+    align-items: flex-start;  /* Changed to flex-start to align with screenshot */
+    gap: 5px;
+}
+
+.task-card .task-meta strong {
+    font-weight: 600;
+    color: #333;
+}
+
+.form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container {
+    background-color: #e3f2fd;
+    padding: 20px;
+    border-radius: 8px;
+    width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #2e7d32;
+    text-align: center;
+}
+
+.form-columns {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.form-left, .form-right {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.cancel-btn:hover {
+    background-color: #e53935;
+}
+
+.submission-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.error-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #f44336;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+@media (max-width: 768px) {
+    .tasks-container {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .tasks-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-container {
+        width: 90%;
+    }
+
+    .form-columns {
+        flex-direction: column;
+    }
+}
+
+/* Add these styles to your existing Tasks.css file */
+
+.technician-info {
+    margin-bottom: 20px;
+    background-color: #e3f2fd;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.technician-info h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #1565c0;
+}
+
+/* New styles with unique names for the updated requirements */
+.tasks-page-title-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.tasks-page-title-container h2 {
+    font-size: 28px;
+    color: #0d6efd;  /* Blue to match the screenshot header */
+    font-weight: 600;
+}
+
+.task-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.task-form-container {
+    background-color: #e3f2fd;
+    padding: 20px;
+    border-radius: 8px;
+    width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.task-form-header h2 {
+    margin-bottom: 0;
+    font-size: 24px;
+    color: #2e7d32;
+    text-align: center;
+}
+
+.task-close-icon {
+    font-size: 28px;
+    color: #f44336;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.task-close-icon:hover {
+    background-color: rgba(244, 67, 54, 0.1);
+}
+
+.task-form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

@@ -1,4 +1,3 @@
-// backend/server.js
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -8,9 +7,16 @@ import spaceRoutes from './routes/spaceRoutes.js';
 import EnergyRoutes from './routes/EnergyRoutes.js';
 import CategoryLimitRoutes from './routes/CategoryLimitRoutes.js';
 import UserManagementRoutes from './controllers/UserController.js';
+import uploadRoutes from "./routes/uploadRoutes.js";
+import submittedTaskRoutes from './routes/SubmittedTaskRoutes.js';
+import approvedTaskRoutes from './routes/ApprovedTaskRoutes.js';
+import rejectedTaskRoutes from './routes/RejectedTaskRoutes.js';
+import stask_Routes from './routes/STasksRoutes.js';
 
 import bcrypt from 'bcrypt';
 import User from './models/UserModel.js';
+
+
 
 dotenv.config(); // Load environment variables
 
@@ -20,6 +26,7 @@ const port = process.env.PORT || 4000;
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true}));
 
 // ✅ Admin seeding from .env
 async function seedAdmin() {
@@ -46,9 +53,9 @@ async function seedChandulaAdmin() {
   const email = 'chandula@example.com';
   const password = '123'; // ✅ New required password
   const hashed = await bcrypt.hash(password, 10);
-
+  
   const existing = await User.findOne({ email });
-
+  
   if (existing) {
     existing.password = hashed;
     existing.role = 'admin'; // Ensure role is admin
@@ -73,13 +80,23 @@ async function startServer() {
   await connectDB();
   await seedAdmin();         // .env admin
   await seedChandulaAdmin(); // chandula@example.com admin
-
+  
   // API routes
   app.use("/api/spaces", spaceRoutes);
   app.use('/api/tenants', Tenants_Routes);
   app.use('/api/energyReadings', EnergyRoutes);
   app.use('/api/categoryLimits', CategoryLimitRoutes);
   app.use('/api/users', UserManagementRoutes);
+  
+  // Task management routes (from original server.js)
+  app.use("/api/tasks", uploadRoutes);
+  app.use('/api/submitted-tasks', submittedTaskRoutes);
+  app.use('/api/approved-tasks', approvedTaskRoutes);
+  app.use('/api/rejected-tasks', rejectedTaskRoutes);
+
+  app.use('/api/stasks', stask_Routes);
+
+
 
   // Default route
   app.get('/', (req, res) => {
