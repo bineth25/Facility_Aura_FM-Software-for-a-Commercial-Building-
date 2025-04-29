@@ -60,6 +60,13 @@ const AddNewEnergyReading = () => {
         return;
     }
 
+    if (formData.reading.length >= 5) {
+      toast.warning(
+        "Warning: This reading is unusually high. Please verify.",
+        { autoClose: false, closeOnClick: true }
+      );
+    }
+
     
     const selectedCategoryLimit = categoryLimits.find(
       (limit) => limit.category === formData.category

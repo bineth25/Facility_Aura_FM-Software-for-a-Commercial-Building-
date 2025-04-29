@@ -31,7 +31,7 @@
     margin-top: 20px;
 }
   
-/* ✨ Table Columns */
+
 .solar_energy-table th,
 .solar_energy-table td {
     padding: 10px;
@@ -39,7 +39,7 @@
     border: 1px solid #ddd;
 }
   
-/* ✨ Table Column Header */
+
 .solar_energy-header-row {
     background: linear-gradient(to right, #4CAF50, #81C784);
     color: white;
@@ -136,9 +136,9 @@
     border: 1px solid #ddd;
 }
 
-/* 🆕 Added Unique Button Styles for Solar Energy Edit/Delete buttons */
 
-/* Edit button style (Solar Energy) */
+
+
 .solar_energy-edit-button {
     padding: 8px 16px;
     border: none;
@@ -146,12 +146,12 @@
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.2s;
-    background-color: #2196F3; /* Blue color for Edit */
+    background-color: #2196F3; 
     color: white;
     margin-left: 10px;
 }
 
-/* Delete button style (Solar Energy) */
+
 .solar_energy-delete-button {
     padding: 8px 16px;
     border: 1px solid #ddd;
@@ -159,7 +159,7 @@
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.2s;
-    background-color: #f44336; /* Red color for Delete */
+    background-color: #f44336; 
     color: white;
     margin-left: 10px;
 }
