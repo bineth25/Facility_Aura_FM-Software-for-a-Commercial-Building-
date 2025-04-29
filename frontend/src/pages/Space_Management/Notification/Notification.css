@@ -1,0 +1,91 @@
+.notification-container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #e0f7fa, #ffffff);
+    border-radius: 15px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #027368;
+    margin-bottom: 30px;
+  }
+  
+  .no-notifications {
+    text-align: center;
+    font-size: 18px;
+    color: #4caf50;
+    font-weight: bold;
+  }
+  
+  .notifications-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .notification-card {
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #b2dfdb;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .notification-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .notification-card h3 {
+    color: #028b74;
+    margin-bottom: 10px;
+  }
+  
+  .notification-card p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 14px;
+  }
+  
+
+  .settings-bar {
+    margin-bottom: 25px;
+    text-align: left;
+  }
+  
+  .settings-bar label {
+    font-weight: bold;
+    margin-right: 10px;
+    color: #027368;
+  }
+  
+  .settings-bar select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #028b74;
+    background: #e0f2f1;
+    font-size: 14px;
+    color: #026b5a;
+  }
+  .notify-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #028b74;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .notify-button:hover {
+    background-color: #026b5a;
+  }
+  

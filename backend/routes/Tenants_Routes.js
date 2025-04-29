@@ -1,13 +1,18 @@
 import express from 'express';
-import {addTenant, getAllTenants, getTenantById, updateTenantById, deleteTenantById} from '../controllers/Tenants_Controller.js';
-const tenantRouter = express.Router();
+import { addTenantToSpace, updateTenantInfo, removeTenantFromSpace, getAllTenants, deleteTenant, checkTenantId, getExpiringLeases, sendExpiryEmail } from '../controllers/Tenants_Controller.js';
 
-// Define routes and link them to the controller functions
-tenantRouter.post('/add', addTenant);
-tenantRouter.get('/', getAllTenants);
-tenantRouter.get('/:id', getTenantById);
-tenantRouter.put('/update/:id', updateTenantById);
-tenantRouter.delete('/delete/:id', deleteTenantById);
+const router = express.Router();
 
-export default tenantRouter;
+router.post('/addTenantToSpace', addTenantToSpace);
+router.post('/updateTenantInfo', updateTenantInfo);
+router.post('/removeTenantFromSpace', removeTenantFromSpace);
+router.get('/', getAllTenants); 
+router.delete('/:tenantId', deleteTenant); 
+router.get('/checkTenantId/:tenantId', checkTenantId); 
+router.get('/expiring-leases', getExpiringLeases); 
+router.post('/send-expiry-email', sendExpiryEmail); 
+
+export default router;
+
+
 

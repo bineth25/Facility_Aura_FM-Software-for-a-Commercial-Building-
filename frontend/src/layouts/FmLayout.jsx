@@ -9,9 +9,9 @@ import { getCurrentUser } from '../services/auth'
 // — FM page imports —
 import Floor_Plan_Overview from '../pages/Space_Management/Floor_Plan_Overview/Floor_Plan_Overview'
 import Notification from '../pages/Space_Management/Notification/Notification'
-import Space_Allocation from '../pages/Space_Management/Space_Allocation/Space_Allocation'
 import Tenant_History from '../pages/Space_Management/Tenant_History/Tenant_History'
 import Space_Utilization_Dashboard from '../pages/Space_Management/Space_Utilization_Dashboard/Space_Utilization_Dashboard'
+import More_Space_Details from '../pages/Space_Management/More_ Space _Details/More_ Space _Details'
 
 import Emergency_Equipment_Inventory from '../pages/Inventory_Management/Emergency_Equipment_Inventory/Emergency_Equipment_Inventory'
 import Inventory_issuing_Request from '../pages/Inventory_Management/Inventory_issuing_Request/Inventory_issuing_Request'
@@ -30,6 +30,8 @@ import Approval_tasks from '../pages/Maintenance _Issues_Assigning/Approval_task
 import In_Progress from '../pages/Maintenance _Issues_Assigning/In_Progress/In_Progress'
 import Notifications from '../pages/Maintenance _Issues_Assigning/Notifications/Notifications'
 import Review_compled_tasks from '../pages/Maintenance _Issues_Assigning/Review_compled_tasks/Review_compled_tasks'
+
+import Home_Page from '../pages/Home_Page/Home_Page'  
 
 export default function FmLayout() {
   const user = getCurrentUser()
@@ -50,9 +52,9 @@ export default function FmLayout() {
           <Routes>
             <Route path="/space-utilization" element={<Space_Utilization_Dashboard />} />
             <Route path="/floor-plan-overview" element={<Floor_Plan_Overview />} />
-            <Route path="/space-allocation" element={<Space_Allocation />} />
             <Route path="/notification" element={<Notification />} />
             <Route path="/tenant-history" element={<Tenant_History />} />
+            <Route path="/More_Space_Details" element={<More_Space_Details />} />
 
             <Route path="/Emergency_Equipment_Inventory" element={<Emergency_Equipment_Inventory />} />
             <Route path="/Inventory_issuing_Request" element={<Inventory_issuing_Request />} />
@@ -72,8 +74,10 @@ export default function FmLayout() {
             <Route path="/Notifications" element={<Notifications />} />
             <Route path="/Review_compled_tasks" element={<Review_compled_tasks />} />
 
+            <Route path="/home" element={<Home_Page />} />
+
             {/* catch-all */}
-            <Route path="*" element={<Navigate to="/space-utilization" replace />} />
+            <Route path="*" element={<Navigate to="/home" replace />} />
           </Routes>
         </div>
       </div>
