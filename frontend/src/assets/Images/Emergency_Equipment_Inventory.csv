@@ -1,0 +1,4 @@
+Item ID,Name,Category,Quantity,Stock Location,Reorder Level,Status,Added Date,Description
+E001,Extinguisher,Emergenecy,1500,warehouse003,1000,Available,2025-03-26,American 
+E002,Suites,Safty,1200,warehouse 003,800,Available,2025-03-26,German
+E003,Alam light,Safty,1600,warehouse 001,1000,Available,2025-03-29,Sri Lanka

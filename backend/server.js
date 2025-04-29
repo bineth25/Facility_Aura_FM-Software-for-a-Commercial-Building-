@@ -1,5 +1,5 @@
 import express from 'express';
-import cors from 'cors';
+import cors from 'cors';  // ⭐ CORS added
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import bcrypt from 'bcrypt';
@@ -16,6 +16,15 @@ import UserManagementRoutes from './controllers/UserController.js';
 import User from './models/UserModel.js';
 
 
+// ➡️ Import Routes
+import inventoryRequestsRoutes from './routes/inventoryRequestsRoutes.js';
+import lowStockRoutes from './routes/lowStockAlertsRoutes.js';
+import maintenanceInventoryRoutes from './routes/maintenanceInventoryRoutes.js';
+import itNetworkInventoryRoutes from './routes/itNetworkInventoryRoutes.js';
+import safetyInventoryRoutes from './routes/safetyInventoryRoutes.js';
+
+
+
 dotenv.config(); 
 
 // Check environment variables immediately
@@ -27,6 +36,7 @@ const port = process.env.PORT || 4000;
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 // ✅ Admin seeding from .env
 async function seedAdmin() {
@@ -93,6 +103,15 @@ async function startServer() {
     app.use('/api/energyReadings', EnergyRoutes);
     app.use('/api/categoryLimits', CategoryLimitRoutes);
     app.use('/api/users', UserManagementRoutes);
+    
+
+    
+  // ➡️ API Routes of Inventory Managment
+    app.use('/api/inventoryRequests', inventoryRequestsRoutes);
+    app.use('/api/lowstock', lowStockRoutes);
+    app.use('/api/maintenanceInventory', maintenanceInventoryRoutes);
+    app.use('/api/itNetworkInventory', itNetworkInventoryRoutes);
+    app.use('/api/safetyInventory', safetyInventoryRoutes);
 
     // Error handling middleware (must be after routes)
     app.use(errorLogger);
