@@ -1,83 +1,168 @@
-.configure-limits-container {
-    width: 80%;
-    margin: 0 auto;
+/* FacilityAura Configure Limits - Specific styling to avoid conflicts */
+.fa-configure-limits-container {
+  width: 90%;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.fa-section-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e6eef2;
+}
+
+.fa-limits-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.fa-limits-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  background-color: #f9f9fb;
+  padding: 25px;
+  border-radius: 8px;
+  border-left: 4px solid #16a085;
+}
+
+.fa-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
+}
+
+.fa-form-label {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #566573;
+}
+
+.fa-form-select, .fa-form-input {
+  padding: 12px 15px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #dfe4ea;
+  background-color: #ffffff;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.fa-form-select:focus, .fa-form-input:focus {
+  outline: none;
+  border-color: #16a085;
+  box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.2);
+}
+
+.fa-form-input {
+  width: 100%;
+}
+
+.fa-submit-button {
+  padding: 14px 20px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fa-submit-button:hover {
+  background-color: #2ecc71;
+  box-shadow: 0 4px 8px rgba(46, 204, 113, 0.3);
+  transform: translateY(-2px);
+}
+
+.fa-submit-button:active {
+  transform: translateY(0);
+}
+
+.fa-limits-display {
+  background-color: #f9f9fb;
+  padding: 25px;
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+}
+
+.fa-subsection-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e6eef2;
+}
+
+.fa-limits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.fa-limit-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.fa-limit-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.fa-limit-category {
+  font-weight: 600;
+  color: #34495e;
+  font-size: 15px;
+}
+
+.fa-limit-value {
+  background-color: #eafaf1;
+  color: #27ae60;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .fa-limits-content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  
+  .fa-limits-form, .fa-limits-display {
+    flex: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .fa-configure-limits-container {
+    width: 95%;
     padding: 20px;
-    background-color: #f4f4f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  h1 {
-    text-align: center;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  label {
-    font-size: 16px;
-    margin-bottom: 8px;
-    color: #555;
-  }
-  
-  select, input {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-  }
-  
-  input[type="number"] {
+  .fa-limits-form, .fa-limits-display {
     width: 100%;
   }
-  
-  .submit-button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .submit-button:hover {
-    background-color: #45a049;
-  }
-  
-  .category-limits-list {
-    margin-top: 40px;
-  }
-  
-  .category-limits-list h2 {
-    font-size: 18px;
-    margin-bottom: 12px;
-    color: #333;
-  }
-  
-  .category-limits-list ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .category-limits-list li {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 8px;
-  }
-  
-  .category-limits-list li strong {
-    font-weight: bold;
-  }
-  
+}

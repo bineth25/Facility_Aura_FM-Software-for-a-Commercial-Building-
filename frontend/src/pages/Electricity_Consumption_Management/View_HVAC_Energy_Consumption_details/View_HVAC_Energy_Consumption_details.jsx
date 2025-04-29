@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './View_HVAC_Energy_Consumption_details.css';
+import { toast } from 'react-toastify';
 
 const ViewHVACEnergyConsumptionDetails = () => {
   const [energyReadings, setEnergyReadings] = useState([]);
@@ -15,7 +16,6 @@ const ViewHVACEnergyConsumptionDetails = () => {
     status: ''
   });
 
-  // Edit state for modal form
   const [editingReading, setEditingReading] = useState(null);
   const [formData, setFormData] = useState({
     year: '',
@@ -29,14 +29,14 @@ const ViewHVACEnergyConsumptionDetails = () => {
     const fetchEnergyData = async () => {
       try {
         const response = await axios.get('http://localhost:4000/api/energyReadings', {
-          params: { category: 'HVAC' } // Filter by HVAC category
+          params: { category: 'HVAC' }
         });
 
         if (response.data.length === 0) {
-          setFilteredReadings([]);  // Set empty if no data found
+          setFilteredReadings([]);
         } else {
           setEnergyReadings(response.data);
-          setFilteredReadings(response.data); // Initially display all data
+          setFilteredReadings(response.data);
         }
       } catch (err) {
         setError('Error fetching energy data');
@@ -81,10 +81,8 @@ const ViewHVACEnergyConsumptionDetails = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:4000/api/energyReadings/delete/${id}`);
-      // After deletion, remove the reading from the UI
       setFilteredReadings(filteredReadings.filter((reading) => reading._id !== id));
 
-      // If all readings are deleted, set filteredReadings to an empty array
       if (filteredReadings.length === 1) {
         setFilteredReadings([]);
       }
@@ -92,52 +90,83 @@ const ViewHVACEnergyConsumptionDetails = () => {
       setError('Error deleting energy reading');
     }
 
-    alert('Reading has been deleted successfully!');
+    toast.success('Reading has been deleted successfully!', {
+      autoClose: false,
+      closeOnClick: true
+    });
   };
 
   const handleUpdate = async () => {
+
+    const { year, month, floor, category, reading } = formData;
+    //Duplicate Checking
+  const duplicate = energyReadings.find((entry) =>
+    entry._id !== editingReading._id && 
+    entry.year === parseInt(year) &&
+    entry.month === month &&
+    entry.floor === parseInt(floor) &&
+    entry.category === category
+  );
+
+  if (duplicate) {
+    toast.error('Duplicate entry detected! An entry with the same Year, Month, Floor, and Category already exists.', {
+      autoClose: false,
+      closeOnClick: true
+    });
+    return; // stop the update
+  }
+
+  const readingValue = parseFloat(reading);
+  if (readingValue >= 10000) {
+    toast.warning(
+      "Warning: A reading of 10,000 or higher may be unusually high. Please verify.",
+      { autoClose: false, closeOnClick: true }
+    );
+  }
+  
     try {
-      const { year, month, floor, category, reading } = formData;
+      
       const response = await axios.put(`http://localhost:4000/api/energyReadings/update/${editingReading._id}`, {
         year, month, floor, category, reading
       });
-      // Update the readings in the state after successful update
-      setEnergyReadings((prevReadings) => 
-        prevReadings.map((reading) => 
+
+      setEnergyReadings((prevReadings) =>
+        prevReadings.map((reading) =>
           reading._id === editingReading._id ? response.data.energyReading : reading
         )
       );
-      // Re-filter the readings after update to ensure filteredReadings reflects the changes
+
       filterReadings();
-      setEditingReading(null); // Close modal after update
+      setEditingReading(null);
       setFormData({ year: '', month: '', floor: '', category: '', reading: '' });
     } catch (err) {
       setError('Error updating energy reading');
     }
 
-    alert('Reading has been updated successfully!');
+    toast.success('Reading has been updated successfully!', {
+      autoClose: false,
+      closeOnClick: true
+    });
   };
 
   useEffect(() => {
     filterReadings();
-  }, [filters, energyReadings]); // Filter every time energyReadings or filters change
+  }, [filters, energyReadings]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="energy-consumption-container">
-      <h1>HVAC Energy Consumption Details</h1>
+    <div className="hvac_energy-consumption-container">
+      <h1 className="hvac_energy-title">HVAC Energy Consumption Details</h1>
 
-      {/* Display friendly message when no readings are found */}
       {filteredReadings.length === 0 && !loading && !error && (
-        <div className="no-data-message">
+        <div className="hvac_energy-no-data-message">
           No energy readings found for the HVAC category.
         </div>
       )}
 
-      {/* Filter Section */}
-      <div className="filters">
+      <div className="hvac_energy-filters">
         <label>
           Year:
           <select name="year" value={filters.year} onChange={handleFilterChange}>
@@ -184,10 +213,9 @@ const ViewHVACEnergyConsumptionDetails = () => {
         </label>
       </div>
 
-      {/* Table Section */}
-      <table className="energy-table">
+      <table className="hvac_energy-table">
         <thead>
-          <tr>
+          <tr className="hvac_energy-header-row">
             <th>Year</th>
             <th>Month</th>
             <th>Floor</th>
@@ -207,89 +235,100 @@ const ViewHVACEnergyConsumptionDetails = () => {
               <td>{reading.reading}</td>
               <td>
                 {reading.isExceeded ? (
-                  <span className="exceeded">Exceeded</span>
+                  <span className="hvac_energy-exceeded">Exceeded</span>
                 ) : (
-                  <span className="normal">Normal</span>
+                  <span className="hvac_energy-normal">Normal</span>
                 )}
               </td>
               <td>
-                <button onClick={() => { 
-                  setEditingReading(reading); 
-                  setFormData({
-                    year: reading.year,
-                    month: reading.month,
-                    floor: reading.floor,
-                    category: reading.category,
-                    reading: reading.reading
-                  });
-                }}>Edit</button>
-                <button onClick={() => handleDelete(reading._id)}>Delete</button>
+                <button 
+                  className="hvac_energy-edit-button" 
+                  onClick={() => {
+                    setEditingReading(reading);
+                    setFormData({
+                      year: reading.year,
+                      month: reading.month,
+                      floor: reading.floor,
+                      category: reading.category,
+                      reading: reading.reading
+                    });
+                  }}
+                >
+                  Edit
+                </button>
+                <button 
+                  className="hvac_energy-delete-button" 
+                  onClick={() => handleDelete(reading._id)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Modal for Updating Energy Reading */}
-{editingReading && (
-  <div className="modal-backdrop">
-    <div className="modal">
-      <h2>Edit Energy Reading</h2>
-      <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
-        <label>Year:</label>
-        <select 
-          value={formData.year} 
-          onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-        >
-          {Array.from({ length: 27 }, (_, index) => 2024 + index).map((year) => (
-            <option key={year} value={year}>{year}</option>
-          ))}
-        </select>
+      {editingReading && (
+        <div className="hvac_energy-modal-backdrop">
+          <div className="hvac_energy-modal">
+            <h2>Edit Energy Reading</h2>
+            <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
+              <label>Year:</label>
+              <select
+                value={formData.year}
+                onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+              >
+                {Array.from({ length: 27 }, (_, index) => 2024 + index).map((year) => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
 
-        <label>Month:</label>
-        <select 
-          value={formData.month} 
-          onChange={(e) => setFormData({ ...formData, month: e.target.value })}
-        >
-          {['January', 'February', 'March', 'April', 'May', 'June', 'July',
-            'August', 'September', 'October', 'November', 'December'].map((month) => (
-            <option key={month} value={month}>{month}</option>
-          ))}
-        </select>
+              <label>Month:</label>
+              <select
+                value={formData.month}
+                onChange={(e) => setFormData({ ...formData, month: e.target.value })}
+              >
+                {['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                  'August', 'September', 'October', 'November', 'December'].map((month) => (
+                  <option key={month} value={month}>{month}</option>
+                ))}
+              </select>
 
-        <label>Floor:</label>
-        <select 
-          value={formData.floor} 
-          onChange={(e) => setFormData({ ...formData, floor: e.target.value })}
-        >
-          {Array.from({ length: 7 }, (_, index) => index + 1).map((floor) => (
-            <option key={floor} value={floor}>{floor}</option>
-          ))}
-        </select>
+              <label>Floor:</label>
+              <select
+                value={formData.floor}
+                onChange={(e) => setFormData({ ...formData, floor: e.target.value })}
+              >
+                {Array.from({ length: 7 }, (_, index) => index + 1).map((floor) => (
+                  <option key={floor} value={floor}>{floor}</option>
+                ))}
+              </select>
 
-        <label>Category:</label>
-        <select 
-          value={formData.category} 
-          onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-        >
-          <option value="HVAC">HVAC</option>
-          <option value="Lighting">Lighting</option>
-          <option value="Equipment">Equipment</option>
-        </select>
+              <label>Category:</label>
+              <select
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              >
+                <option value="HVAC">HVAC</option>
+                <option value="Lighting">Lighting</option>
+                <option value="Renewable">Renewable</option>
+              </select>
 
-        <label>Reading (kWh):</label>
-        <input 
-          type="number" 
-          value={formData.reading} 
-          onChange={(e) => setFormData({ ...formData, reading: e.target.value })}
-        />
+              <label>Reading (kWh):</label>
+              <input
+                type="number"
+                value={formData.reading}
+                onChange={(e) => setFormData({ ...formData, reading: e.target.value })}
+              />
 
-        <button type="submit">Update</button>
-        <button onClick={() => setEditingReading(null)}>Cancel</button>
-      </form>
-    </div>
-  </div>
-)}
+              <div className="hvac_energy-button-container">
+                <button className="hvac_energy-button" type="submit">Update</button>
+                <button className="hvac_energy-button cancel" onClick={() => setEditingReading(null)}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

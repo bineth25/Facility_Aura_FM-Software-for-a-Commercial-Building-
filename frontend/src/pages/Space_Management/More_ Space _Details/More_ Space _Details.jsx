@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import './More_ Space _Details.css';
 
 const API_URL = "http://localhost:4000/api/spaces"; 
@@ -47,6 +50,7 @@ const SpaceManagement = () => {
       setFilteredSpaces(response.data); 
     } catch (error) {
       console.error("Error fetching spaces:", error);
+      Swal.fire('Error', 'Failed to fetch spaces!', 'error');
     }
   };
 
@@ -56,6 +60,7 @@ const SpaceManagement = () => {
       setAnalysis(response.data);
     } catch (error) {
       console.error("Error fetching space analysis:", error);
+      Swal.fire('Error', 'Failed to fetch space analysis!', 'error');
     }
   };
 
@@ -95,14 +100,17 @@ const SpaceManagement = () => {
     try {
       if (editingSpaceId) {
         await axios.put(`${API_URL}/${editingSpaceId}`, formData);
+        Swal.fire('Success', 'Space updated successfully!', 'success');
       } else {
         await axios.post(API_URL, formData);
+        Swal.fire('Success', 'Space added successfully!', 'success');
       }
       fetchSpaces();
       fetchSpaceAnalysis();
       handleClose();
     } catch (error) {
       console.error("Error submitting space:", error);
+      Swal.fire('Error', 'Failed to submit space!', 'error');
     }
   };
 
@@ -115,13 +123,26 @@ const SpaceManagement = () => {
 
   // Delete space
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this space?")) {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You want to delete this space?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Delete it!',
+      cancelButtonText: 'Cancel'
+    });
+
+    if (result.isConfirmed) {
       try {
         await axios.delete(`${API_URL}/${id}`);
+        Swal.fire('Deleted!', 'Space deleted successfully.', 'success');
         fetchSpaces();
         fetchSpaceAnalysis();
       } catch (error) {
         console.error("Error deleting space:", error);
+        Swal.fire('Error', 'Failed to delete space!', 'error');
       }
     }
   };
@@ -147,27 +168,69 @@ const SpaceManagement = () => {
   };
 
   // Generate report for space analysis
-  const generateReport = () => {
-    const csvContent =
-      "Floor ID,Total Spaces,Available,Occupied,Available %,Occupied %\n" +
-      analysis
-        .map(
-          (floor) =>
-            `${floor.floorId},${floor.totalSpaces},${floor.availableSpaces},${floor.occupiedSpaces},${floor.availablePercentage.toFixed(
-              2
-            )}%,${floor.occupiedPercentage.toFixed(2)}%`
-        )
-        .join("\n");
+  // Download as PDF
+  const generateReportPDF = () => {
+    try {
+      const doc = new jsPDF();
+      doc.text("Space Analysis Report", 20, 20);
+  
+      const tableData = analysis.map((floor) => [
+        floor.floorId,
+        floor.totalSpaces,
+        floor.availableSpaces,
+        floor.occupiedSpaces,
+        floor.availablePercentage.toFixed(2) + "%",
+        floor.occupiedPercentage.toFixed(2) + "%"
+      ]);
+  
+      autoTable(doc, {  // 👈 Call autoTable(doc, {...})
+        head: [["Floor ID", "Total Spaces", "Available", "Occupied", "Available %", "Occupied %"]],
+        body: tableData,
+      });
+  
+      doc.save("space_analysis_report.pdf");
+      Swal.fire('Report Generated', 'Space analysis PDF downloaded.', 'success');
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      Swal.fire('Error', 'Failed to generate PDF.', 'error');
+    }
+  };
+  
+  
+// Download as SVG
+const generateReportSVG = () => {
+  try {
+    const svgContent = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+        <style>
+          text { font-family: Arial, sans-serif; font-size: 16px; }
+        </style>
+        <text x="20" y="40">Space Analysis Report</text>
+        ${analysis.map((floor, index) => `
+          <text x="20" y="${80 + index * 30}">
+            Floor: ${floor.floorId} | Total: ${floor.totalSpaces} | Available: ${floor.availableSpaces} | Occupied: ${floor.occupiedSpaces} | Avl%: ${floor.availablePercentage.toFixed(2)} | Occ%: ${floor.occupiedPercentage.toFixed(2)}
+          </text>
+        `).join('')}
+      </svg>
+    `;
 
-    const blob = new Blob([csvContent], { type: "text/csv" });
+    const blob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", "space_analysis_report.csv");
+    link.setAttribute("download", "space_analysis_report.svg");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
+
+    Swal.fire('Report Generated', 'Space analysis SVG downloaded.', 'success');
+  } catch (error) {
+    console.error("Error generating SVG:", error);
+    Swal.fire('Error', 'Failed to generate SVG.', 'error');
+  }
+};
+
+
 
   // Get unique floor IDs for the filter dropdown
   const uniqueFloorIds = [...new Set(spaces.map((space) => space.floorId))];
@@ -233,9 +296,14 @@ const SpaceManagement = () => {
       </table>
 
       <h1>Space Analysis</h1>
-      <button className="report-btn" onClick={generateReport}>
-        Generate Report
-      </button>
+      <div className="report-options">
+  <button className="report-btn" onClick={generateReportPDF}>
+    Download PDF
+  </button>
+  <button className="report-btn" onClick={generateReportSVG}>
+    Download SVG
+  </button>
+</div>
       <table className="analysis-table">
         <thead>
           <tr>

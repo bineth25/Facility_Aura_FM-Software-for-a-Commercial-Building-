@@ -39,6 +39,10 @@ const tenantSchema = new mongoose.Schema({
         type: Date,
         required: true
       },
+    spaceId: { 
+        type: String,
+        required: true
+    }
 });
 
 const Tenant = mongoose.models.Tenant || mongoose.model('Tenant_Detail', tenantSchema);

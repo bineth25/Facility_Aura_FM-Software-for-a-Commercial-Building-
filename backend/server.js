@@ -1,24 +1,40 @@
 import express from 'express';
-import cors from 'cors';
+import cors from 'cors'; 
 import dotenv from 'dotenv';
-import connectDB from './config/db.js'; // DB connection function
+import connectDB from './config/db.js';
+import bcrypt from 'bcrypt';
+
+import { errorLogger, errorResponder } from './middleware/errorMiddleware.js';
+import { checkRequiredEnvVars } from './config/envConfig.js';
+import { initializeEmailService } from './config/emailSender.js';
+
 import Tenants_Routes from './routes/Tenants_Routes.js';
 import spaceRoutes from './routes/spaceRoutes.js';
 import EnergyRoutes from './routes/EnergyRoutes.js';
 import CategoryLimitRoutes from './routes/CategoryLimitRoutes.js';
 import UserManagementRoutes from './controllers/UserController.js';
+import User from './models/UserModel.js';
+
 import uploadRoutes from "./routes/uploadRoutes.js";
 import submittedTaskRoutes from './routes/SubmittedTaskRoutes.js';
 import approvedTaskRoutes from './routes/ApprovedTaskRoutes.js';
 import rejectedTaskRoutes from './routes/RejectedTaskRoutes.js';
 import stask_Routes from './routes/STasksRoutes.js';
 
-import bcrypt from 'bcrypt';
-import User from './models/UserModel.js';
+// ➡️ Import Routes
+import inventoryRequestsRoutes from './routes/inventoryRequestsRoutes.js';
+import lowStockRoutes from './routes/lowStockAlertsRoutes.js';
+import maintenanceInventoryRoutes from './routes/maintenanceInventoryRoutes.js';
+import itNetworkInventoryRoutes from './routes/itNetworkInventoryRoutes.js';
+import safetyInventoryRoutes from './routes/safetyInventoryRoutes.js';
 
 
 
-dotenv.config(); // Load environment variables
+dotenv.config(); 
+
+// Check environment variables immediately
+checkRequiredEnvVars();
+
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -26,7 +42,10 @@ const port = process.env.PORT || 4000;
 // Middleware
 app.use(express.json());
 app.use(cors());
+
 app.use(express.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: true }));
+
 
 // ✅ Admin seeding from .env
 async function seedAdmin() {
@@ -77,38 +96,60 @@ async function seedChandulaAdmin() {
 
 // 🚀 Start Server
 async function startServer() {
-  await connectDB();
-  await seedAdmin();         // .env admin
-  await seedChandulaAdmin(); // chandula@example.com admin
+
+  try {
+    await connectDB();
+    console.log('✅ Connected to MongoDB successfully');
+    
+    await seedAdmin();         // .env admin
+    await seedChandulaAdmin(); // chandula@example.com admin
+
+    // Initialize email service
+    initializeEmailService();
+
+    // API routes
+    app.use("/api/spaces", spaceRoutes);
+    app.use('/api/tenants', Tenants_Routes);
+    app.use('/api/energyReadings', EnergyRoutes);
+    app.use('/api/categoryLimits', CategoryLimitRoutes);
+    app.use('/api/users', UserManagementRoutes);
+    
+
+    
+  // ➡️ API Routes of Inventory Managment
+    app.use('/api/inventoryRequests', inventoryRequestsRoutes);
+    app.use('/api/lowstock', lowStockRoutes);
+    app.use('/api/maintenanceInventory', maintenanceInventoryRoutes);
+    app.use('/api/itNetworkInventory', itNetworkInventoryRoutes);
+    app.use('/api/safetyInventory', safetyInventoryRoutes);
+
+    // API routes
+    app.use("/api/spaces", spaceRoutes);
+    app.use('/api/tenants', Tenants_Routes);
+    app.use('/api/energyReadings', EnergyRoutes);
+    app.use('/api/categoryLimits', CategoryLimitRoutes);
+    app.use('/api/users', UserManagementRoutes);
   
-  // API routes
-  app.use("/api/spaces", spaceRoutes);
-  app.use('/api/tenants', Tenants_Routes);
-  app.use('/api/energyReadings', EnergyRoutes);
-  app.use('/api/categoryLimits', CategoryLimitRoutes);
-  app.use('/api/users', UserManagementRoutes);
-  
-  // Task management routes (from original server.js)
-  app.use("/api/tasks", uploadRoutes);
-  app.use('/api/submitted-tasks', submittedTaskRoutes);
-  app.use('/api/approved-tasks', approvedTaskRoutes);
-  app.use('/api/rejected-tasks', rejectedTaskRoutes);
+    // Task management routes (from original server.js)
+    app.use("/api/tasks", uploadRoutes);
+    app.use('/api/submitted-tasks', submittedTaskRoutes);
+    app.use('/api/approved-tasks', approvedTaskRoutes);
+    app.use('/api/rejected-tasks', rejectedTaskRoutes);
 
-  app.use('/api/stasks', stask_Routes);
+    app.use('/api/stasks', stask_Routes);
+    // Error handling middleware (must be after routes)
+    app.use(errorLogger);
+    app.use(errorResponder);
 
-
-
-  // Default route
-  app.get('/', (req, res) => {
-    res.status(200).send('Hello World');
-  });
-
-  // Start server
-  app.listen(port, () => {
-    console.log(`🚀 Server running on port: ${port}`);
-  });
+    // Start server
+    app.listen(port, () => {
+      console.log(`🚀 Server running on port: ${port}`);
+    });
+  } catch (error) {
+    console.error('\x1b[31m%s\x1b[0m', '❌ Failed to start server:', error);
+    process.exit(1);
+  }
 }
 
-startServer().catch(err => {
-  console.error('Failed to start server:', err);
-});
+startServer();
+

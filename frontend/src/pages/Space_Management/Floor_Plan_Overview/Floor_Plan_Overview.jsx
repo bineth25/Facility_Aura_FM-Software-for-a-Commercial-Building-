@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import './Floor_Plan_Overview.css';
 
 const Floor_Plan_Overview = () => {
@@ -51,23 +52,43 @@ const Floor_Plan_Overview = () => {
     setFilteredSpaces(filtered);
   };
 
+  // Add this function to generate tenant ID
+const generateTenantId = () => {
+  const randomNum = Math.floor(100 + Math.random() * 900); // Generates number between 100-999
+  return `T${randomNum}`;
+};
+
   // Handle selecting a space
   const handleSpaceSelect = (space) => {
     setSelectedSpace(space);
     setShowTenantModal(false);
     setErrors({});
-    setTenantIdExists(false); 
+    setTenantIdExists(false);
+    // Reset tenant data with new generated ID when space is selected
+    setTenantData({
+      Tenant_ID: generateTenantId(),
+      name: '',
+      nic: '',
+      email: '',
+      phone: '',
+      address: '',
+      description: '',
+      leaseStartDate: '',
+      leaseEndDate: ''
+    });
   };
 
   const checkTenantIdExists = async (tenantId) => {
     try {
       const response = await axios.get(`http://localhost:4000/api/tenants/checkTenantId/${tenantId}`);
-      return response.data.exists; 
+      return response.data.exists;
     } catch (error) {
       console.error('Error checking Tenant ID:', error);
+      Swal.fire('Error', 'Error checking Tenant ID.', 'error');
       return false;
     }
   };
+  
 
   // Validate tenant form fields in real-time
   const validateField = (name, value) => {
@@ -89,10 +110,10 @@ const Floor_Plan_Overview = () => {
         }
         break;
       case 'nic':
-        if (!/^[A-Za-z0-9]+$/.test(value)) {
-          newErrors.nic = 'NIC must be alphanumeric';
-        } else if (value.length > 12) {
-          newErrors.nic = 'NIC cannot exceed 12 characters';
+        if (!/^[Vv0-9]+$/.test(value)) {
+          newErrors.nic = 'NIC must be add "V" or "v" followed by numbers';
+        } else if (value.length > 12 || value.length < 10) {
+          newErrors.nic = 'NIC cannot exceed 12 characters or be less than 10 characters';
         } else {
           delete newErrors.nic;
         }
@@ -112,7 +133,7 @@ const Floor_Plan_Overview = () => {
       case 'phone':
         const trimmedValue = value.trim();
         if (!/^\d{10}$/.test(trimmedValue)) {
-          newErrors.phone = 'Phone number must be exactly 10 digits and contain only numbers';
+          newErrors.phone = 'Phone number must be exactly 10 digits and contain only numbers and no spaces';
         } else {
           delete newErrors.phone;
         }
@@ -149,30 +170,27 @@ const Floor_Plan_Overview = () => {
   const handleAddTenant = async (e) => {
     e.preventDefault();
     if (Object.keys(errors).length > 0) {
-      alert('Please fix the errors before submitting.');
+      Swal.fire('Validation Error', 'Please fix the errors before submitting.', 'warning');
       return;
     }
-
-    // Check if Tenant ID already exists
-    const exists = await checkTenantIdExists(tenantData.Tenant_ID);
-    setTenantIdExists(exists); // Update the state
-
-    if (exists) {
-      alert('Tenant ID already exists. Please use a different Tenant ID.');
-      return;
-    }
-
+  
     try {
+      const tenantWithSpaceData = {
+        ...tenantData,
+        spaceId: selectedSpace.spaceId
+      };
+  
       await axios.post('http://localhost:4000/api/tenants/addTenantToSpace', {
         spaceId: selectedSpace.spaceId,
-        tenantData: tenantData,
+        tenantData: tenantWithSpaceData,
         tenantId: tenantData.Tenant_ID,
       });
-      alert('Tenant added successfully!');
+  
+      Swal.fire('Success', 'Tenant added successfully!', 'success');
       setShowTenantModal(false);
       setSelectedSpace(null);
       setTenantData({
-        Tenant_ID: '',
+        Tenant_ID: generateTenantId(),
         name: '',
         nic: '',
         email: '',
@@ -182,29 +200,31 @@ const Floor_Plan_Overview = () => {
         leaseStartDate: '',
         leaseEndDate: ''
       });
-
+  
       await fetchSpaces();
     } catch (error) {
       console.error('Error adding tenant:', error);
-      alert('Error adding tenant');
+      Swal.fire('Error', 'Error adding tenant.', 'error');
     }
   };
+  
 
   // Toggle space availability
   const handleToggleAvailability = async () => {
     if (!selectedSpace) return;
-
+  
     try {
       await axios.put(`http://localhost:4000/api/spaces/availability/${selectedSpace.spaceId}`, {
         isAvailable: true,
       });
-      alert('Space availability updated successfully!');
+      Swal.fire('Success', 'Space availability updated successfully!', 'success');
       await fetchSpaces();
     } catch (error) {
       console.error('Error updating space availability:', error);
-      alert('Error updating space availability');
+      Swal.fire('Error', 'Error updating space availability.', 'error');
     }
   };
+  
 
   return (
     <div className="floor-plan-overview">
@@ -226,7 +246,7 @@ const Floor_Plan_Overview = () => {
       </div>
 
       {/* Space list based on selected floor */}
-      <div className='main'>
+      <div className='mains'>
         <div className="space-list">
           <ul>
             {filteredSpaces.map((space) => (
@@ -281,11 +301,10 @@ const Floor_Plan_Overview = () => {
                 type="text"
                 name="Tenant_ID"
                 value={tenantData.Tenant_ID}
-                onChange={handleInputChange}
-                placeholder="T001" 
+                readOnly 
+                className="read-only-input" 
               />
-              {errors.Tenant_ID && <span className="error-message">{errors.Tenant_ID}</span>}
-              {tenantIdExists && <span className="error-message">Tenant ID already exists. Please use a different Tenant ID.</span>}
+              <p className="info-text">(Auto-generated Tenant ID)</p>
 
               <label>Name:</label>
               <input
@@ -363,8 +382,11 @@ const Floor_Plan_Overview = () => {
                 onChange={handleInputChange}
               />
 
-              <button type="submit">Assign Tenant</button>
-              <button type="button" onClick={() => setShowTenantModal(false)}>Cancel</button>
+              <div className='buttons-row'>
+                <button type="submit">Assign Tenant</button>
+                <button type="button" onClick={() => setShowTenantModal(false)}>Cancel</button>
+              </div>
+              
             </form>
           </div>
         </div>

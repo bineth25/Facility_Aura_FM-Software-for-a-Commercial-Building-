@@ -1,13 +1,13 @@
 import Energy from '../models/EnergyModel.js';
 import CategoryLimit from '../models/CategoryLimit.js';
-import ExceededEnergyReading from '../models/ExceededEnergyReading.js';  // Import the ExceededEnergyReading model
+import ExceededEnergyReading from '../models/ExceededEnergyReading.js';  
 
-// Add a new energy reading
+
 export const addEnergyReading = async (req, res) => {
     try {
         const { year, month, floor, category, reading } = req.body;
 
-        // Validate required fields
+        
         if (!year || !month || !floor || !category || !reading) {
             return res.status(400).json({ message: 'All fields are required' });
         }
@@ -31,10 +31,10 @@ export const addEnergyReading = async (req, res) => {
             return res.status(404).json({ message: 'Category limit not found for the specified category' });
         }
 
-        // Check if the reading exceeds the max consumption limit for this category
+        
         const isExceeded = reading > categoryLimit.maxConsumptionLimit;
 
-        // Create a new energy reading
+       
         const energyReading = new Energy({
             year, 
             month, 
@@ -47,7 +47,7 @@ export const addEnergyReading = async (req, res) => {
         await energyReading.save();
 
         if (isExceeded) {
-            // Move or copy the exceeded reading to the ExceededEnergyReadings collection
+            
             const exceededReading = new ExceededEnergyReading({
                 year,
                 month,
@@ -66,7 +66,7 @@ export const addEnergyReading = async (req, res) => {
 };
 
 
-// Get all energy readings or filter by query parameters (year, month, floor, category)
+// Get all energy readings with the functionality of filtering by query parameters (year, month, floor, category)
 export const getEnergyReadings = async (req, res) => {
     try {
         const { year, month, floor, category, isExceeded } = req.query;
@@ -78,7 +78,7 @@ export const getEnergyReadings = async (req, res) => {
         if (month) query.month = month;
         if (floor) query.floor = floor;
         if (category) query.category = category;
-        if (isExceeded !== undefined) query.isExceeded = isExceeded; // Filter by exceeded readings if needed
+        if (isExceeded !== undefined) query.isExceeded = isExceeded; 
 
         // Fetch energy readings based on the filters
         const energyReadings = await Energy.find(query);
@@ -93,7 +93,7 @@ export const getEnergyReadings = async (req, res) => {
     }
 };
 
-// Get all exceeded energy readings (this is the separate table for exceeded readings)
+// Get all exceeded energy readings 
 export const getExceededReadings = async (req, res) => {
     try {
         const exceededReadings = await ExceededEnergyReading.find();
@@ -109,12 +109,12 @@ export const updateEnergyReading = async (req, res) => {
         const { id } = req.params;
         const { year, month, floor, category, reading } = req.body;
 
-        // Validate required fields
+      
         if (!year || !month || !floor || !category || !reading) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
-        // Validate that the provided month is valid
+       
         const validMonths = [
             'January', 'February', 'March', 'April', 'May', 'June', 
             'July', 'August', 'September', 'October', 'November', 'December'
@@ -123,7 +123,7 @@ export const updateEnergyReading = async (req, res) => {
             return res.status(400).json({ message: 'Invalid month provided' });
         }
 
-        // Fetch the energy reading by ID
+        
         const energyReading = await Energy.findById(id);
         if (!energyReading) {
             return res.status(404).json({ message: 'Energy reading not found' });
@@ -183,7 +183,7 @@ export const getAvgMonthlyConsumption = async (req, res) => {
         }
         const maxLimit = categoryLimitDoc.maxConsumptionLimit;
 
-        // Aggregate average reading per floor
+        // Calculate average reading per floor
         const energyReadings = await Energy.aggregate([
             { $match: { year: parseInt(year), category } },
             { $group: { 
@@ -201,7 +201,7 @@ export const getAvgMonthlyConsumption = async (req, res) => {
             return res.status(404).json({ message: 'No data found for the specified filters' });
         }
 
-        // Attach the exceeded flag based on maxLimit
+        //exceeded flag based on maxLimit
         const result = energyReadings.map(item => ({
             ...item,
             exceeded: item.averageReading > maxLimit

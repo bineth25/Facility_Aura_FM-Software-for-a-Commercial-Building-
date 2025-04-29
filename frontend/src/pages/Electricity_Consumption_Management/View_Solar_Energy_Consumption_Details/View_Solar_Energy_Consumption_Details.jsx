@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './View_Solar_Energy_Consumption_Details.css';
+import { toast } from 'react-toastify';
 
 const ViewSolarEnergyConsumptionDetails = () => {
   const [energyReadings, setEnergyReadings] = useState([]);
@@ -15,7 +16,6 @@ const ViewSolarEnergyConsumptionDetails = () => {
     status: ''
   });
 
-  // Edit state for modal form
   const [editingReading, setEditingReading] = useState(null);
   const [formData, setFormData] = useState({
     year: '',
@@ -29,14 +29,14 @@ const ViewSolarEnergyConsumptionDetails = () => {
     const fetchEnergyData = async () => {
       try {
         const response = await axios.get('http://localhost:4000/api/energyReadings', {
-          params: { category: 'Renewable' } // Filter by Renewable Energy category
+          params: { category: 'Renewable' }
         });
 
         if (response.data.length === 0) {
-          setFilteredReadings([]);  // Set empty if no data found
+          setFilteredReadings([]);
         } else {
           setEnergyReadings(response.data);
-          setFilteredReadings(response.data); // Initially display all data
+          setFilteredReadings(response.data);
         }
       } catch (err) {
         setError('Error fetching energy data');
@@ -72,80 +72,102 @@ const ViewSolarEnergyConsumptionDetails = () => {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    setFilters((prevFilters) => {
-      const updatedFilters = { ...prevFilters, [name]: value };
-      return updatedFilters;
-    });
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value
+    }));
   };
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:4000/api/energyReadings/delete/${id}`);
-      // After deletion, remove the reading from the UI
       setFilteredReadings(filteredReadings.filter((reading) => reading._id !== id));
-
-      // If all readings are deleted, set filteredReadings to an empty array
       if (filteredReadings.length === 1) {
         setFilteredReadings([]);
       }
+      toast.success('Reading has been deleted successfully!', {
+                autoClose: false,
+                closeOnClick: true
+              });
     } catch (err) {
       setError('Error deleting energy reading');
     }
-
-    alert('Reading has been deleted successfully!');
   };
 
   const handleUpdate = async () => {
+
+    const { year, month, floor, category, reading } = formData;
+            //Duplicate Checking
+          const duplicate = energyReadings.find((entry) =>
+            entry._id !== editingReading._id && 
+            entry.year === parseInt(year) &&
+            entry.month === month &&
+            entry.floor === parseInt(floor) &&
+            entry.category === category
+          );
+        
+          if (duplicate) {
+            toast.error('Duplicate entry detected! An entry with the same Year, Month, Floor, and Category already exists.', {
+              autoClose: false,
+              closeOnClick: true
+            });
+            return; // stop the update
+          }
+
+           const readingValue = parseFloat(reading);
+            if (readingValue >= 10000) {
+              toast.warning(
+                "Warning: A reading of 10,000 or higher may be unusually high. Please verify.",
+                { autoClose: false, closeOnClick: true }
+              );
+            }
+
     try {
-      const { year, month, floor, category, reading } = formData;
+      
       const response = await axios.put(`http://localhost:4000/api/energyReadings/update/${editingReading._id}`, {
         year, month, floor, category, reading
       });
-      // Update the readings in the state after successful update
-      setEnergyReadings((prevReadings) => 
-        prevReadings.map((reading) => 
+      setEnergyReadings((prevReadings) =>
+        prevReadings.map((reading) =>
           reading._id === editingReading._id ? response.data.energyReading : reading
         )
       );
-      // Re-filter the readings after update to ensure filteredReadings reflects the changes
       filterReadings();
-      setEditingReading(null); // Close modal after update
+      setEditingReading(null);
       setFormData({ year: '', month: '', floor: '', category: '', reading: '' });
+        toast.success('Reading has been updated successfully!', {
+                autoClose: false,
+                closeOnClick: true
+              });
     } catch (err) {
       setError('Error updating energy reading');
     }
-
-    alert('Reading has been updated successfully!');
   };
 
   useEffect(() => {
     filterReadings();
-  }, [filters, energyReadings]); // Filter every time energyReadings or filters change
+  }, [filters, energyReadings]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="energy-consumption-container">
-      <h1>Solar Energy Consumption Details</h1>
+    <div className="solar_energy-consumption-container">
+      <h1 className="solar_energy-title">Solar Energy Consumption Details</h1>
 
-      {/* Display friendly message when no readings are found */}
       {filteredReadings.length === 0 && !loading && !error && (
-        <div className="no-data-message">
-          No energy readings found for the HVAC category.
+        <div className="solar_energy-no-data-message">
+          No energy readings found for the Solar category.
         </div>
       )}
 
-      {/* Filter Section */}
-      <div className="filters">
+      <div className="solar_energy-filters">
         <label>
           Year:
           <select name="year" value={filters.year} onChange={handleFilterChange}>
             <option value="">All</option>
             {Array.from({ length: 27 }, (_, index) => 2024 + index).map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
+              <option key={year} value={year}>{year}</option>
             ))}
           </select>
         </label>
@@ -154,10 +176,10 @@ const ViewSolarEnergyConsumptionDetails = () => {
           Month:
           <select name="month" value={filters.month} onChange={handleFilterChange}>
             <option value="">All</option>
-            {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map((month) => (
-              <option key={month} value={month}>
-                {month}
-              </option>
+            {['January', 'February', 'March', 'April', 'May', 'June',
+              'July', 'August', 'September', 'October', 'November', 'December'
+            ].map((month) => (
+              <option key={month} value={month}>{month}</option>
             ))}
           </select>
         </label>
@@ -167,9 +189,7 @@ const ViewSolarEnergyConsumptionDetails = () => {
           <select name="floor" value={filters.floor} onChange={handleFilterChange}>
             <option value="">All</option>
             {Array.from({ length: 7 }, (_, index) => index + 1).map((floor) => (
-              <option key={floor} value={floor}>
-                {floor}
-              </option>
+              <option key={floor} value={floor}>{floor}</option>
             ))}
           </select>
         </label>
@@ -184,10 +204,9 @@ const ViewSolarEnergyConsumptionDetails = () => {
         </label>
       </div>
 
-      {/* Table Section */}
-      <table className="energy-table">
+      <table className="solar_energy-table">
         <thead>
-          <tr>
+          <tr className="solar_energy-header-row">
             <th>Year</th>
             <th>Month</th>
             <th>Floor</th>
@@ -207,72 +226,96 @@ const ViewSolarEnergyConsumptionDetails = () => {
               <td>{reading.reading}</td>
               <td>
                 {reading.isExceeded ? (
-                  <span className="exceeded">Exceeded</span>
+                  <span className="solar_energy-exceeded">Exceeded</span>
                 ) : (
-                  <span className="normal">Normal</span>
+                  <span className="solar_energy-normal">Normal</span>
                 )}
               </td>
               <td>
-                <button onClick={() => { 
-                  setEditingReading(reading); 
-                  setFormData({
-                    year: reading.year,
-                    month: reading.month,
-                    floor: reading.floor,
-                    category: reading.category,
-                    reading: reading.reading
-                  });
-                }}>Edit</button>
-                <button onClick={() => handleDelete(reading._id)}>Delete</button>
+                <button
+                  className="solar_energy-edit-button"
+                  onClick={() => {
+                    setEditingReading(reading);
+                    setFormData({
+                      year: reading.year,
+                      month: reading.month,
+                      floor: reading.floor,
+                      category: reading.category,
+                      reading: reading.reading
+                    });
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className="solar_energy-delete-button"
+                  onClick={() => handleDelete(reading._id)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Modal for Updating Energy Reading */}
       {editingReading && (
-        <div className="modal-backdrop">
-          <div className="modal">
+        <div className="solar_energy-modal-backdrop">
+          <div className="solar_energy-modal">
             <h2>Edit Energy Reading</h2>
             <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
               <label>Year:</label>
-              <input 
-                type="number" 
-                value={formData.year} 
+              <select
+                value={formData.year}
                 onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-              />
+              >
+                {Array.from({ length: 27 }, (_, index) => 2024 + index).map((year) => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
 
               <label>Month:</label>
-              <input 
-                type="text" 
-                value={formData.month} 
+              <select
+                value={formData.month}
                 onChange={(e) => setFormData({ ...formData, month: e.target.value })}
-              />
+              >
+                {['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                  'August', 'September', 'October', 'November', 'December'].map((month) => (
+                  <option key={month} value={month}>{month}</option>
+                ))}
+              </select>
 
               <label>Floor:</label>
-              <input 
-                type="number" 
-                value={formData.floor} 
+              <select
+                value={formData.floor}
                 onChange={(e) => setFormData({ ...formData, floor: e.target.value })}
-              />
+              >
+                {Array.from({ length: 7 }, (_, index) => index + 1).map((floor) => (
+                  <option key={floor} value={floor}>{floor}</option>
+                ))}
+              </select>
 
               <label>Category:</label>
-              <input 
-                type="text" 
-                value={formData.category} 
+              <select
+                value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              />
+              >
+                <option value="HVAC">HVAC</option>
+                <option value="Lighting">Lighting</option>
+                <option value="Renewable">Renewable</option>
+              </select>
 
               <label>Reading:</label>
-              <input 
-                type="number" 
-                value={formData.reading} 
+              <input
+                type="number"
+                value={formData.reading}
                 onChange={(e) => setFormData({ ...formData, reading: e.target.value })}
               />
 
-              <button type="submit">Update</button>
-              <button onClick={() => setEditingReading(null)}>Cancel</button>
+              <div className="solar_energy-button-container">
+                <button type="submit" className="solar_energy-button">Update</button>
+                <button type="button" className="solar_energy-button cancel" onClick={() => setEditingReading(null)}>Cancel</button>
+              </div>
             </form>
           </div>
         </div>

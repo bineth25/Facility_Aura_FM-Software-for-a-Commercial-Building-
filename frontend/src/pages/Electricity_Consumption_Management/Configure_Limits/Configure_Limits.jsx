@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Configure_Limits.css';
+import { toast } from 'react-toastify';
 
 const ConfigureLimits = () => {
   const [categoryLimits, setCategoryLimits] = useState([]);
@@ -24,29 +25,37 @@ const ConfigureLimits = () => {
     e.preventDefault();
 
     // Add validation for category limits
-  const currentCategory = isUpdate ? selectedCategory : category;
-  const value = Number(maxConsumptionLimit);
+    const currentCategory = isUpdate ? selectedCategory : category;
+    const value = Number(maxConsumptionLimit);
 
-  // Define fair limits based on floor-wise recommendations
-  const categoryLimitsValidation = {
-    HVAC: { min: 8300, max: 10000 },
-    Lighting: { min: 1250, max: 2100 },
-    Renewable: { min: 2500, max: 4170 } // Solar offset per floor
-  };
+    // Define fair limits based on floor-wise recommendations
+    const categoryLimitsValidation = {
+      HVAC: { min: 8300, max: 10000 },
+      Lighting: { min: 1250, max: 2100 },
+      Renewable: { min: 2500, max: 4170 } 
+    };
 
-  if (categoryLimitsValidation[currentCategory]) {
-    const { min, max } = categoryLimitsValidation[currentCategory];
-    if (value < min || value > max) {
-      alert(`${currentCategory} limit must be between ${min} and ${max} kWh/month for a single floor`);
-      return;
+    if (categoryLimitsValidation[currentCategory]) {
+      const { min, max } = categoryLimitsValidation[currentCategory];
+      if (value < min || value > max) {
+        toast.error(`${currentCategory} limit must be between ${min} and ${max} kWh/month for a single floor`, {
+          position: "top-right",
+          autoClose: false,
+          closeOnClick: true,
+          
+        });
+        return;
+      }
     }
-  }
 
     if (isUpdate) {
       // Update category limit
       axios.put('http://localhost:4000/api/categoryLimits/update', { category: selectedCategory, maxConsumptionLimit })
         .then(response => {
-          alert(response.data.message);
+          toast.success(response.data.message, {
+            autoClose: false, 
+            closeOnClick: true, 
+          });
           setCategoryLimits(categoryLimits.map(limit => 
             limit.category === selectedCategory ? { ...limit, maxConsumptionLimit } : limit
           ));
@@ -58,7 +67,10 @@ const ConfigureLimits = () => {
       // Set new category limit
       axios.post('http://localhost:4000/api/categoryLimits/set', { category, maxConsumptionLimit })
         .then(response => {
-          alert(response.data.message);
+          toast.success(response.data.message, {
+            autoClose: false, 
+            closeOnClick: true, 
+          });
           setCategoryLimits([...categoryLimits, response.data.categoryLimit]);
         })
         .catch(error => {
@@ -79,50 +91,62 @@ const ConfigureLimits = () => {
       setSelectedCategory(selectedLimit.category);
       setMaxConsumptionLimit(selectedLimit.maxConsumptionLimit);
       setIsUpdate(true);
+    } else {
+      setCategory(e.target.value);
+      setMaxConsumptionLimit('');
+      setIsUpdate(false);
     }
   };
 
   return (
-    <div className="configure-limits-container">
-      <h1>Configure Maximum Consumption Limits</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="category">Select Category</label>
-          <select id="category" value={category || selectedCategory} onChange={handleCategorySelect}>
-            <option value="">Select Category</option>
-            <option value="HVAC">HVAC</option>
-            <option value="Lighting">Lighting</option>
-            <option value="Renewable">Renewable</option>
-            
-          </select>
+    <div className="fa-configure-limits-container">
+      <h1 className="fa-section-title">Configure Maximum Consumption Limits</h1>
+      <div className="fa-limits-content">
+        <form onSubmit={handleSubmit} className="fa-limits-form">
+          <div className="fa-form-group">
+            <label htmlFor="category" className="fa-form-label">Select Category</label>
+            <select 
+              id="category" 
+              className="fa-form-select"
+              value={category || selectedCategory} 
+              onChange={handleCategorySelect}
+            >
+              <option value="">Select Category</option>
+              <option value="HVAC">HVAC</option>
+              <option value="Lighting">Lighting</option>
+              <option value="Renewable">Renewable</option>
+            </select>
+          </div>
+
+          <div className="fa-form-group">
+            <label htmlFor="maxConsumptionLimit" className="fa-form-label">Max Consumption Limit (kWh)</label>
+            <input
+              type="number"
+              id="maxConsumptionLimit"
+              className="fa-form-input"
+              value={maxConsumptionLimit}
+              onChange={(e) => setMaxConsumptionLimit(e.target.value)}
+              min="0"
+              required
+            />
+          </div>
+
+          <button type="submit" className="fa-submit-button">
+            {isUpdate ? 'Update Limit' : 'Set Limit'}
+          </button>
+        </form>
+
+        <div className="fa-limits-display">
+          <h2 className="fa-subsection-title">Existing Category Limits</h2>
+          <div className="fa-limits-list">
+            {categoryLimits.map((limit) => (
+              <div key={limit.category} className="fa-limit-item">
+                <div className="fa-limit-category">{limit.category}</div>
+                <div className="fa-limit-value">{limit.maxConsumptionLimit} kWh</div>
+              </div>
+            ))}
+          </div>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="maxConsumptionLimit">Max Consumption Limit (kWh)</label>
-          <input
-            type="number"
-            id="maxConsumptionLimit"
-            value={maxConsumptionLimit}
-            onChange={(e) => setMaxConsumptionLimit(e.target.value)}
-            min="0"
-            required
-          />
-        </div>
-
-        <button type="submit" className="submit-button">
-          {isUpdate ? 'Update Limit' : 'Set Limit'}
-        </button>
-      </form>
-
-      <div className="category-limits-list">
-        <h2>Existing Category Limits</h2>
-        <ul>
-          {categoryLimits.map((limit) => (
-            <li key={limit.category}>
-              <strong>{limit.category}</strong>: {limit.maxConsumptionLimit} kWh
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );

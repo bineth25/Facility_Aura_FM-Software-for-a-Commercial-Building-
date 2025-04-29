@@ -1,19 +1,19 @@
 import CategoryLimit from '../models/CategoryLimit.js';
 
-// Set the maximum consumption limit for a category (Create or Update)
+
 export const setCategoryLimit = async (req, res) => {
     try {
         const { category, maxConsumptionLimit } = req.body;
 
-        // Check if the category and limit are provided
+      
         if (!category || !maxConsumptionLimit) {
             return res.status(400).json({ message: 'Category and max consumption limit are required' });
         }
 
-        // Check if the category limit already exists
+        
         const existingCategoryLimit = await CategoryLimit.findOne({ category });
         if (existingCategoryLimit) {
-            // If category exists, update its max consumption limit
+            
             existingCategoryLimit.maxConsumptionLimit = maxConsumptionLimit;
             await existingCategoryLimit.save();
             return res.status(200).json({
@@ -22,7 +22,7 @@ export const setCategoryLimit = async (req, res) => {
             });
         }
 
-        // If the category limit doesn't exist, create a new one
+       
         const newCategoryLimit = new CategoryLimit({
             category,
             maxConsumptionLimit
@@ -48,17 +48,17 @@ export const getCategoryLimits = async (req, res) => {
     }
 };
 
-// Update a specific category's max consumption limit (Update)
+// Update a specific category's max consumption limit 
 export const updateCategoryLimit = async (req, res) => {
     try {
         const { category, maxConsumptionLimit } = req.body;
 
-        // Check if the category and maxConsumptionLimit are provided
+       
         if (!category || !maxConsumptionLimit) {
             return res.status(400).json({ message: 'Category and max consumption limit are required' });
         }
 
-        // Find the category limit to update
+        
         const existingCategoryLimit = await CategoryLimit.findOne({ category });
         if (!existingCategoryLimit) {
             return res.status(404).json({ message: 'Category limit not found for the specified category' });
@@ -77,7 +77,7 @@ export const updateCategoryLimit = async (req, res) => {
     }
 };
 
-// Delete a specific category's limit (Delete)
+// Delete a specific category's limit 
 export const deleteCategoryLimit = async (req, res) => {
     try {
         const { category } = req.body;

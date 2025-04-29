@@ -118,7 +118,7 @@
   .modal-contents {
     background: white;
     padding: 20px;
-    width: 550px; 
+    width: 600px; 
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     animation: modalFadeIn 0.3s ease;
@@ -250,3 +250,28 @@
     background: #1c9450;
     transform: translateY(-2px);
   }
+  .report-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .report-btn {
+    background: #2dbb68;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .report-btn:hover {
+    background: #1c9450;
+    transform: translateY(-2px);
+  }
+  

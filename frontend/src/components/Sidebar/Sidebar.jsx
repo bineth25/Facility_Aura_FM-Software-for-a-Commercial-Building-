@@ -12,11 +12,16 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-      <img src="/favicon.ico" alt="Logo" className="logo" />
+        <img src="/favicon.ico" alt="Logo" className="logo" />
         <h3>FacilityAura</h3>
       </div>
 
       <h4 className="menu-title">MENU</h4>
+
+      <NavLink to="/home" className="menu-item">
+        🏠 Home
+      </NavLink>
+
 
       {/* Assign Task Dashboard */}
       <div className="menu-item dropdown" onClick={() => toggleDropdown("taskDashboard")}>
@@ -55,9 +60,10 @@ const Sidebar = () => {
       {openMenu === "spaceManagementDashboard" && (
         <div className="submenu">
           <NavLink to="/space-utilization" className="submenu-item">📊 Space Utilization Dashboard</NavLink>
-          <NavLink to="/floor-plan-overview" className="submenu-item">📏 Floor Plan Overview</NavLink>
-          <NavLink to="/notification" className="submenu-item">🔔 Notification</NavLink>
-          <NavLink to="/tenant-history" className="submenu-item">👥 Tenant History</NavLink>
+          <NavLink to="/floor-plan-overview" className="submenu-item">🏢 Floor Plan Overview</NavLink>
+          <NavLink to="/tenant-history" className="submenu-item">👥 Tenant Details</NavLink>
+          <NavLink to="/notification" className="submenu-item">🔔 Lease Expiry Notifications</NavLink>
+
         </div>
       )}
 

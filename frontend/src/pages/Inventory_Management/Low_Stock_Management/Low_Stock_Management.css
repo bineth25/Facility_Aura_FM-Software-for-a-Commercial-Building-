@@ -1,59 +1,226 @@
-.low-stock-container {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
+low-stock-wrapper {
+  padding: 30px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f9fb;
+}
+
+h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #027368;
   
-  h1 {
-    color: #2d8db7;
-  }
-  
-  .stock-alert {
-    background-color: #ffe6e6;
-    color: #cc0000;
-    padding: 10px;
-    margin: 15px 0;
-    font-weight: bold;
-    border-radius: 5px;
-  }
-  
-  .low-stock-table table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .low-stock-table th,
-  .low-stock-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .low-stock-table th {
-    background-color: #2d8db7;
-    color: white;
-  }
-  
-  .low-stock {
-    color: #cc0000;
-    font-weight: bold;
-  }
-  
-  .reorder-button {
-    background-color: #27ae60;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .reorder-button:hover {
-    background-color: #219150;
-  }
-  
+}
+
+.notification-badge {
+  background: #D32F2F;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+/* ------------------ Form Styling ------------------ */
+.low-stock-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.low-stock-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 160px;
+  font-size: 14px;
+}
+
+.low-stock-form button {
+  background-color: #028b74;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.low-stock-form button:hover {
+  background-color: #026b5a;
+}
+
+/* ------------------ Controls Area ------------------ */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.search {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 250px;
+}
+
+
+
+/* ------------------ Export Buttons ------------------ */
+.report-btn, .csv-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.report-btn {
+  background-color: #3498db;
+}
+
+.csv-btn {
+  background-color: #f4a742;
+}
+
+/* ------------------ Table ------------------ */
+.low-stock-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.low-stock-table th, .low-stock-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  font-size: 14px;
+}
+
+.low-stock-table th {
+  background-color: #027368;
+  color: white;
+  font-size: 13px;
+}
+
+.edit-btn, .delete-btn, .retry-btn {
+  padding: 6px 12px;
+  margin: 2px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  color: white;
+}
+
+.edit-btn {
+  background-color: #4caf50;
+}
+
+.delete-btn {
+  background-color: #D32F2F;
+}
+
+.retry-btn {
+  background-color: #f4a742;
+  color: #000;
+  font-weight: 600;
+}
+
+/* ------------------ Chart Section ------------------ */
+.chart-section {
+  max-width: 380px;
+  margin: 0 auto;
+  text-align: center;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ------------------ ERP Logs ------------------ */
+.erp-logs-section {
+  margin-top: 35px;
+  padding: 20px;
+  background-color: #e8f5e9;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+.erp-logs-section h3 {
+  color: #027368;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.erp-logs-section table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.erp-logs-section th,
+.erp-logs-section td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 13px;
+}
+
+.erp-logs-section th {
+  background-color: #3498db;
+  color: white;
+}
+
+.status-success {
+  background-color: #d0f5e1;
+  color: #028b74;
+  font-weight: bold;
+}
+
+.status-failed {
+  background-color: #ffdddd;
+  color: #D32F2F;
+  font-weight: bold;
+}
+
+/* ------------------ Toast Styling ------------------ */
+.Toastify__toast--success {
+  background-color: #028b74;
+  color: white;
+}
+
+.Toastify__toast--error {
+  background-color: #D32F2F;
+  color: white;
+}
+
+
+.dropdown li {
+  padding: 5px 0;
+  border-bottom: 3px solid #030707;
+  font-size: 14px; /* 🎯 Reduce list text size slightly */
+  color: #1c524c;
+  font-weight: 500;
+}
+
+/* ------------------ Error Message Styling ------------------ */
+.error-message {
+  color: #D32F2F;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  text-align: left;
+}
