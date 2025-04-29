@@ -50,10 +50,10 @@ const Tenant = () => {
         }
         break;
       case 'nic':
-        if (!/^[A-Za-z0-9]+$/.test(value)) {
-          newErrors.nic = 'NIC must be alphanumeric';
-        } else if (value.length > 12) {
-          newErrors.nic = 'NIC cannot exceed 12 characters';
+        if (!/^[Vv0-9]+$/.test(value)) {
+          newErrors.nic = 'NIC must be add "V" or "v" followed by numbers';
+        } else if (value.length > 12 || value.length < 10) {
+          newErrors.nic = 'NIC cannot exceed 12 characters or be less than 10 characters';
         } else {
           delete newErrors.nic;
         }
@@ -73,7 +73,7 @@ const Tenant = () => {
       case 'phone':
         const trimmedValue = value.trim();
         if (!/^\d{10}$/.test(trimmedValue)) {
-          newErrors.phone = 'Phone number must be exactly 10 digits';
+          newErrors.phone = 'Phone number must be exactly 10 digits and contain only numbers and no spaces';
         } else {
           delete newErrors.phone;
         }
@@ -189,12 +189,12 @@ const Tenant = () => {
               <div>
                 <h3>{tenant.name}</h3>
                 <p><strong>Tenant ID:</strong> &nbsp;&nbsp;{tenant.Tenant_ID}</p>
-                <p><strong>Space ID:</strong> &nbsp;&nbsp;{tenant.spaceId}</p>
+                <p><strong>Rented Space ID:</strong> &nbsp;&nbsp;{tenant.spaceId}</p>
                 <p><strong>NIC:</strong> &nbsp;&nbsp;{tenant.nic}</p>
                 <p><strong>Email:</strong> &nbsp;&nbsp;{tenant.email}</p>
                 <p><strong>Phone:</strong> &nbsp;&nbsp;{tenant.phone}</p>
                 <p><strong>Address:</strong> &nbsp;&nbsp;{tenant.address}</p>
-                <p><strong>Other Details:</strong> &nbsp;&nbsp;{tenant.description}</p>
+                <p><strong>Other Lease Details:</strong> &nbsp;&nbsp;{tenant.description}</p>
                 <p><strong>Lease Start Date:</strong>&nbsp;&nbsp;{new Date(tenant.leaseStartDate).toLocaleDateString()}</p>
                 <p><strong>Lease End Date:</strong> &nbsp;&nbsp;{new Date(tenant.leaseEndDate).toLocaleDateString()}</p>
               </div>

@@ -120,25 +120,34 @@ const TenantNotifications = () => {
         <p className="no-notifications">🎉 No upcoming lease expirations!</p>
       ) : (
         <div className="notifications-list">
-          {expiringTenants.map((tenant) => (
-            <div key={tenant._id} className="notification-card">
-              <h3>{tenant.name}</h3>
-              <p><strong>Tenant ID:</strong> &nbsp;&nbsp;{tenant.Tenant_ID}</p>
-              <p><strong>Space ID:</strong> &nbsp;&nbsp;{tenant.spaceId}</p>
-              <p><strong>Lease End Date:</strong> &nbsp;&nbsp;{new Date(tenant.leaseEndDate).toLocaleDateString()}</p>
-              <p><strong>Email:</strong> &nbsp;&nbsp;{tenant.email}</p>
-              <p><strong>Phone:</strong> &nbsp;&nbsp;{tenant.phone}</p>
+          {expiringTenants.map((tenant) => {
+            // Calculate days remaining until lease expiry
+            const today = new Date();
+            const leaseEndDate = new Date(tenant.leaseEndDate);
+            const timeDiff = leaseEndDate.getTime() - today.getTime();
+            const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            
+            return (
+              <div key={tenant._id} className="notification-card">
+                <h3>{tenant.name}</h3>
+                <p className="expiry-counter">⏱️ <strong>{daysRemaining} {daysRemaining === 1 ? 'day' : 'days'} remaining</strong></p>
+                <p><strong>Tenant ID:</strong> &nbsp;&nbsp;{tenant.Tenant_ID}</p>
+                <p><strong>Rented Space ID:</strong> &nbsp;&nbsp;{tenant.spaceId}</p>
+                <p><strong>Lease End Date:</strong> &nbsp;&nbsp;{new Date(tenant.leaseEndDate).toLocaleDateString()}</p>
+                <p><strong>Email:</strong> &nbsp;&nbsp;{tenant.email}</p>
+                <p><strong>Phone:</strong> &nbsp;&nbsp;{tenant.phone}</p>
 
-              {/* Notify Button with loading state */}
-              <button
-                className="notify-button"
-                onClick={() => handleSendEmail(tenant)}
-                disabled={loadingStates[tenant._id]}
-              >
-                {loadingStates[tenant._id] ? 'Sending...' : 'Send Email Notification'}
-              </button>
-            </div>
-          ))}
+                {/* Notify Button with loading state */}
+                <button
+                  className="notify-button"
+                  onClick={() => handleSendEmail(tenant)}
+                  disabled={loadingStates[tenant._id]}
+                >
+                  {loadingStates[tenant._id] ? 'Sending...' : 'Send Email Notification'}
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
