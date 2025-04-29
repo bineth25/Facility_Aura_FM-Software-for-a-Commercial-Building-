@@ -1,0 +1,4 @@
+Item ID,Name,Category,Quantity,Stock Location,Reorder Level,Status,Added Date,Description
+N001,Spare,mainatains,800,600,500,Available,2025-03-29,good
+N002,Thilni,mainatains,500,warehouse 002,800,Available,2025-03-28,bad
+N003,cdhbdfhjs,JGSSHXSDJCE,500,warehouse09,700,Decommissioned,2025-03-29,nice
