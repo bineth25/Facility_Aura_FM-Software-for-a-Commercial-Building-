@@ -26,10 +26,10 @@ import View_HVAC_Energy_Consumption_details from '../pages/Electricity_Consumpti
 import View_Lighting_Energy_Consumption_details from '../pages/Electricity_Consumption_Management/View_Lighting_Energy_Consumption_details/View_Lighting_Energy_Consumption_details'
 import View_Solar_Energy_Consumption_Details from '../pages/Electricity_Consumption_Management/View_Solar_Energy_Consumption_Details/View_Solar_Energy_Consumption_Details'
 
-import Approval_tasks from '../pages/Maintenance _Issues_Assigning/Approval_tasks/Approval_tasks'
-import In_Progress from '../pages/Maintenance _Issues_Assigning/In_Progress/In_Progress'
-import Notifications from '../pages/Maintenance _Issues_Assigning/Notifications/Notifications'
-import Review_compled_tasks from '../pages/Maintenance _Issues_Assigning/Review_compled_tasks/Review_compled_tasks'
+
+import Dashboard from "../pages/Maintenance _Issues_Assigning/Dashboard/Dashboard"
+import Tasks from "../pages/Maintenance _Issues_Assigning/Tasks/Tasks"
+import Done from "../pages/Maintenance _Issues_Assigning/Done/Done"
 
 import Home_Page from '../pages/Home_Page/Home_Page'  
 
@@ -69,10 +69,10 @@ export default function FmLayout() {
             <Route path="/View_Lighting_Energy_Consumption_details" element={<View_Lighting_Energy_Consumption_details />} />
             <Route path="/View_Solar_Energy_Consumption_Details" element={<View_Solar_Energy_Consumption_Details />} />
 
-            <Route path="/Approval_tasks" element={<Approval_tasks />} />
-            <Route path="/In_Progress" element={<In_Progress />} />
-            <Route path="/Notifications" element={<Notifications />} />
-            <Route path="/Review_compled_tasks" element={<Review_compled_tasks />} />
+            
+            <Route path="/Dashboard" element={<Dashboard/>}/>
+            <Route path="/Tasks" element={<Tasks/>}/>
+            <Route path="/Done" element={<Done/>}/>
 
             <Route path="/home" element={<Home_Page />} />
 

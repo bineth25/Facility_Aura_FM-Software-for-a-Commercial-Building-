@@ -117,6 +117,14 @@ const ViewLightingEnergyConsumptionDetails = () => {
         return; // stop the update
       }
 
+       const readingValue = parseFloat(reading);
+        if (readingValue >= 10000) {
+          toast.warning(
+            "Warning: A reading of 10,000 or higher may be unusually high. Please verify.",
+            { autoClose: false, closeOnClick: true }
+          );
+        }
+
 
     try {
       

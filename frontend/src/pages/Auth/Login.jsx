@@ -17,9 +17,20 @@ export default function Login() {
         localStorage.setItem('fm_user', JSON.stringify(user))
       }
 
+      // Extract technician ID from email (e.g., pl001@gmail.com -> PL001)
+      const emailPrefix = email.split('@')[0]
+      const technicianId = emailPrefix.toUpperCase()
+      
+      // Add technician ID to user data
+      user.technicianId = technicianId
+      
+      // Store in localStorage
+      localStorage.setItem('fm_user', JSON.stringify(user))
+
       // 🔍 Debug logs
       console.log("🔐 Login successful:", user)
       console.log("🔐 Role after mapping:", user.role)
+      console.log("🔐 Extracted technician ID:", technicianId)
       console.log("💾 Stored in localStorage:", localStorage.getItem('fm_user'))
 
       // 🧭 Reload app to re-evaluate layout logic in App.jsx

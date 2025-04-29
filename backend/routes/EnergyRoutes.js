@@ -9,9 +9,9 @@ import {
 
 const energyRouter = express.Router();
 
-// Define routes and link them to the controller functions
+
 energyRouter.post('/add', addEnergyReading);
-energyRouter.get('/', getEnergyReadings); // This will allow for query parameter filtering
+energyRouter.get('/', getEnergyReadings); 
 
 //route for average monthly consumption
 energyRouter.get('/avg', getAvgMonthlyConsumption);

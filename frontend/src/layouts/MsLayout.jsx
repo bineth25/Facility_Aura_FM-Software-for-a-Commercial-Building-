@@ -1,12 +1,11 @@
-// frontend/src/layouts/MsLayout.jsx
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from '../components/Navbar/Navbar'
+import Sidebar from '../components/msm_Sidebar/msm_Sidebar'
 import { getCurrentUser } from '../services/auth'
-
-// Placeholder MS page (you can replace with real ones)
-import AlertsPage from '../pages/Maintenance/AlertsPage'
-// import AlertDetail from '../pages/Maintenance/AlertDetail'
+import Dashboard from '../pages/Maintenance/Dashboard/Dashboard';
+import Tasks from '../pages/Maintenance/Tasks/Tasks';
+import Complete from '../pages/Maintenance/Complete/Complete';
 
 export default function MsLayout() {
   const user = getCurrentUser()
@@ -17,14 +16,16 @@ export default function MsLayout() {
   }
 
   return (
-    <div className="ms-container">
-      <div className="main-content">
+    <div className="ms-container" style={{ display: 'flex' }}>
+      <Sidebar />
+      <div className="main-content" style={{ flex: 1 }}>
         <Navbar />
         <div className="dashboard-content">
           <Routes>
-            <Route path="/alerts" element={<AlertsPage />} />
-            {/* <Route path="/alerts/:id" element={<AlertDetail />} /> */}
-            <Route path="*" element={<Navigate to="/alerts" replace />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/Tasks" element={<Tasks />} />
+            <Route path="/Complete" element={<Complete />} />
+            <Route path="*" element={<Navigate to="/Dashboard" replace />} />
           </Routes>
         </div>
       </div>

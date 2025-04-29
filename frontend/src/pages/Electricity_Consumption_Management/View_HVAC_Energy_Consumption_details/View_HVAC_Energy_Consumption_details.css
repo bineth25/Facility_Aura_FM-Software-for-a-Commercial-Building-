@@ -36,7 +36,7 @@
   border: 1px solid #ddd;
 }
 
-/* ✨ NEW: Header Styling */
+
 .hvac_energy-header-row {
   background: linear-gradient(to right, #4CAF50, #81C784);
   color: white;
@@ -136,9 +136,9 @@
   border: 1px solid #ddd;
 }
 
-/* ✨ Added Edit and Delete Button Styles for HVAC Energy */
 
-/* Edit button style (HVAC Energy) */
+
+
 .hvac_energy-edit-button {
   padding: 8px 16px;
   border: none;
@@ -146,12 +146,12 @@
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.2s;
-  background-color: #2196F3; /* Blue color for Edit */
+  background-color: #2196F3; 
   color: white;
   margin-left: 10px;
 }
 
-/* Delete button style (HVAC Energy) */
+
 .hvac_energy-delete-button {
   padding: 8px 16px;
   border: 1px solid #ddd;
@@ -159,7 +159,7 @@
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.2s;
-  background-color: #f44336; /* Red color for Delete */
+  background-color: #f44336; 
   color: white;
   margin-left: 10px;
 }
