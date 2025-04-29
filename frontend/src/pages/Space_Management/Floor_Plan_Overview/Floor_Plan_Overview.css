@@ -114,7 +114,7 @@ body {
   }
   
   .assign-tenant-button {
-    background-color: #27ae60;
+    background-color: #028b74;
     color: white;
     padding: 10px;
     border: none;
@@ -125,7 +125,7 @@ body {
   }
   
   .assign-tenant-button:hover {
-    background-color: #45a049;
+    background-color: #026b5a;
   }
   
   .tenant-modalss {

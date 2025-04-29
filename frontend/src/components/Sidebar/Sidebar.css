@@ -1,7 +1,7 @@
 .sidebar {
-  width: 250px;
+  width: 270px;
   height: 100%;
-  background: linear-gradient(to bottom, #e0f7fa, #FFFFFF);
+  background: linear-gradient(to bottom, #ffffff, #27b496);
   padding: 10px;
   color: rgb(22, 19, 19);
   flex-shrink: 0;
@@ -21,23 +21,25 @@
   height: 45px;
 }
 
-h3 {
-  font-size: 22px;
+.sidebar-header h3 {
+  font-size: 26px;
   margin-left: 10px;
+  margin-top:6px ;
   font-weight: bold;
+  color:hsl(177, 69%, 24%);
 }
 
 .menu-title {
   font-size: 18px;
   font-weight: bold;
-  color: #1b1e20;
+  color:  #070808;
   margin-bottom: 25px;
 }
 
 .menu-item {
   padding: 12px 15px;
   font-size: 16px;
-  background: #1ba39c;
+  background:linear-gradient(to bottom, #126e6a, #02a79e);
   border-radius: 10px;
   margin-bottom: 10px;
   cursor: pointer;
@@ -51,7 +53,7 @@ h3 {
 }
 
 .menu-item:hover {
-  background: #023d3a;
+  background: #0a716c;
   transform: translateX(5px);
 
 }
@@ -70,16 +72,16 @@ h3 {
   display: block;
   padding: 10px 15px;
   margin: 6px 0;
-  background: #42a31b;
+  background:linear-gradient(to bottom, #dcece7, #e7fdf6);
   border-radius: 8px;
   font-size: 14px;
-  color: #f0f0f0;
+  color: #100e0e;
   text-decoration: none;
   transition: background 0.3s ease;
 }
 
 .submenu-item:hover {
-  background: #ccc;
+  background: #f0efef;
   color: #000;
 }
 

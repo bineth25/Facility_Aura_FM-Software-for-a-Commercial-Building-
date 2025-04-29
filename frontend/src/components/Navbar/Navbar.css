@@ -10,11 +10,19 @@
 .navbar-container {
   display: flex;
   align-items: center;
-  justify-content:right;
+  justify-content:space-between;
   max-width: 1400px;
   margin: 0 auto;
   height: 100%;
   padding: 0 20px;
+}
+
+.navbar-brand h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #ffffff;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
 .navbar-profile {

@@ -24,6 +24,9 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
+        <div className="navbar-brand">
+          <h2>Facility Management System </h2>
+        </div>
         <div className="navbar-profile">
           <div className="profile-container" onClick={toggleDropdown}>
             <div className="profile-image">
