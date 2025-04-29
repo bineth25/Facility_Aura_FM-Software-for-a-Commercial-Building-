@@ -1,4 +1,3 @@
-// frontend/src/components/Navbar/Navbar.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout, getCurrentUser } from '../../services/auth';
@@ -25,12 +24,6 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <div className="navbar-brand">
-          <h2>Facility Aura</h2>
-        </div>
-        
-        {/* Navigation menu removed */}
-
         <div className="navbar-profile">
           <div className="profile-container" onClick={toggleDropdown}>
             <div className="profile-image">

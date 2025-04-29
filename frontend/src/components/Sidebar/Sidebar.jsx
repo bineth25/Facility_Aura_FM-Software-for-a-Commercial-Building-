@@ -3,10 +3,10 @@ import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
 const Sidebar = () => {
-  const [openMenu, setOpenMenu] = useState(null); // Single state for all dropdowns
+  const [openMenu, setOpenMenu] = useState(null); 
 
   const toggleDropdown = (menu) => {
-    setOpenMenu(openMenu === menu ? null : menu); // If already open, close it; otherwise, open it
+    setOpenMenu(openMenu === menu ? null : menu);
   };
 
   return (
