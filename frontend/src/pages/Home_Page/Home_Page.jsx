@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Home_Page.css';
-import FacilityAuraLogo1 from '../../assets/FacilityAuraLogo1.png';
+import FacilityAuraLogo1 from '../../assets/FacilityAuraLogo1.jpg';
 import FacilityAuraLogo2 from '../../assets/FacilityAuraLogo2.jpg';
 import FacilityAuraLogo3 from '../../assets/FacilityAuraLogo3.jpg';
 
