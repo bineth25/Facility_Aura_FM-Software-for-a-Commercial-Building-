@@ -66,15 +66,26 @@ const Notification = () => {
         // Hard-coded API base URL - change this to match your backend server
         const API_BASE_URL = 'http://localhost:4000';
         
-        // Fetch approved tasks
-        const approvedResponse = await axios.get(`${API_BASE_URL}/api/approved-tasks/technician/${technicianId}`);
+        try {
+          // Fetch approved tasks
+          const approvedResponse = await axios.get(`${API_BASE_URL}/api/approved-tasks/technician/${technicianId}`);
+          console.log('Notification - Approved tasks response:', approvedResponse.data);
+          setApprovedTasks(Array.isArray(approvedResponse.data) ? approvedResponse.data : []);
+        } catch (approvedError) {
+          console.error('Error fetching approved tasks for notifications:', approvedError);
+          setApprovedTasks([]);
+        }
         
-        // Fetch rejected tasks
-        const rejectedResponse = await axios.get(`${API_BASE_URL}/api/rejected-tasks/technician/${technicianId}`);
+        try {
+          // Fetch rejected tasks
+          const rejectedResponse = await axios.get(`${API_BASE_URL}/api/rejected-tasks/technician/${technicianId}`);
+          console.log('Notification - Rejected tasks response:', rejectedResponse.data);
+          setRejectedTasks(Array.isArray(rejectedResponse.data) ? rejectedResponse.data : []);
+        } catch (rejectedError) {
+          console.error('Error fetching rejected tasks for notifications:', rejectedError);
+          setRejectedTasks([]);
+        }
         
-        // Ensure we're setting arrays for all state variables
-        setApprovedTasks(Array.isArray(approvedResponse.data) ? approvedResponse.data : []);
-        setRejectedTasks(Array.isArray(rejectedResponse.data) ? rejectedResponse.data : []);
         setLoading(false);
       } catch (err) {
         console.error('Error fetching notification task data:', err);
@@ -133,7 +144,7 @@ const Notification = () => {
     // Add recent approved tasks (maximum 5)
     if (approvedTasks && approvedTasks.length > 0) {
       approvedTasks.slice(0, 5).forEach((task, index) => {
-        const taskId = `approved-${task.id || index}`;
+        const taskId = `approved-${task.Task_ID || index}`;
         
         // Format date properly
         const completionDate = task.Completion_Date 
@@ -147,9 +158,9 @@ const Notification = () => {
         notifications.push({
           id: taskId,
           type: 'approved',
-          title: task.Issue_Title,
-          location: task.Location,
-          category: task.category,
+          title: task.Issue_Title || 'Task',
+          location: task.Location || 'Unknown location',
+          category: task.category || 'General',
           details: `Task approved on ${completionDate}`,
           date: completionDate
         });
@@ -159,11 +170,11 @@ const Notification = () => {
     // Add recent rejected tasks (maximum 5)
     if (rejectedTasks && rejectedTasks.length > 0) {
       rejectedTasks.slice(0, 5).forEach((task, index) => {
-        const taskId = `rejected-${task.id || index}`;
+        const taskId = `rejected-${task.Task_ID || index}`;
         
         // Format date properly
-        const rejectionDate = task.Rejection_Date 
-          ? new Date(task.Rejection_Date).toLocaleDateString("en-US", {
+        const rejectionDate = task.Rejected_Date 
+          ? new Date(task.Rejected_Date).toLocaleDateString("en-US", {
               year: "numeric",
               month: "short",
               day: "numeric"
@@ -173,9 +184,9 @@ const Notification = () => {
         notifications.push({
           id: taskId,
           type: 'rejected',
-          title: task.Issue_Title,
-          location: task.Location,
-          category: task.category,
+          title: task.Issue_Title || 'Task',
+          location: task.Location || 'Unknown location',
+          category: task.category || 'General',
           details: `Reason: ${task.Rejection_Reason || 'Not specified'}`,
           date: rejectionDate
         });

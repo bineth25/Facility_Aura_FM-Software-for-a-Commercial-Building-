@@ -11,7 +11,7 @@ export const getAllApprovedTasks = async (req, res) => {
   }
 };
 
-// In ApprovedTaskController.js
+// Get a single approved task by ID
 export const getApprovedTaskById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -36,23 +36,24 @@ export const getApprovedTaskById = async (req, res) => {
 export const getApprovedTasksByTechnician = async (req, res) => {
   try {
     const { technicianId } = req.params;
+    console.log('Fetching approved tasks for technician:', technicianId);
     
-    // Find all tasks with matching Technician_ID
-    const approvedTasks = await ApprovedTask.find({ Technician_ID: technicianId });
+    // Find all tasks with matching Technician_ID - case insensitive search
+    const approvedTasks = await ApprovedTask.find({ 
+      Technician_ID: { $regex: new RegExp('^' + technicianId + '$', 'i') } 
+    });
+    
+    console.log(`Found ${approvedTasks.length} approved tasks for technician ${technicianId}`);
     
     if (!approvedTasks || approvedTasks.length === 0) {
-      return res.status(404).json({ 
-        message: 'No approved tasks found for this technician' 
-      });
+      return res.status(200).json([]); // Return empty array instead of 404
     }
     
     res.status(200).json(approvedTasks);
   } catch (error) {
+    console.error('Error fetching approved tasks by technician:', error);
     res.status(500).json({ 
       message: error.message || 'Error fetching tasks by technician' 
     });
   }
 };
-
-
-

@@ -11,7 +11,7 @@ export const getAllRejectedTasks = async (req, res) => {
   }
 };
 
-// In RejectedTaskController.js
+// Get rejected task by ID
 export const getRejectedTaskById = async (req, res) => {
   try {
     const taskId = parseInt(req.params.id); // Convert to number
@@ -27,24 +27,26 @@ export const getRejectedTaskById = async (req, res) => {
   }
 };
 
-
 // Get rejected tasks by Technician_ID
 export const getRejectedTasksByTechnician = async (req, res) => {
   try {
-    const technicianId = req.params.technicianId;
-    const rejectedTasks = await RejectedTask.find({ Technician_ID: technicianId });
+    const { technicianId } = req.params;
+    console.log('Fetching rejected tasks for technician:', technicianId);
+    
+    // Find all tasks with matching Technician_ID - case insensitive search
+    const rejectedTasks = await RejectedTask.find({ 
+      Technician_ID: { $regex: new RegExp('^' + technicianId + '$', 'i') } 
+    });
+    
+    console.log(`Found ${rejectedTasks.length} rejected tasks for technician ${technicianId}`);
     
     if (!rejectedTasks || rejectedTasks.length === 0) {
-      return res.status(404).json({ 
-        message: 'No rejected tasks found for this technician' 
-      });
+      return res.status(200).json([]); // Return empty array instead of 404
     }
     
     res.status(200).json(rejectedTasks);
   } catch (error) {
+    console.error('Error fetching rejected tasks by technician:', error);
     res.status(500).json({ message: error.message });
   }
 };
-
-
-
