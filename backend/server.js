@@ -44,8 +44,6 @@ app.use(express.json());
 app.use(cors());
 
 app.use(express.urlencoded({ extended: true}));
-app.use(express.urlencoded({ extended: true }));
-
 
 // ✅ Admin seeding from .env
 async function seedAdmin() {
@@ -115,7 +113,6 @@ async function startServer() {
     app.use('/api/users', UserManagementRoutes);
     
 
-    
   // ➡️ API Routes of Inventory Managment
     app.use('/api/inventoryRequests', inventoryRequestsRoutes);
     app.use('/api/lowstock', lowStockRoutes);
@@ -123,13 +120,7 @@ async function startServer() {
     app.use('/api/itNetworkInventory', itNetworkInventoryRoutes);
     app.use('/api/safetyInventory', safetyInventoryRoutes);
 
-    // API routes
-    app.use("/api/spaces", spaceRoutes);
-    app.use('/api/tenants', Tenants_Routes);
-    app.use('/api/energyReadings', EnergyRoutes);
-    app.use('/api/categoryLimits', CategoryLimitRoutes);
-    app.use('/api/users', UserManagementRoutes);
-  
+
     // Task management routes (from original server.js)
     app.use("/api/tasks", uploadRoutes);
     app.use('/api/submitted-tasks', submittedTaskRoutes);
@@ -137,6 +128,7 @@ async function startServer() {
     app.use('/api/rejected-tasks', rejectedTaskRoutes);
 
     app.use('/api/stasks', stask_Routes);
+
     // Error handling middleware (must be after routes)
     app.use(errorLogger);
     app.use(errorResponder);
