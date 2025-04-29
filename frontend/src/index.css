@@ -9,13 +9,13 @@ body {
   display: flex;
   flex-direction: column;
   font-family: Arial, sans-serif;
-  overflow: hidden; /* Prevents unnecessary full-page scrolling */
+  overflow: hidden; 
 }
 
 .app-container {
   display: flex;
   height: 100vh;
-  overflow: auto; /* Allows scrolling when content exceeds the screen */
+  overflow: auto; 
 }
 
 .sidebar {
@@ -25,7 +25,7 @@ body {
   padding: 10px;
   color: rgb(22, 19, 19);
   flex-shrink: 0;
-  overflow-y: auto; /* Ensures sidebar scrolling if needed */
+  overflow-y: auto; 
 }
 
 .main-content {
@@ -33,16 +33,16 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: auto; /* Allows scrolling when content is long */
+  overflow: auto;
 }
 
 /* Dashboard Content */
 .dashboard-content {
   flex-grow: 1;
   padding: 15px;
-  background-color: #dcfaf1;
-  overflow-y: auto; /* Ensures only content scrolls */
-  height: calc(100vh - 50px); /* Adjusted to ensure footer remains visible */
+  background-color: #effdf8;
+  overflow-y: auto;
+  height: calc(100vh - 50px); 
 }
 
 /* Footer (if exists) */

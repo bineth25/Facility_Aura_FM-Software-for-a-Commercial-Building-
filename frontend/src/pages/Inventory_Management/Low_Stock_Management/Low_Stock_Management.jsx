@@ -194,7 +194,7 @@ const Low_Stock_Management = () => {
       <h2>
         📦 Low Stock Management
         <div ref={bellRef} className="bell-wrapper" onClick={() => setDropdownOpen(!dropdownOpen)}>
-          <span className="notification-badge">🔔 {alerts.length}</span>
+          <span className="notification-badges">🔔 {alerts.length}</span>
           {dropdownOpen && (
             <div className="dropdown">
               {alerts.length === 0 ? (

@@ -297,10 +297,10 @@ const generateReportSVG = () => {
 
       <h1>Space Analysis</h1>
       <div className="report-options">
-  <button className="report-btn" onClick={generateReportPDF}>
+  <button className="report-btnss" onClick={generateReportPDF}>
     Download PDF
   </button>
-  <button className="report-btn" onClick={generateReportSVG}>
+  <button className="report-btnss" onClick={generateReportSVG}>
     Download SVG
   </button>
 </div>
