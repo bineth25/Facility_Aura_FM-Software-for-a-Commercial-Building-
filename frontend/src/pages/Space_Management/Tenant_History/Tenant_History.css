@@ -92,35 +92,37 @@
   transform: scale(1.05);
 }
 
-.modal-overlay {
+.modal-overlays {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(4px);
 }
 
-.modal-content {
-  background: linear-gradient(to bottom, #ffffff, #f9f9f9);
-  padding: 35px;
-  border-radius: 20px;
-  width: 750px;
-  height: 600px;
+.modal-contentd {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 16px;
+  width: 800px;
+  height: 680px;
   max-width: 90%;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   overflow-y: auto;
-  animation: popup 0.4s ease-in-out;
+  animation: popup 0.4s ease-out;
+  border-top: 5px solid #027368;
 }
 
 @keyframes popup {
   0% {
     opacity: 0;
-    transform: scale(0.7);
+    transform: scale(0.85);
   }
   100% {
     opacity: 1;
@@ -128,83 +130,110 @@
   }
 }
 
-.modal-content h2 {
-  margin-bottom: 25px;
+.modal-contentd h2 {
+  margin-bottom: 20px;
   color: #027368;
   font-size: 28px;
   text-align: center;
-  font-weight: bold;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 10px;
 }
 
-.modal-content label {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 15px;
+.modal-contentd form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.modal-contentd label {
+  font-weight: 500;
   color: #444;
+  margin-bottom: 8px;
+  font-size: 15px;
+  display: block;
+  grid-column: span 1;
 }
 
-.modal-content input {
+/* Make some fields take full width */
+.modal-contentd label:nth-child(6),
+.modal-contentd label:nth-child(7) {
+  grid-column: span 2;
+}
+
+.modal-contentd input {
   width: 100%;
-  padding: 12px;
-  margin-top: 5px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
+  padding: 8px 16px;
+  border: 1px solid #e0e0e0;
   border-radius: 10px;
   font-size: 15px;
-  background-color: #fdfdfd;
+  background-color: #ffffff;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.modal-content input:focus {
-  border-color: #4caf50;
-  box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+.modal-contentd input:focus {
+  border-color: #027368;
+  box-shadow: 0 0 0 3px rgba(2, 115, 104, 0.15);
   outline: none;
 }
 
-.modal-content input:read-only, 
-.modal-content input:disabled {
-  background-color: #f0f0f0;
-  color: #999;
+.modal-contentd input:read-only, 
+.modal-contentd input:disabled {
+  background-color: #f8f8f8;
+  color: #777;
   cursor: not-allowed;
+  border: 1px dashed #ccc;
 }
 
-.modal-content button[type="submit"],
-.modal-content button[type="button"] {
-  padding: 12px 24px;
-  margin-right: 10px;
+.modal-contentd .button-group {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+  gap: 320px;
   margin-top: 10px;
-  font-size: 15px;
+}
+
+.modal-contentd button[type="submit"],
+.modal-contentd button[type="button"] {
+  padding: 12px 28px;
+  font-size: 16px;
   border: none;
   border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
 }
 
-.modal-content button[type="submit"] {
-  background: linear-gradient(135deg, #4caf50, #45a049);
+.modal-contentd button[type="submit"] {
+  background: linear-gradient(135deg, #027368, #03a598);
   color: white;
-  font-weight: bold;
 }
 
-.modal-content button[type="submit"]:hover {
-  background: linear-gradient(135deg, #43a047, #388e3c);
-  transform: scale(1.05);
+.modal-contentd button[type="submit"]:hover {
+  background: linear-gradient(135deg, #03a598, #027368);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(2, 115, 104, 0.2);
 }
 
-.modal-content button[type="button"] {
-  background: linear-gradient(135deg, #e53935, #d32f2f);
+.modal-contentd button[type="button"] {
+  background: linear-gradient(135deg, #e53935, #c62828);
   color: white;
-  font-weight: bold;
 }
 
-.modal-content button[type="button"]:hover {
-  background: linear-gradient(135deg, #c62828, #b71c1c);
-  transform: scale(1.05);
+.modal-contentd button[type="button"]:hover {
+  background: linear-gradient(135deg, #d32f2f, #b71c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(229, 57, 53, 0.2);
 }
 
 .error {
   color: #e53935;
   font-size: 13px;
-  margin-top: -8px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  font-weight: 500;
+  display: block;
 }

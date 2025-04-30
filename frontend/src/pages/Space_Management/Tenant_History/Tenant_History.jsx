@@ -208,31 +208,33 @@ const Tenant = () => {
       </div>
 
       {isModalOpen && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>Update Tenant Information</h2>
-            <form onSubmit={handleUpdateTenant}>
-              {['Tenant_ID', 'name', 'nic', 'email', 'phone', 'address', 'description', 'leaseStartDate', 'leaseEndDate'].map((field) => (
-                <label key={field}>
-                  {field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:
-                  <input
-                    type={field.includes('Date') ? 'date' : 'text'}
-                    name={field}
-                    value={tenantData[field]}
-                    onChange={handleInputChange}
-                    readOnly={field === 'Tenant_ID' || field === 'leaseStartDate'}  // ➡️ Lease Start Date also readonly now
-                    min={field.includes('Date') ? (field === 'leaseEndDate' ? tenantData.leaseStartDate || new Date().toISOString().split('T')[0] : undefined) : undefined}
-                  />
-                  {errors[field] && <span className="error">{errors[field]}</span>}
-                </label>
-              ))}
-
-              <button type="submit">Update</button>
-              <button type="button" onClick={closeModal}>Cancel</button>
-            </form>
-          </div>
+  <div className="modal-overlays" onClick={closeModal}>
+    <div className="modal-contentd" onClick={(e) => e.stopPropagation()}>
+      <h2>Update Tenant Information</h2>
+      <form onSubmit={handleUpdateTenant}>
+        {['Tenant_ID', 'name', 'nic', 'email', 'phone', 'address', 'description', 'leaseStartDate', 'leaseEndDate'].map((field) => (
+          <label key={field}>
+            {field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:
+            <input
+              type={field.includes('Date') ? 'date' : 'text'}
+              name={field}
+              value={tenantData[field]}
+              onChange={handleInputChange}
+              readOnly={field === 'Tenant_ID' || field === 'leaseStartDate'}
+              min={field.includes('Date') ? (field === 'leaseEndDate' ? tenantData.leaseStartDate || new Date().toISOString().split('T')[0] : undefined) : undefined}
+            />
+            {errors[field] && <span className="error">{errors[field]}</span>}
+          </label>
+        ))}
+        
+        <div className="button-group">
+          <button type="submit">Update</button>
+          <button type="button" onClick={closeModal}>Cancel</button>
         </div>
-      )}
+      </form>
+    </div>
+  </div>
+)}
     </div>
   );
 };
