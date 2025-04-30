@@ -89,6 +89,7 @@ body {
     border: 2px solid #8f8d8d; 
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border-left: 6px solid #f3a44b;
   }
   
   .space-details h2 {
