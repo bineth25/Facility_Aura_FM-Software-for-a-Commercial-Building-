@@ -46,7 +46,7 @@ const Energy_Consumption_Analysis = () => {
     };
 
     // Process data to include all floors with proper ordering
-    const floors = Array.from({ length: 7 }, (_, i) => i + 1); // Assuming 7 floors
+    const floors = Array.from({ length: 7 }, (_, i) => i + 1); 
     const processedData = floors.map(floor => {
         const floorData = energyData.find(d => d.floor === floor);
         return {
@@ -189,7 +189,7 @@ const Energy_Consumption_Analysis = () => {
             doc.text(`Year: ${year}`, 14, 30);
             doc.text(`Category: ${category}`, 14, 38);
     
-            // 🔥 Sort the response data by floor number before creating table rows
+            // Sort the response data by floor number before creating table rows
             const sortedData = response.data.sort((a, b) => a.floor - b.floor);
     
             const tableRows = sortedData.map((floorData, index) => [
@@ -357,15 +357,17 @@ const Energy_Consumption_Analysis = () => {
                             </div>
                         </div>
                     ) : (
-                        year && month && category && (
-                            <div className={`${styles.eca_card} ${styles.eca_no_data}`}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="8" y1="12" x2="16" y2="12"></line>
-                                </svg>
-                                <p>No data available for selected filters</p>
-                            </div>
-                        )
+                        <div className={`${styles.eca_card} ${styles.eca_placeholder}`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                                <path d="M3 5c0 1.66 4 3 9 3s9-1.34 9-3"></path>
+                                <path d="M12 8v13"></path>
+                                <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
+                            </svg>
+                            <h3 className={styles.eca_placeholder_title}>Energy Analysis Chart</h3>
+                            <p className={styles.eca_placeholder_text}>Please select Year, Month, and Category to view the analysis chart</p>
+                        </div>
                     )}
                 </div>
             </div>
