@@ -89,6 +89,7 @@ body {
     border: 2px solid #8f8d8d; 
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border-left: 6px solid #f3a44b;
   }
   
   .space-details h2 {
@@ -145,7 +146,7 @@ body {
     background-color: #ffffff;
     padding: 10px 20px;
     border-radius: 12px;
-    width: 750px; 
+    width: 800px; 
     max-height: 90%; 
     overflow-y: auto; 
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
@@ -153,7 +154,7 @@ body {
   
   .tenant-modalss-content h3 {
     font-size: 1.5rem;
-    color: #333333;
+    color: #027368;
     margin-bottom: 15px;
     text-align: center; 
   }
@@ -189,7 +190,7 @@ body {
   }
   
   .tenant-modalss-content button {
-    background-color: #45a049; 
+    background-color: #027368; 
     color: white;
     padding: 10px;
     border: none;
@@ -209,7 +210,7 @@ body {
   }
   
   .tenant-modalss-content button:hover {
-    background-color: #0a6d20; 
+    background-color: #03a598; 
     transform: scale(1.05);
   }
   
@@ -278,6 +279,7 @@ body {
     display: inline-flex;
     justify-content:space-around;
     margin-top: 15px;
+    gap: 20px;
   }
 
   .read-only-input {
