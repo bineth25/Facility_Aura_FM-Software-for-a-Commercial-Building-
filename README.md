@@ -1,4 +1,4 @@
-# Facility Aura FM - Software for Commercial Building Management
+# Facility Aura - Facilities Management Software for a Commercial Building
 
 ## 📘 Overview
 
@@ -16,7 +16,7 @@
 ## 📌 Key Features
 
 ### 🔧 Maintenance & Issue Resolution
-- Task assignment based on staff specialization
+- Task assignment based on maintenance staff specialization
 - Real-time notification system
 - Task approval and reassignment workflows
 - Task status tracking with reports
