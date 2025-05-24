@@ -53,13 +53,13 @@
 
 ## 🧑‍💻 Contributors
 
-| Name | IT Number |Contribution | Github Profile
-|------|-----------|------|---------------------|
-| Hansada S. A. B | IT23295674 | Maintenance Module | [@bineth25](https://github.com/bineth25)
-| Hirimuthugodage J. | IT23297968 | Energy Management | [@JayasankaHirimuthugodage](https://github.com/JayasankaHirimuthugodage)
-| Lakshman K. A. P. C | IT23291164 | Space Management | [@pasinduchanakalakshman](https://github.com/pasinduchanakalakshman)
-| Jayasundara H.T.G.W | IT23246614 | Inventory Management | [@ThiliniXP](https://github.com/ThiliniXP)
-| Priyawantha M. G. C | IT23264748 | User Management | [@Chandula-Gamage](https://github.com/Chandula-Gamage)
+| Name |Contribution | Github Profile
+|------|------|---------------------|
+| Hansada S. A. B  | Maintenance Module | [@bineth25](https://github.com/bineth25)
+| Hirimuthugodage J.  | Energy Management | [@JayasankaHirimuthugodage](https://github.com/JayasankaHirimuthugodage)
+| Lakshman K. A. P. C  | Space Management | [@pasinduchanakalakshman](https://github.com/pasinduchanakalakshman)
+| Jayasundara H.T.G.W  | Inventory Management | [@ThiliniXP](https://github.com/ThiliniXP)
+| Priyawantha M. G. C  | User Management | [@Chandula-Gamage](https://github.com/Chandula-Gamage)
 
 ---
 
