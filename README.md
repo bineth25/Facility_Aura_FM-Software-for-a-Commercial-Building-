@@ -53,7 +53,7 @@
 
 ## 🧑‍💻 Contributors
 
-| Name | IT Number | Role |
+| Name | IT Number |Contribution |
 |------|-----------|------|
 | Hansada S. A. B | IT23295674 | Maintenance Module | ([@bineth25](https://github.com/bineth25))
 | Hirimuthugodage J. | IT23297968 | Energy Management | ([@JayasankaHirimuthugodage](https://github.com/JayasankaHirimuthugodage))
