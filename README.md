@@ -54,7 +54,7 @@
 ## 🧑‍💻 Contributors
 
 | Name |Contribution | Github Profile
-|------|-----------|------|---------------------|
+|------|------|---------------------|
 | Hansada S. A. B  | Maintenance Module | [@bineth25](https://github.com/bineth25)
 | Hirimuthugodage J.  | Energy Management | [@JayasankaHirimuthugodage](https://github.com/JayasankaHirimuthugodage)
 | Lakshman K. A. P. C  | Space Management | [@pasinduchanakalakshman](https://github.com/pasinduchanakalakshman)
