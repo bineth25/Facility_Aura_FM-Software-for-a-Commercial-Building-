@@ -53,7 +53,7 @@
 
 ## 🧑‍💻 Contributors
 
-| Name | IT Number |Contribution | Github Profile
+| Name |Contribution | Github Profile
 |------|-----------|------|---------------------|
 | Hansada S. A. B  | Maintenance Module | [@bineth25](https://github.com/bineth25)
 | Hirimuthugodage J.  | Energy Management | [@JayasankaHirimuthugodage](https://github.com/JayasankaHirimuthugodage)
