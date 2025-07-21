@@ -24,7 +24,7 @@ export default function Login() {
       // Call the actual login service
       let user = await login(email, password)
       
-      // 🔧 Map role "user" → "ms"
+      // Map role "user" → "ms"
       if (user.role === 'user') {
         user.role = 'ms'
         console.log("🛠️ Mapped 'user' → 'ms' in Login.jsx")
@@ -40,13 +40,13 @@ export default function Login() {
       // Store in localStorage
       localStorage.setItem('fm_user', JSON.stringify(user))
 
-      // 🔍 Debug logs
+      // Debug logs
       console.log("🔐 Login successful:", user)
       console.log("🔐 Role after mapping:", user.role)
       console.log("🔐 Extracted technician ID:", technicianId)
       console.log("💾 Stored in localStorage:", localStorage.getItem('fm_user'))
 
-      // 🧭 Reload app to re-evaluate layout logic in App.jsx
+      // Reload app to re-evaluate layout logic in App.jsx
       console.log("🔄 Reloading to apply new layout...")
       window.location.href = '/'
     } catch (err) {
@@ -70,10 +70,10 @@ export default function Login() {
       <div className="left-side">
         <div className="testimonial-content">
           <div className="testimonial-quote">
-            "Simply all the tools that my team and I need."
+            "Streamlined facility management with enterprise-grade reliability and precision."
           </div>
-          <div className="testimonial-author">Karen Yue</div>
-          <div className="testimonial-role">Director of Digital Marketing Technology</div>
+          <div className="testimonial-author">Michael Chen</div>
+          <div className="testimonial-role">Senior Facilities Manager</div>
         </div>
       </div>
       
@@ -82,7 +82,13 @@ export default function Login() {
         <div className="login-wrapper">
           {/* Logo and Branding */}
           <div className="logo-container">
-            <div className="logo"></div>
+            <div className="logo">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#1e40af"/>
+                <path d="M2 17L12 22L22 17" stroke="#1e40af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M2 12L12 17L22 12" stroke="#1e40af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
             <div>
               <div className="logo-text">FacilityAura</div>
               <div className="logo-subtitle">Facility Management System</div>
