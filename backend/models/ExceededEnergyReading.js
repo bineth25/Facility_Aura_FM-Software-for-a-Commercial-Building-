@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const exceededEnergyReadingSchema = new Schema({
+    
     year: {
         type: Number,
         required: true
