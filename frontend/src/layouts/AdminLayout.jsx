@@ -5,7 +5,6 @@ import { getCurrentUser } from '../services/auth'
 
 // Admin pages
 import UsersPage from '../pages/Admin/UsersPage'
-import SettingsPage from '../pages/Admin/SettingsPage'
 
 export default function AdminLayout() {
   const user = getCurrentUser()
@@ -22,16 +21,9 @@ export default function AdminLayout() {
       <Navbar />
 
       <div className="main-content">
-        {/* Secondary nav for admin */}
-        <nav className="admin-nav">
-          <Link to="users">Users</Link>
-          <Link to="settings">Settings</Link>
-        </nav>
-
         <div className="dashboard-content">
           <Routes>
             <Route path="users" element={<UsersPage />} />
-            <Route path="settings" element={<SettingsPage />} />
             {/* Fallback to Users page */}
             <Route path="*" element={<Navigate to="users" replace />} />
           </Routes>

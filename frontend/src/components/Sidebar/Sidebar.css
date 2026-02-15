@@ -1,7 +1,7 @@
 .sidebar {
   width: 270px;
   height: 100%;
-  background: linear-gradient(to bottom, #ffffff, #27b496);
+  background: linear-gradient(to bottom, #ffffff, #3b82f6);
   padding: 10px;
   color: rgb(22, 19, 19);
   flex-shrink: 0;
@@ -26,7 +26,7 @@
   margin-left: 10px;
   margin-top:6px ;
   font-weight: bold;
-  color:hsl(177, 69%, 24%);
+  color: #1e40af;
 }
 
 .menu-title {
@@ -39,7 +39,7 @@
 .menu-item {
   padding: 12px 15px;
   font-size: 16px;
-  background:linear-gradient(to bottom, #126e6a, #02a79e);
+  background: linear-gradient(to bottom, #2563eb, #1e40af);
   border-radius: 10px;
   margin-bottom: 10px;
   cursor: pointer;
@@ -53,7 +53,7 @@
 }
 
 .menu-item:hover {
-  background: #0a716c;
+  background: #1e40af;
   transform: translateX(5px);
 
 }
@@ -72,7 +72,7 @@
   display: block;
   padding: 10px 15px;
   margin: 6px 0;
-  background:linear-gradient(to bottom, #dcece7, #e7fdf6);
+  background: linear-gradient(to bottom, #dbeafe, #eff6ff);
   border-radius: 8px;
   font-size: 14px;
   color: #100e0e;
@@ -81,8 +81,8 @@
 }
 
 .submenu-item:hover {
-  background: #f0efef;
-  color: #000;
+  background: #bfdbfe;
+  color: #1e40af;
 }
 
 .icon {
